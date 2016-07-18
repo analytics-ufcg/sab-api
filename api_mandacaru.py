@@ -9,8 +9,9 @@ def read_xlsx(file_name):
 	return file_data
 
 
-def monitoramento_todos_reservatorios():
-	file_data = read_xlsx("data/moni_reserv_2016.xlsx")
+def info_reservatorios(id_reservatorio=None):
+	dict_reserv = reservatorios_sab_dicionario()
+	file_data = monitoramento_xlsx()
 
 	result_dict = {}
 
@@ -19,28 +20,57 @@ def monitoramento_todos_reservatorios():
 		list_dicts = []
 		for i in range(1,len(lines)):
 			internal_dict = {}
-			for j in range(len(lines[i])):
-				internal_dict[lines[0][j]] = lines[i][j]
-			list_dicts.append(internal_dict)
 
+			try:
+				for j in range(len(lines[i])):
+					if (lines[i][0]==id_reservatorio or id_reservatorio is None):
+						internal_dict[lines[0][j]] = lines[i][j]
+				extra_info = {}
+				for d in dict_reserv["objects"]["reservatorios_geojson"]["geometries"]:
+					if ((lines[i][0]==d["id"] and id_reservatorio is None) or d["id"]==id_reservatorio):
+						extra_info["Tipo"] = d["properties"]["tipo"]
+						extra_info["Estado"] = d["properties"]["estado"]
+						extra_info["Finalidade"] = d["properties"]["finalidade"]
+						extra_info["Hectares"] = d["properties"]["hectares"]
+						extra_info["Perimetro"] = d["properties"]["perimetro"]
+						break
+			except Exception, e:
+				print(e)
+
+			if (len(internal_dict)>0):
+				internal_dict.update(extra_info)
+				list_dicts.append(internal_dict)
 		result_dict[flap] = list_dicts
-
 
 	return(json.dumps(result_dict))
 
 
 def regioes_brasil():
-	with open('data/br.json') as data_file:
-		data = json.load(data_file)
-	return(json.dumps(data))
+	return(json.dumps(regioes_sab_dicionario()))
 
 
 def cidades_sab():
-	with open('data/sab.json') as data_file:
-		data = json.load(data_file)
-	return(json.dumps(data))
+	return(json.dumps(cidades_sab_dicionario()))
 
 def reservatorios_sab():
+	return(json.dumps(reservatorios_sab_dicionario()))
+
+
+def reservatorios_sab_dicionario():
 	with open('data/reservatorios.json') as data_file:
 		data = json.load(data_file)
-	return(json.dumps(data))
+	return data
+
+def cidades_sab_dicionario():
+	with open('data/sab.json') as data_file:
+		data = json.load(data_file)	
+	return data
+
+def regioes_sab_dicionario():
+	with open('data/br.json') as data_file:
+		data = json.load(data_file)	
+	return data
+
+def monitoramento_xlsx():
+	data = read_xlsx("data/moni_reserv_2016.xlsx")
+	return data

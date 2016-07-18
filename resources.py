@@ -13,9 +13,16 @@ app = Flask(__name__)
 def api():
 	return "Api do monitoramento dos reservatórios da região Semi-árida brasileira"
 
-@app.route('/monitoramento_2016')
+@app.route('/info_reservatorios/<id_reservatorio>')
+def monitoramento_reservatorio(id_reservatorio):
+	response = api_mandacaru.info_reservatorios(int(id_reservatorio))
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
+@app.route('/info_reservatorios')
 def monitoramento_todos_reservatorios():
-	response = api_mandacaru.monitoramento_todos_reservatorios()
+	response = api_mandacaru.info_reservatorios()
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
