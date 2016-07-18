@@ -27,9 +27,16 @@ def monitoramento_todos_reservatorios():
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/regioes_brasil_topoJSON')
+@app.route('/regioes_brasil')
 def regioes_brasil():
 	response = api_mandacaru.regioes_brasil()
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
+@app.route('/estados_brasil')
+def estados_brasil():
+	response = api_mandacaru.estados_brasil()
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
@@ -37,6 +44,13 @@ def regioes_brasil():
 @app.route('/cidades_sab')
 def cidades_sab():
 	response = api_mandacaru.cidades_sab()
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
+@app.route('/limites_sab')
+def limites_sab():
+	response = api_mandacaru.limites_sab()
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response

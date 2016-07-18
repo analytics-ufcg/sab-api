@@ -48,9 +48,15 @@ def info_reservatorios(id_reservatorio=None):
 def regioes_brasil():
 	return(json.dumps(regioes_sab_dicionario()))
 
+def estados_brasil():
+	return(json.dumps(estados_sab_dicionario()))
+
 
 def cidades_sab():
 	return(json.dumps(cidades_sab_dicionario()))
+
+def limites_sab():
+	return(json.dumps(limites_sab_dicionario()))
 
 def reservatorios_sab():
 	return(json.dumps(reservatorios_sab_dicionario()))
@@ -66,8 +72,18 @@ def cidades_sab_dicionario():
 		data = json.load(data_file)	
 	return data
 
+def limites_sab_dicionario():
+	with open('data/limite.json') as data_file:
+		data = json.load(data_file)	
+	return data
+
 def regioes_sab_dicionario():
 	with open('data/br.json') as data_file:
+		data = json.load(data_file)	
+	return data
+
+def estados_sab_dicionario():
+	with open('data/estado.json') as data_file:
 		data = json.load(data_file)	
 	return data
 
