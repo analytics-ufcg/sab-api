@@ -58,6 +58,9 @@ def cidades_sab():
 def limites_sab():
 	return(json.dumps(limites_sab_dicionario()))
 
+def div_estadual_sab():
+	return(json.dumps(div_estadual_sab_dicionario()))
+
 def reservatorios_sab():
 	return(json.dumps(reservatorios_sab_dicionario()))
 
@@ -74,6 +77,11 @@ def cidades_sab_dicionario():
 
 def limites_sab_dicionario():
 	with open('data/limite.json') as data_file:
+		data = json.load(data_file)	
+	return data
+
+def div_estadual_sab_dicionario():
+	with open('data/div_estadual_sab.json') as data_file:
 		data = json.load(data_file)	
 	return data
 

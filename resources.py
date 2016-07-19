@@ -55,6 +55,13 @@ def limites_sab():
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
+@app.route('/div_estadual_sab')
+def div_estadual_sab():
+	response = api_mandacaru.div_estadual_sab()
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
 @app.route('/reservatorios_sab')
 def reservatorios_sab():
 	response = api_mandacaru.reservatorios_sab()
