@@ -20,22 +20,23 @@ def info_reservatorios(id_reservatorio=None):
 		list_dicts = []
 		for i in range(1,len(lines)):
 			internal_dict = {}
-
-			try:
-				for j in range(len(lines[i])):
-					if (lines[i][0]==id_reservatorio or id_reservatorio is None):
-						internal_dict[lines[0][j]] = lines[i][j]
-				extra_info = {}
-				for d in dict_reserv["objects"]["reservatorios_geojson"]["geometries"]:
-					if ((lines[i][0]==d["id"] and id_reservatorio is None) or d["id"]==id_reservatorio):
-						extra_info["Tipo"] = d["properties"]["tipo"]
-						extra_info["Estado"] = d["properties"]["estado"]
-						extra_info["Finalidade"] = d["properties"]["finalidade"]
-						extra_info["Hectares"] = d["properties"]["hectares"]
-						extra_info["Perimetro"] = d["properties"]["perimetro"]
-						break
-			except Exception, e:
-				print(e)
+			if(len(lines[i]) > 0):
+				try:
+					for j in range(len(lines[i])):
+						if (lines[i][0]==id_reservatorio or id_reservatorio is None):
+							internal_dict[lines[0][j]] = lines[i][j]
+					extra_info = {}
+					for d in dict_reserv["objects"]["reservatorios_geojson"]["geometries"]:
+						if ((lines[i][0]==d["id"] and id_reservatorio is None) or d["id"]==id_reservatorio):
+							extra_info["Tipo"] = d["properties"]["tipo"]
+							extra_info["Estado"] = d["properties"]["estado"]
+							extra_info["Finalidade"] = d["properties"]["finalidade"]
+							extra_info["Hectares"] = d["properties"]["hectares"]
+							extra_info["Perimetro"] = d["properties"]["perimetro"]
+							break
+				except Exception, e:
+					print (lines[i])
+					print(e)
 
 			if (len(internal_dict)>0):
 				internal_dict.update(extra_info)
