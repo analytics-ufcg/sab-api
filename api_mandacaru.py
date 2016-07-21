@@ -11,7 +11,7 @@ def read_xlsx(file_name):
 
 
 def info_reservatorios(id_reservatorio=None):
-	dict_reserv = reservatorios_sab_dicionario()
+	dict_reserv = reservatorios_dicionario()
 	file_data = monitoramento_xlsx()
 
 	result_dict = {}
@@ -51,52 +51,27 @@ def info_reservatorios(id_reservatorio=None):
 		return(json.dumps(result_dict["Reservatorio_ANA_JU"][0]))
 
 
-def regioes_brasil():
-	return(json.dumps(regioes_sab_dicionario()))
+def estados_br():
+	return(json.dumps(estados_br_dicionario()))
 
-def estados_brasil():
+def estados_sab():
 	return(json.dumps(estados_sab_dicionario()))
 
-
-def cidades_sab():
-	return(json.dumps(cidades_sab_dicionario()))
-
-def limites_sab():
-	return(json.dumps(limites_sab_dicionario()))
-
-def div_estadual_sab():
-	return(json.dumps(div_estadual_sab_dicionario()))
-
-def reservatorios_sab():
-	return(json.dumps(reservatorios_sab_dicionario()))
+def reservatorios():
+	return(json.dumps(reservatorios_dicionario()))
 
 
-def reservatorios_sab_dicionario():
+def reservatorios_dicionario():
 	with open('data/reservatorios.json') as data_file:
 		data = json.load(data_file)
 	return data
 
-def cidades_sab_dicionario():
-	with open('data/sab.json') as data_file:
-		data = json.load(data_file)	
-	return data
-
-def limites_sab_dicionario():
-	with open('data/limite.json') as data_file:
-		data = json.load(data_file)	
-	return data
-
-def div_estadual_sab_dicionario():
+def estados_sab_dicionario():
 	with open('data/div_estadual_sab.json') as data_file:
 		data = json.load(data_file)	
 	return data
 
-def regioes_sab_dicionario():
-	with open('data/br.json') as data_file:
-		data = json.load(data_file)	
-	return data
-
-def estados_sab_dicionario():
+def estados_br_dicionario():
 	with open('data/estado.json') as data_file:
 		data = json.load(data_file)	
 	return data
