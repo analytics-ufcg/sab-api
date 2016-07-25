@@ -8,5 +8,5 @@ import IOFiles
 
 
 if __name__ == '__main__':
-	app.debug = False
+	app.debug = True
 	app.run(host='0.0.0.0', port=5003, threaded=False)
