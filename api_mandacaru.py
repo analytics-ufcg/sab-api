@@ -4,6 +4,7 @@ import json
 import unicodedata
 from pyexcel_xlsx import get_data
 from unicodedata import normalize
+import IOFiles
 
 def read_xlsx(file_name):
 	file_data= get_data(file_name)
@@ -11,8 +12,8 @@ def read_xlsx(file_name):
 
 
 def info_reservatorios(id_reservatorio=None):
-	dict_reserv = reservatorios_dicionario()
-	file_data = monitoramento_xlsx()
+	dict_reserv = IOFiles.reservatorios()
+	file_data = IOFiles.monitoramento()
 
 	result_dict = {}
 
@@ -52,33 +53,15 @@ def info_reservatorios(id_reservatorio=None):
 
 
 def estados_br():
-	return(json.dumps(estados_br_dicionario()))
+	return(json.dumps(IOFiles.estados_br()))
 
 def estados_sab():
-	return(json.dumps(estados_sab_dicionario()))
+	return(json.dumps(IOFiles.estados_sab()))
 
 def reservatorios():
-	return(json.dumps(reservatorios_dicionario()))
+	return(json.dumps(IOFiles.reservatorios()))
 
 
-def reservatorios_dicionario():
-	with open('data/reservatorios.json') as data_file:
-		data = json.load(data_file)
-	return data
-
-def estados_sab_dicionario():
-	with open('data/div_estadual_sab.json') as data_file:
-		data = json.load(data_file)	
-	return data
-
-def estados_br_dicionario():
-	with open('data/estado.json') as data_file:
-		data = json.load(data_file)	
-	return data
-
-def monitoramento_xlsx():
-	data = read_xlsx("data/moni_reserv_2016.xlsx")
-	return data
 
 def remover_acentos(txt):
 	return normalize('NFKD', txt).encode('ASCII','ignore').decode('ASCII')

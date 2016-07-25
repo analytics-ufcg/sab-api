@@ -34,16 +34,13 @@ def reservatorios():
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/reservatorios/<id>/info')
-def monitoramento_reservatorio(id):
-	response = api_mandacaru.info_reservatorios(int(id))
-	response = make_response(response)
-	response.headers['Access-Control-Allow-Origin'] = "*"
-	return response
-
 @app.route('/reservatorios/info')
-def monitoramento_todos_reservatorios():
-	response = api_mandacaru.info_reservatorios()
+@app.route('/reservatorios/<id>/info')
+def monitoramento_todos_reservatorios(id=None):
+	if (id != None):
+		response = api_mandacaru.info_reservatorios(int(id))
+	else:
+		response = api_mandacaru.info_reservatorios()
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
