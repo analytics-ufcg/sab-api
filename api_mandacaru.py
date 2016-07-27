@@ -1,19 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 import json
-import unicodedata
-from pyexcel_xlsx import get_data
 from unicodedata import normalize
 import IOFiles
 
-def read_xlsx(file_name):
-	file_data= get_data(file_name)
-	return file_data
-
-
 def info_reservatorios(id_reservatorio=None):
 	dict_reserv = IOFiles.reservatorios()
-	file_data = IOFiles.monitoramento()
 
 	result_list =[]
 
@@ -27,6 +19,11 @@ def info_reservatorios(id_reservatorio=None):
 	return(json.dumps(result_list))
 
 
+def monitoramento_reservatorios(id):
+	monitoramento = IOFiles.monitoramento()
+	return(json.dumps(monitoramento[id]))
+
+
 def estados_br():
 	return(json.dumps(IOFiles.estados_br()))
 
@@ -36,7 +33,8 @@ def estados_sab():
 def reservatorios():
 	return(json.dumps(IOFiles.reservatorios()))
 
-
+def municipios_sab():
+	return(json.dumps(IOFiles.municipios_sab()))
 
 def remover_acentos(txt):
 	return normalize('NFKD', txt).encode('ASCII','ignore').decode('ASCII')
