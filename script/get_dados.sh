@@ -1,25 +1,11 @@
-#!/usr/bin/bash
+#!/bin/bash
 
-filename = "codigoANAt.txt"
+mkdir dados
+input="codigoANA.txt"
 
-while read line           
-do           
-    echo-e "$ line \ n"           
-done < filename  
-
-
-#mkdir reservatorios
-#for prop in `grep -v rop ../dados/proposicoes-votadas.csv | cut -d, -f1`; 
-#do 
-#	if [ ! -f ../dados/proposicoes/p$prop.xml ]; 
-#	then 
-#		curl --connect-timeout 15 --retry 5 --keepalive-time 10 'http://www.camara.gov.br//SitCamaraWS/Proposicoes.asmx/ObterProposicaoPorID?idProp='$prop > ../dados/proposicoes/p$prop.xml; 
-#		sleep 3;
-#	fi
-#done
-
-
-
-
+while IFS= read -r var
+do
+  curl "http://sar.ana.gov.br/Medicao/GridMedicoes?DropDownListReservatorios="$var"&dataInicialInformada=01-01-2006&dataFinalInformada=07-07-2016&cliqueiEmPesquisar=true" > dados/"$var".html;
+done < "$input"
 
 echo "Ok"

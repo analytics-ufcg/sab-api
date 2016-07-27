@@ -1,38 +1,41 @@
 # coding: utf-8
-
+import glob
 import sys
 from bs4 import BeautifulSoup
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-fileToWrite = open('Boqueirao.csv','w')
+files = glob.glob(sys.argv[1])
+fileToWrite = open(sys.argv[2],'w')
 
 cabecalho = 'Código;Reservatório;Cota;Capacidade;Volume;VolumePercentual;DataInformacao;'
 fileToWrite.write(cabecalho + '\n')
 
-to_print = []
-reservatorio = ''
-count = 1
+numero_colunas = 7
 
-soup = BeautifulSoup(open("c1.txt", "r"), 'html.parser')
+for file in files:
+	print file
+	to_print = []
+	reservatorio = ''
+	count_colunas = 1
 
-for link in soup.find_all('td'):
-	if not reservatorio:
-		reservatorio = link.get_text().strip() + ";"
-	elif count < 7:
-		reservatorio += link.get_text().strip() + ";"
-		count += 1
-	else:
+	soup = BeautifulSoup(open(file, "r"), 'html.parser')
+
+	for link in soup.find_all('td'):
+		if not reservatorio:
+			reservatorio = link.get_text().strip() + ";"
+		elif count_colunas < numero_colunas:
+			reservatorio += link.get_text().strip() + ";"
+			count_colunas += 1
+		else:
+			to_print.append(reservatorio)
+			reservatorio = link.get_text().strip() + ";"
+			count_colunas = 1
+
+	if len(reservatorio.split(";")) > numero_colunas:
 		to_print.append(reservatorio)
-		reservatorio = link.get_text().strip() + ";"
-		count = 1
 
-to_print.append(reservatorio)
+	fileToWrite.write('\n'.join(to_print) + "\n")
 
-fileToWrite.write('\n'.join(to_print) + "\n")
 fileToWrite.close()
-
-#print to_print
-
-print "ok"
