@@ -15,41 +15,16 @@ def info_reservatorios(id_reservatorio=None):
 	dict_reserv = IOFiles.reservatorios()
 	file_data = IOFiles.monitoramento()
 
-	result_dict = {}
+	result_list =[]
 
-	for flap in file_data:
-		lines = file_data[flap]
-		list_dicts = []
-		for i in range(1,len(lines)):
-			internal_dict = {}
-			if(len(lines[i]) > 0):
-				try:
-					for j in range(len(lines[i])):
-						if (lines[i][0]==id_reservatorio or id_reservatorio is None):
-							internal_dict[remover_espacos(remover_acentos(lines[0][j]))] = lines[i][j]
-					extra_info = {}
-					for d in dict_reserv["objects"]["reservatorios_geojson"]["geometries"]:
-						if ((lines[i][0]==d["id"] and id_reservatorio is None) or d["id"]==id_reservatorio):
-							extra_info["Tipo"] = d["properties"]["tipo"]
-							extra_info["Estado"] = d["properties"]["estado"]
-							extra_info["Finalidade"] = d["properties"]["finalidade"]
-							extra_info["Hectares"] = d["properties"]["hectares"]
-							extra_info["Perimetro"] = d["properties"]["perimetro"]
-							break
-				except Exception, e:
-					print (lines[i])
-					print(e)
+	for d in dict_reserv["objects"]["reservatorios"]["geometries"]:
+		if (id_reservatorio is None):
+			result_list.append(d["properties"])
+		else:
+			if (d["properties"]["GEOCODIGO"] == id_reservatorio):
+				return(json.dumps(d["properties"]))
 
-			if (len(internal_dict)>0):
-				internal_dict.update(extra_info)
-				list_dicts.append(internal_dict)
-		result_dict[remover_espacos(remover_acentos(flap))] = list_dicts
-
-	if (id_reservatorio is None):
-		return(json.dumps(result_dict["Reservatorio_ANA_JU"]))
-	else:
-		print(result_dict.keys())
-		return(json.dumps(result_dict["Reservatorio_ANA_JU"][0]))
+	return(json.dumps(result_list))
 
 
 def estados_br():

@@ -13,7 +13,7 @@ with open('data/reservatorios.json') as data_file:
 with open('data/div_estadual_sab.json') as data_file:
 	_div_estadual_sab = json.load(data_file)	
 
-with open('data/estado.json') as data_file:
+with open('data/estados_br.json') as data_file:
 	_estados_br = json.load(data_file)	
 
 _monitoramento = get_data("data/moni_reserv_2016.xlsx")
