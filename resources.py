@@ -27,6 +27,13 @@ def estados_sab():
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
+@app.route('/municipios/sab')
+def municipios_sab():
+	response = api_mandacaru.municipios_sab()
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
 @app.route('/reservatorios')
 def reservatorios():
 	response = api_mandacaru.reservatorios()
@@ -36,11 +43,18 @@ def reservatorios():
 
 @app.route('/reservatorios/info')
 @app.route('/reservatorios/<id>/info')
-def monitoramento_todos_reservatorios(id=None):
-	if (id != None):
-		response = api_mandacaru.info_reservatorios(int(id))
-	else:
+def info_reservatorios(id=None):
+	if (id is None):
 		response = api_mandacaru.info_reservatorios()
+	else:
+		response = api_mandacaru.info_reservatorios(int(id))
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
+@app.route('/reservatorios/<id>/monitoramento')
+def monitoramento_reservatorios(id):
+	response = api_mandacaru.monitoramento_reservatorios(int(id))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
