@@ -5,18 +5,14 @@ from unicodedata import normalize
 import IOFiles
 
 def info_reservatorios(id_reservatorio=None):
-	dict_reserv = IOFiles.reservatorios()
+	reservatorios_detalhes = IOFiles.reservatorios_detalhes()
 
-	result_list =[]
-
-	for d in dict_reserv["objects"]["reservatorios"]["geometries"]:
-		if (id_reservatorio is None):
-			result_list.append(d["properties"])
-		else:
-			if (d["properties"]["GEOCODIGO"] == id_reservatorio):
-				return(json.dumps(d["properties"]))
-
-	return(json.dumps(result_list))
+	if(id_reservatorio is None):
+		return(json.dumps(reservatorios_detalhes))
+	else:
+		for reserv in reservatorios_detalhes:
+			if (id_reservatorio == reservatorio["GEOCODIGO"]):
+				return(json.dumps(reservatorio))
 
 
 def monitoramento_reservatorios(id):

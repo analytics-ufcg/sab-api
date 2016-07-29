@@ -1,0 +1,453 @@
+PERIM,AREA_M2,HECTARES,GEOCODIGO,RESERVAT,NOME,BACIA,TIPO_RESER,CAP_HM3,MUNICIPIO,ESTADO
+2565.17,203018.27,20.3,12087,Açude Caianinha,Caianinha,Una,Artificial,1.36,São Joaquim do Monte,Pernambuco
+7115.29,643727.79,64.37,12085,Açude Cacimba da Várzea,Cacimba da Várzea,Curimataú,Artificial,9.26,Cacimba de Dentro/Casserengue,Paraíba
+6104.64,528816.41,52.88,12145,Açude Curimataú,Curimataú,Curimata?,Artificial,5.99,Barra de Santa Rosa,Paraíba
+10868.93,876467.94,87.65,12351,Açude Poleiros,Poleiros,Curimataú,Artificial,7.93,Barra de Santa Rosa,Paraíba
+13995.54,988064.64,98.81,12067,Açude Boqueirão do Cais,Boqueirão do Cais,Jacu,Artificial,12.37,Cuité,Paraíba
+5253.65,341769.85,34.18,12103,Açude Caraibeiras,Caraibeiras,Seridó,Artificial,2.71,Picuí,Paraíba
+10900.97,1271913.87,127.19,12223,Açude Japi II,Japi II,Jacu,Artificial,20.65,São José do Campestre,Rio Grande do Norte
+29379.9,3786575.87,378.66,12464,Açude Trairi,Trairi,Trairi,Artificial,35.23,Tangará,Rio Grande do Norte
+12640.59,1382564.52,138.26,12393,Açude Santa Cruz,Santa Cruz,Trairi,Artificial,5.16,Santa Cruz,Rio Grande do Norte
+13928.09,2359801.97,235.98,12210,Açude Inharé,Inharé,Trairi,Artificial,17.6,Santa Cruz,Rio Grande do Norte
+61981.72,10980889.51,1098.09,12340,Açude Poço Branco (José Batista do Rego Pereira),Poço Branco (José Batista do Rego Pereira),Ceará-Mirim,Artificial,135.16,Poço Branco/Bento Fernandes,Rio Grande do Norte
+34085.83,4659254.39,465.93,12093,Açude Campo Grande,Campo Grande,Potengi,Artificial,23.14,São Paulo do Potengi,Rio Grande do Norte
+16730.06,2558607.69,255.86,12249,Lagoa do Boqueirão,Lagoa do Boqueirão,Boqueirão,Natural,11.07,Touros,Rio Grande do Norte
+165727.09,23463642.47,2346.36,12129,Açude do Cocorobó,Cocorobó,Vaza Barris,Artificial,245.38,Canudos,Bahia
+12269.81,1437099.18,143.71,12022,Açude Andorinha II,Andorinha II,Itapicuru,Artificial,13.68,Andorinha,Bahia
+17152.75,3120034.3,312,12333,Açude Pinhões,Pinhões,São Francisco,Artificial,15.22,Curaça/Juazeiro,Bahia
+33436.73,9515944.65,951.59,12176,Açude do Estreito,Estreito,São Francisco,Artificial,76,Espinosa/Urandi,Bahia
+13623.63,1148613.68,114.86,12008,Barragem,Água Fria II,Rio Pardo,Artificial,6.46,Barra do Choça,Bahia
+15483.26,1964779.44,196.48,12468,Açude Tremedal,Tremedal,Rio de Contas,Artificial,23.75,Tremedal,Bahia
+142404.35,19653414.94,1965.34,12020,Açude Anagé (Deputado Elquison Soares),Anagé,Rio de Contas,Artificial,255.63,Anagé/Caraibas/Belo Campo,Bahia
+4660.43,191239.55,19.12,12130,Açude Coité,Coité,Vaza Barris,Artificial,0.82,Frei Paulo,Sergipe
+7733.52,592934.41,59.29,12284,Açude Morrinhos,Morrinhos,Rio de Contas,Artificial,3.11,Poções,Bahia
+123925.62,22206667.02,2220.67,12411,Barragem João Durval Carneiro (São José do Jacuípe),São José do Jacuípe,Paraguaçu,Artificial,357,Quixabeira/Várzea da Roça/São José do Jacuípe,Bahia
+4819.19,297455.23,29.75,12434,Açude Serrote,Serrote,Itapicuru,Artificial,10.8,Serrolândia,Bahia
+27028.25,4567402.78,456.74,12322,Barragem de Pedras Altas,Pedras Altas,Itapicuru,Artificial,38.45,Jacobina/Caém,Bahia
+42190.08,6724380.56,672.44,12354,CGH Ponto Novo,Ponto Novo,Itapicuru,Artificial,38.94,Ponto Novo/Pindobaçu/Filadélfia,Bahia
+87174.69,18584654.75,1858.47,12382,Açude Rômulo Campos (Jacurici),Rômulo Campos,Itapicuru,Artificial,146.82,Cansanço/Itiúba,Bahia
+9446.97,807715.5,80.77,12362,Açude Quicé,Quicé,Itapicuru,Artificial,4.23,Senhor do Bonfim/Andorinha,Bahia
+4334.07,551512.44,55.15,751,Barragem Jabiberi,Jabiberi,Real,Artificial,4.3,Tobias Barreto,Sergipe
+13853.41,2170040.18,217,12007,Açude Adustina,Adustina,Vaza Barris,Artificial,13.43,Adustina,Bahia
+210256.92,76196994.48,7619.7,12320,UHE Pedra,Pedra,Contas,Artificial,1640,Jequié/Manoel Vitorino/Maracos,Bahia
+30676.1,3927666.96,392.77,12189,Barragem do França,França,Paraguaçu,Artificial,24.19,Piritiba/Miguel Calmon,Bahia
+68617.97,13359877.39,1335.99,12024,Açude Apertado,Apertado,Paraguaçu,Artificial,108.69,Mucugê/Ibicoara,Bahia
+493617.59,135293504.18,13529.35,795,UHE Pedra do Cavalo,Pedra do Cavalo,Paraguaçu,Artificial,4836.82,Cabaceiras do Paraguaçu/Santo Estevão/Antônio Cardoso/Conceição da Feira,Bahia
+59853.03,10588606.71,1058.86,12026,Açude Araci (ex Poço Grande),Araci,Itapicuru,Artificial,65.84,Araci,Bahia
+4689.97,221139.68,22.11,12480,Açude Valério,Valério,Alto Jaguaribe,Artificial,2.02,Assaré/Altaneira,Ceará
+3588.09,378732.62,37.87,12438,Açude Sindô Ribeiro,Sindô Ribeiro,Mamanguape,Natural,3.02,Massaranduba,Paraíba
+6591.09,436781.32,43.68,12433,Açude Serrote,Serrote,Pajé,Artificial,1.62,São José do Belmonte,Pernambuco
+5614.05,426871.58,42.69,12092,Açude Campo Grande,Campo Grande,São Francisco,Artificial,1.78,Girau do Ponciano/Campo Grande,Alagoas
+8037.63,1009356.88,100.94,12028,Açude Arapiraca,Arapiraca,São Francisco/Perucaba,Artificial,4.13,Arapiraca,Alagoas
+24312.83,3275414.08,327.54,12224,Açude Público Jaramataia,Jaramataia,São Francisco/Traipu,Artificial,19.01,Jaramataia,Alagoas
+2553.02,216431.6,21.64,12138,Açude Craíbas dos Nunes,Craíbas dos Nunes,São Francisco,Artificial,0.49,Craíbas,Alagoas
+13711.1,1398097.4,139.81,12304,Açude Palmeira dos Índios (ex Coruripe),Palmeira dos Índios,Coruripe,Artificial,3.74,Igaci,Alagoas
+3003.81,196690.79,19.67,12263,Açude Major Izidoro,Major Izidoro,São Francisco,Artificial,0.3,Major Isidoro/Cacimbinhas,Alagoas
+5358.68,496161.23,49.62,12436,Açude Sertão de Baixo,Sertão de Baixo,São Francisco,Artificial,1.73,Major Isidoro,Alagoas
+23217.76,2111401.83,211.14,12345,Açude Poço Fundo,Poço Fundo,Capibaribe,Artificial,27.75,Santa Cruz do capibaribe/Brejo da Madre de Deus,Pernambuco
+5472.25,332628.59,33.26,12120,Açude Chã dos Pereiras,Chã dos Pereiras,Baixo Paraíba,Artificial,1.97,Ingá,Paraíba
+233326.83,43674431.07,4367.44,12172,Açude Epitácio Pessoa (Boqueirão),Epitácio Pessoa,Alto Paraíba,Artificial,411.69,Cabaceiras/Barra de São Miguel/Boqueirão,Paraíba
+6674.77,682984.77,68.3,12123,Barragem do Chinelo,Chinelo,Pajé,Artificial,3.45,Carnaúba,Pernambuco
+8896.71,761779.89,76.18,12227,Açude Jatobá II,Jatobá II,Piancó,Artificial,6.49,Princesa Isabel,Paraíba
+14418.22,1147426.68,114.74,12241,Açude José Rodrigues,José Rodrigues,Médio Paraíba,Artificial,22.33,Campina Grande/Fagundes,Paraíba
+5944.25,913658.9,91.37,12206,Açude Gurjão,Gurjão,Taperoá,Artificial,3.68,Gurjão,Paraíba
+3678.16,194559.74,19.46,12278,Açude do Milhã (Evaldo Gonçalves),Milhã (Evaldo Gonçalves),Médio Paraíba,Artificial,0.8,Puxinan?,Paraíba
+7003.37,556706.79,55.67,12139,Açude Catolé (Cruz do Riacho),Cruz dos Pocinhos,Mamanguape,Artificial,3.92,Pocinhos,Paraíba
+11988.4,1776891.92,177.69,12443,Açude Soledade,Soledade,Taperoá,Artificial,27.06,Soledade,Paraíba
+7342.93,482099.64,48.21,1041,Açude Barra da Melancia,Barra de Melancia,Pontal,Artificial,1.37,Afrânio,Pernambuco
+8061.83,909138.82,90.91,12298,Açude Olivedos,Olivedos,Taperoá,Artificial,5.88,Olivedos,Paraíba
+5741.35,356809.24,35.68,12182,Açude Felismina Queiroz,Felismina Queiroz,Seridó,Artificial,2.06,Seridó,Paraíba
+8970.61,974581.08,97.46,12377,Açude Riacho de Santo Ant?nio,Riacho de Santo Antônio,Médio Paraíba,Artificial,6.83,Barra de São Miguel,Paraíba
+2389.67,240494.77,24.05,12053,Açude Riacho do Bichinho,Bichinho,Alto Paraíba,Artificial,4.57,Barra de São Miguel,Paraíba
+53085.72,13288331.66,1328.83,1055,Açude Mesa de Pedra,Mesa de Pedra,Poti,Artificial,55,Valença do Piauí/Aroazes,Piauí
+10893.46,1159763.71,115.98,12406,Açude São Domingos,São Domingos,Alto Paraíba,Artificial,7.76,São Domingos Cariri,Paraíba
+11184.2,1398159.14,139.82,12095,Açude Campos (Congo),Campos,Alto Paraíba,Artificial,6.59,Caraúbas,Paraíba
+87231.58,10627211.02,1062.72,12243,Açude Jucazinho (Antônio Gouveia Neto),Jucazinho,Capibaribe,Artificial,327,Frei Miguelinho/Riacho das Almas/Surubim,Pernambuco
+5244.8,609252.16,60.93,12494,Barragem do Estreito,Mateus Vieira,Capibaribe,Artificial,2.75,Taquaritinga do Norte,Pernambuco
+10132.04,881810.32,88.18,1066,Açude Machado,Machado,Capibaribe,Artificial,1.6,Brejo da Madre de Deus,Pernambuco
+15835.46,1401364.45,140.14,12169,Açude Engenheiro Gercino de Pontes (Tabocas),Engenheiro Gercino de Pontes (Tabocas),Capibaribe,Artificial,13.6,Caruaru/Brejo da Madre de Deus,Pernambuco
+4393.93,360092.54,36.01,12295,Barragem Oitis,Oitis,Capibaribe,Artificial,3.02,Brejo da Madre de Deus,Pernambuco
+3881.09,308550.7,30.86,12495,Barragem de Tabocas,Tabocas-Piaça,Ipojuca,Artificial,1.17,Belo Jardim,Pernambuco
+3459.5,375965.84,37.6,12157,Barragem de Duas Serras,Duas Serras,Ipojuca,Artificial,2.03,Poções,Pernambuco
+17885.88,2979192.77,297.92,12306,Barragem de Pão de Açúcar,Pão de Açúcar,Ipojuca,Artificial,34.23,Poções/Pesqueira,Pernambuco
+2612.31,224239.19,22.42,12452,Açude Guilherme de Azevedo (da Taquara),Taquara,Ipojuca,Artificial,1.35,Caruaru,Pernambuco
+11946.29,1956752.08,195.68,12170,Açude Engenheiro Severino Guerra (ex Bituri),Engenheiro Severino Guerra (Bitury),Ipojuca,Artificial,17.78,Belo Jardim,Pernambuco
+37016.87,3936619.07,393.66,12050,Açudee Belo Jardim (Pedro Moura Júnior),Belo Jardim (Ipojuca),Ipojuca,Artificial,30.74,Belo Jardim/São Bento do Una,Pernambuco
+5371.12,406083.21,40.61,12303,Barragem Pai Mané,Pai Mané,São Francisco,Artificial,2.12,Dois Riachos/Iati,Alagoas
+6716.29,670508.29,67.05,1092,Barragem de Cajarana,Cajarana,Mundau,Artificial,2.59,Garanhuns/Capoeiras,Pernambuco
+5468.46,833193.71,83.32,12207,Barragem do Gurjão,Gurjão,Una,Artificial,3.85,Capoeiras,Pernambuco
+8794.04,887045.33,88.7,12150,Açude Delmiro Gouveia,Delmiro Gouveia (Sinimbu),São Francisco,Artificial,5.04,Delmiro Gouveia,Alagoas
+3770.73,258639.58,25.86,12269,Açude Maravilha,Maravilha,São Francisco,Artificial,1.61,Maravilha,Alagoas
+6294.82,543279.26,54.33,12204,Açude Gravatá,Gravatá,São Francisco/Moxot,Artificial,8.37,Mata Grande,Alagoas
+20605.11,1352336.51,135.23,12469,Açude Três Barras,Três Barras,São Francisco,Artificial,7.98,Gracho Cardoso,Sergipe
+9228.74,432109.72,43.21,12015,Açude Algodoeiros,Algodoeiro,São Francisco,Artificial,1.86,Nossa Senhora da Glória,Sergipe
+4132.02,207307.53,20.73,12252,Açude Lagoa do Rancho,Lagoa do Rancho,São Francisco,Artificial,1.61,Porto da Folha,Sergipe
+5041.88,424743.44,42.47,12368,Açude Retiro,Retiro,São Francisco,Artificial,1.7,Palestina,Alagoas
+5749.49,416464.61,41.65,12410,Açude São José da Tapera,São José da Tapera,São Francisco,Artificial,1.53,São José da Tapera,Alagoas
+10474.56,1158314.2,115.83,12208,Barragem de Ingazeira,Ingazeira,Ipanema,Artificial,4.8,Venturosa/Pedra,Pernambuco
+3849.18,398930.82,39.89,12283,Açude Mororó,Mororó,Ipanema,Artificial,2.93,Pedra,Pernambuco
+17241.04,2299516.09,229.95,12032,Açude Arcoverde,Arcoverde,Ipanema,Artificial,16.8,Pedra,Pernambuco
+4855.81,438708.47,43.87,12212,Barragem de Ipaneminha,Ipaneminha,Ipanema,Artificial,3.9,Pesqueira,Pernambuco
+247400.39,55192648.84,5519.26,12168,Açude Engenheiro Francisco Saboya (ex Poço da Cruz),Engenheiro Francisco Saboia,Moxotó,Artificial,504,Ibimirim/Sertânia,Pernambuco
+32399.19,5545617.69,554.56,12400,Açude Santo Antônio,Santo Antônio,Alto Paraíba,Artificial,24.42,São Sebastião do Umbuzeiro,Paraíba
+8105.09,1068028.48,106.8,12082,Açude Cachoeira I,Cachoeira I,Moxotó,Artificial,5.95,Sertânia,Pernambuco
+5397.89,536120.65,53.61,12041,Açude Barra,Barra,Moxotó,Artificial,2.74,Sertânia,Pernambuco
+16771.12,2942277.7,294.23,12273,Açude Custódia,Marrecas/Custódia,Moxotó,Artificial,21.62,Custódia,Pernambuco
+31193.95,4289728.51,428.97,12091,Açude Camalaú,Camalaú,Alto Paraíba,Artificial,48.11,Camalaú,Paraíba
+37618.67,6638447.06,663.84,12349,Açude Poções,Poções,Alto Paraíba,Artificial,29.86,Monteiro,Paraíba
+6021.63,469939.98,46.99,12414,Açude São José,São José II,Alto Paraíba,Artificial,1.31,Monteiro,Paraíba
+4786.87,778541.76,77.85,12435,Açude Serrote,Serrote,Alto Paraíba,Artificial,5.71,Monteiro,Paraíba
+16155.55,2106550.4,210.66,12339,Açude Pocinhos,Pocinhos,Alto Paraíba,Artificial,6.79,Monteiro,Paraíba
+62542.12,11027181.05,1102.72,12134,Açude Cordeiro,Cordeiro,Alto Paraíba,Artificial,69.97,Camalaú/Congo,Paraíba
+3961.95,370977.85,37.1,12357,Açude da Prata II,Prata II,Alto Paraíba,Artificial,1.31,Prata,Paraíba
+46847.79,7965098.72,796.51,12383,Açude Rosário,Rosário,Pajé,Artificial,34.99,Ingazeira/Iguaraci,Pernambuco
+48042.19,5657264.37,565.73,12042,Açude Barra do Juá,Barra do Juá,Pajé,Artificial,71.47,Floresta/Betânia,Pernambuco
+6736.9,413934.64,41.39,1176,Açude Quebra Unha (Juá),Quebra Unha,Pajé,Artificial,3.19,Floresta,Pernambuco
+159091.16,34036429.84,3403.64,12431,Açude Serrinha I,Serrinha II,Pajé,Artificial,311.08,Serra Talhada,Pernambuco
+26475.44,2211046.14,221.1,12228,Açude Jazigo,Jazigo,Pajé,Artificial,15.54,Serra Talhada,Pernambuco
+6990.54,1674806.97,167.48,1182,Açude do Saco I,Saco I,Pajé,Artificial,36,Serra Talhada,Pernambuco
+22965.18,3236650.49,323.67,12083,Açude Cachoeira II,Cachoeira II,Pajé,Artificial,21.03,Serra Talhada,Pernambuco
+14307.29,876519.27,87.65,12114,Açude Catolé,Catolé I,Piancó,Artificial,10.5,Manaíra,Paraíba
+27030.93,2596591.87,259.66,12074,Açude de Brotas,Brotas,Pajé,Artificial,19.64,Afogados da Ingazeira,Pernambuco
+4000.56,232288.54,23.23,12294,Açude Novo II,Novo II,Piancó,Artificial,0.71,Tavares,Paraíba
+6155.55,774444.59,77.44,12456,Açude Tavares II,Tavares II,Piancó,Artificial,9,Tavares,Paraíba
+25613.15,1685815.77,168.58,12347,Açude Poço Redondo,Poço Redondo,Piancó,Artificial,8.93,Santana de Mangueira,Paraíba
+17721.81,2015870.72,201.59,12462,Açude Timbaúba,Timbaúba,Piancó,Artificial,15.44,Juru,Paraíba
+46331.57,5231541.05,523.15,12387,Açude Saco,Saco,Piancó,Artificial,97.49,Pedra Branca/Princesa Isabel,Paraíba
+30627.47,2352575.77,235.26,12075,Açude Bruscas,Bruscas,Piancó,Artificial,38.21,Curral Velho,Paraíba
+21084.1,1902062.79,190.21,12335,Açude Piranhas,Piranhas,Piancó,Artificial,25.7,Ibiara,Paraíba
+11374.28,1383740.47,138.37,12060,Açude Bom Jesus (Poço Comprido),Bom Jesus II,Piancó,Artificial,14.17,Água Branca,Paraíba
+8457.66,344321.93,34.43,1199,Açude Riacho Verde,Riacho Verde,Piancó,Artificial,1.26,Boa Ventura,Paraíba
+15491.15,1085996.3,108.6,12487,Açude Vazante,Vazante,Piancó,Artificial,9.09,Diamante/Ibiara,Paraíba
+79748.78,9777355.07,977.74,12231,Açude Jenipapeiro (Buiú),Jenipapeiro (Buiú),Piancó,Artificial,70.76,Olho D'Água,Paraíba
+32810.97,2313430.51,231.34,12361,Açude Queimadas,Queimadas,Piancó,Artificial,15.63,Santana dos Garrotes,Paraíba
+9153.04,835666.43,83.57,12488,Açude Video,Video,Piancó,Artificial,6.04,Conceição/Diamante,Paraíba
+11686.57,1165533.34,116.55,12079,Açude Cachoeira dos Alves,Cachoeira dos Alves,Piancó,Artificial,10.61,Itaporanga,Paraíba
+10219.86,701824.93,70.18,12128,Açude Boqueirão dos Cochos,Cochos,Piancó,Artificial,4.2,Igaracy/Itaporanga,Paraíba
+66086.2,9263458.98,926.35,12080,Açude Cachoeira dos Cegos,Cachoeira dos Cegos,Piancó,Artificial,71.89,Catingueira,Paraíba
+7636.57,849844.43,84.98,12161,Açude Emas,Emas,Piancó,Artificial,2.01,Emas,Paraíba
+292744.03,61578134.4,6157.81,12143,Açude Coremas (Engenheiro Estevam Marinho),Curema,Piancó,Artificial,591.65,Coremas/Piancó,Paraíba
+5066.55,311239.11,31.12,12191,Açude Frutuoso II,Frutuoso II,Piancó,Artificial,3.52,Igaracy/Aguiar,Paraíba
+10465.52,678174.39,67.82,12229,Açude Jenipapeiro,Jenipapeiro,Alto Piranhas,Artificial,1.95,São José da Lagoa Tapada,Paraíba
+23612.2,2539540.74,253.95,12165,Açude Condado (Engenheiro Arcoverde),Engenheiro Arcoverde,Médio Piranhas,Artificial,36.83,Condado,Paraíba
+39916.12,3888080.07,388.81,12409,Açude São Gonçalo,São Gonçalo,Alto Piranhas,Artificial,44.6,Sousa/Marizópolis,Paraíba
+43089.62,5101412.4,510.14,12447,Açude Sumé,Sumé,Alto Paraíba,Artificial,44.86,Sumé,Paraíba
+10448.66,1751965.71,175.2,12422,Açude São Paulo,São  Paulo,Alto Paraíba,Artificial,8.46,Prata,Paraíba
+5430.49,502418.33,50.24,12061,Açude Bom Sucesso,Bom Sucesso,Pajé,Artificial,1.74,Tuparetama/Ingazeira,Pernambuco
+4763.82,548499.53,54.85,12428,Açude Serra Branca I,Serra Branca I,Taperoá,Artificial,2.12,Serra Branca,Paraíba
+5244.07,611693.97,61.17,12429,Açude Serra Branca II,Serra Branca II,Taperoá,Artificial,14.04,Serra Branca,Paraíba
+12062.73,957379.46,95.74,12416,Açude São José II,São José II,Pajé,Artificial,7.15,São José do Egito,Pernambuco
+2576.52,222107.35,22.21,12290,Açude Namorado,Namorado,Taperoá,Artificial,2.12,São João do Cariri,Paraíba
+8844.36,916825.01,91.68,12417,Açude São José III,São José III,Taperoá,Artificial,0.96,São José dos Cordeiros,Paraíba
+5621.15,538787.65,53.88,12255,Açude Livramento (Russos),Livramento (Russos),Taperoá,Artificial,2.43,Livramento,Paraíba
+7032.29,509052.24,50.91,12057,Açude Boa Vista,Boa Vista,Pajé,Artificial,1.63,Itapetim,Pernambuco
+3824.87,352840.24,35.28,12262,Açude Mãe d'água,Mãe d'água,Pajé,Artificial,1.5,Itapetim,Pernambuco
+4359.42,448459.29,44.85,12432,Açude Serraria,Serrinha/Serraria,Pajé,Artificial,1.26,Brejinho,Pernambuco
+3026.13,279645.22,27.96,12011,Açude Albino,Albino,Piancó,Artificial,1.83,Imaculada,Paraíba
+25053.63,4900938.68,490.09,12451,Açude Manoel Marcionilo (Taperoá II),Taperoá II (Manoel Marcionilo),Taperoá,Artificial,15.15,Taperoá,Paraíba
+17104.61,1528471.42,152.85,12234,Açude Jeremias,Jeremias,Taperoá,Artificial,4.66,Desterro,Paraíba
+3806.42,389503.92,38.95,12385,Açude Sabonete,Sabonete,Espinharas,Artificial,1.95,Teixeira,Paraíba
+11816.32,977042.21,97.7,12408,Açude São Francisco II,São Francisco II,Espinharas,Artificial,4.92,Teixeira,Paraíba
+7953.75,681112.34,68.11,12372,Açude Riacho das Moças,Riacho das Moças,Espinharas,Artificial,6.41,Teixeira/Maturéia,Paraíba
+15536.85,2010832.72,201.08,12251,Açude Lagoa do Meio,Lagoa do Meio,Taperoá,Artificial,6.65,Taperoá,Paraíba
+35430.2,5135595.13,513.56,12101,Açude Capoeira,Capoeira,Espinharas,Artificial,53.45,Mãe d'água,Paraíba
+45299.46,6071828.14,607.18,12285,Açude Mucutu,Mucutu,Taperoá,Artificial,25.37,Taperoá/Juazeirinho/Assunção,Paraíba
+36069.98,6019221.6,601.92,12179,Açude da Farinha,Farinha,Espinharas,Artificial,25.74,Patos/Cacimba de Areia,Paraíba
+27314.81,4219987.19,422,12226,Açude Jatobá I,Jatobá I,Espinharas,Artificial,17.52,Patos/São José do Bonfim,Paraíba
+7451.51,1683444.53,168.34,12396,Açude Santa Luzia (Tartaruga),Santa Luzia,Seridó,Artificial,11.96,Santa Luzia,Paraíba
+25549.23,3688228.01,368.82,12420,Açude São Mamede,São Mamede,Seridó,Artificial,15.79,São Mamede,Paraíba
+29502.25,4706708.82,470.67,12312,Açude Pataxós,Pataxós,Piranhas/Assu,Artificial,15.02,Ipanguaçu,Rio Grande do Norte
+528268.77,182447931.6,18244.79,12164,Açude Armando Ribeiro Gonçalves,Engenheiro Armando Ribeiro Gonçalves,Piranhas/Assu,Artificial,2400,Itaje/São Rafael/Jucurutu,Rio Grande do Norte
+60443.61,10598674.56,1059.87,12277,Açude Mendubim,Mendubim,Piranhas/Assu,Artificial,76.35,Açuu,Rio Grande do Norte
+21676.18,3513297.58,351.33,12065,Açude Boqueirão de Angicos,Boqueirão de Angicos,Piranhas/Assu,Artificial,16.02,Afonso Bezerra/Pedro Avelino,Rio Grande do Norte
+70596.32,13435005.86,1343.5,12066,Açude Boqueirão de Parelhas (Ministro João Alves),Boqueirão de Parelhas (Ministro João Alves),Piranhas/Assu,Artificial,84.79,Parelhas,Rio Grande do Norte
+8107.79,1653774.42,165.38,12090,Açude Caldeirão de Parelhas,Caldeirão de Parelhas,Piranhas/Assu,Artificial,9.32,Parelhas,Rio Grande do Norte
+33092.89,4405112.75,440.51,12174,Açude do Esguicho,Esguicho,Piranhas/Assu,Artificial,27.94,Ouro Branco,Rio Grande do Norte
+6553.17,752995.81,75.3,12481,Açude Várzea,Várzea,Seridó,Artificial,1.13,Várzea,Paraíba
+11864.06,1498009.89,149.8,12492,Açude Zangarelhas,Zangarelhas,Piranhas/Assu,Artificial,7.92,Jardim do Seridó,Rio Grande do Norte
+24220.77,3295838.96,329.58,12108,Açude Carnaúba,Carnaúba,Piranhas/Assu,Artificial,25.71,Caicó/São João do Sabugi,Rio Grande do Norte
+72405.22,11830134.37,1183.01,12386,Açude Sabugi,Sabugi,Piranhas/Assu,Artificial,65.33,São João do Sabugi,Rio Grande do Norte
+26900.62,3108912.97,310.89,12485,Açude Várzea Grande,Várzea Grande,Seridó,Artificial,21.53,Picuí,Paraíba
+62876.19,9443256.63,944.33,12311,Açude Passagem das Traíras,Passagem das Traíras,Piranhas/Assu,Artificial,49.7,São José do Seridó,Rio Grande do Norte
+41700.66,11979288.43,1197.93,12216,Açude Itans,Itans,Piranhas/Assu,Artificial,81.75,Caicó,Rio Grande do Norte
+35373.25,7642061.93,764.21,12271,Açude Marechal Dutra (Gargalheiras),Marechal Dutra,Piranhas/Assu,Artificial,44.42,Acari,Rio Grande do Norte
+39068.42,6096595.25,609.66,12140,Açude Cruzeta,Cruzeta,Piranhas/Assu,Artificial,23.55,Cruzeta,Rio Grande do Norte
+10339.15,1611740.54,161.17,12288,Açude Mundo Novo,Mundo Novo,Piranhas/Assu,Artificial,3.6,Caicó,Rio Grande do Norte
+7306.9,711416.93,71.14,12155,Açude Dourado,Dourado,Piranhas/Assu,Artificial,10.32,Currais Novos,Rio Grande do Norte
+10143.22,1017884.91,101.79,12013,Açude Alecrim (Santana dos Matos),Açude Alecrim (Santana dos Matos),Piranhas/Assu,Artificial,7,Santana do Matos,Rio Grande do Norte
+29244,2963485.91,296.35,12379,Açude Rio da Pedra,Rio da Pedra,Piranhas/Assu,Artificial,13.6,Santana do Matos,Rio Grande do Norte
+19768.62,2033390.62,203.34,12049,Açude Beldroega,Beldroega,Piranhas/Assu,Artificial,8.06,Paraú,Rio Grande do Norte
+15580.54,1613257.8,161.33,12307,Açude Paraíso (Luiz Oliveira),Paraíso (Luiz Oliveira),Peixe,Artificial,5.34,São Francisco/Santa Cruz,Paraíba
+36223.64,6394952.44,639.5,12110,Açude Carneiro,Carneiro,Médio Piranhas,Artificial,31.29,Jericó,Paraíba
+13169.06,2777537.06,277.75,12376,Açude Riacho dos Cavalos,Riacho dos Cavalos,Médio Piranhas,Artificial,17.7,Riacho dos Cavalos,Paraíba
+16216.82,2479680.56,247.97,12236,"Açude Jesus, Maria, José","Jesus, Maria, José",Apodi/Mossoró,Artificial,9.64,Tenente Ananias,Rio Grande do Norte
+9524.77,1597644.5,159.76,12399,Açude Santa Rosa,Santa Rosa,Médio Piranhas,Artificial,2.84,Brejo do Cruz,Paraíba
+16466.07,2563277.71,256.33,12270,Açude Marcelino Vieira (Caiçara),Marcelino Vieira,Apodi/Mossoró,Artificial,11.2,Marcelino Vieira,Rio Grande do Norte
+14562.55,3105090.26,310.51,12450,Açude Tapera,Tapera,Médio Piranhas,Artificial,26.42,Brejos do Cruz/Bel?m do Brejo do Cruz,Paraíba
+11681.9,990585.32,99.06,12329,Açude Pilões,Pilões,Apodi/Mossoró,Artificial,5.9,Pilões,Rio Grande do Norte
+36127.18,8621272.82,862.13,12038,Açude Baião,Baião,Médio Piranhas,Artificial,39.23,Belém do Brejo do Cruz/São José do Brejo do Cruz,Paraíba
+11332.3,1996210.07,199.62,12173,Açude Escondido,Escondido,Médio Piranhas,Artificial,16.58,Belém do Brejo do Cruz,Paraíba
+7479,940516.79,94.05,12135,Açude Corredor,Corredor,Apodi/Mossoró,Artificial,3.71,Antônio Martins,Rio Grande do Norte
+56138.14,10955714.43,1095.57,12316,Açude Pau dos Ferros,Pau dos Ferros,Apodi/Mossoró,Artificial,55.9,Pau dos Ferros/Rafael Fernandes/Marcelino Vieira,Rio Grande do Norte
+19875.71,4113288.27,411.33,12257,Açude Lucrécia,Lucrécia,Apodi/Mossoró,Artificial,24.75,Lucrécia/Frutuoso Gomes,Rio Grande do Norte
+15658.92,2278631.11,227.86,12381,Açude Rodeador,Rodeador,Apodi/Mossoró,Artificial,21.4,Umarizal/Almino Afonso/Rafael Godeiro,Rio Grande do Norte
+6368.12,840389.96,84.04,12458,Açude Tesoura,Tesoura,Apodi/Mossoró,Artificial,3.9,Francisco Dantas,Rio Grande do Norte
+8185.14,855179.67,85.52,12463,Açude Tourão,Tourão,Apodi/Mossoró,Artificial,7.99,Patu,Rio Grande do Norte
+8716.55,1478192.07,147.82,12070,Açude do Brejo,Brejo,Apodi/Mossoró,Artificial,6.45,Olho D'Água do Borges,Rio Grande do Norte
+7068.41,765917.17,76.59,12477,Açude Umarizal (Inspetoria),Umarizal,Apodi/Mossoró,Artificial,3.1,Umarizal,Rio Grande do Norte
+17620.21,3226153.91,322.62,12402,Santo Antônio de Caraúbas,Santo Antônio de Caraúbas,Apodi/Mossoró,Artificial,8.54,Caraúbas/Janduís,Rio Grande do Norte
+5589.32,639956.23,64,12370,Açude Riacho da Cruz II,Riacho da Cruz II,Apodi/Mossoró,Artificial,9.6,Riacho da Cruz,Rio Grande do Norte
+18641.49,2511435.62,251.14,12310,Açude Passagem,Passagem,Apodi/Mossoró,Artificial,8.27,Rodolfo Fernandes,Rio Grande do Norte
+6322.81,512896.49,51.29,12175,Açude Estreito,Estreito,Canindé,Artificial,23.89,Belém do Piauí/Padre Marcos,Piauí
+20533.23,3490125.13,349.01,12044,Açude Barreiras,Barreiras,Canindé,Artificial,52.8,Fronteiras,Piauí
+56292.92,8222671.28,822.27,12341,Açude Poço da Pedra,Poço da Pedra,Alto Jaguaribe,Artificial,52,Campos Sales,Ceará
+32536.46,4044126.74,404.41,12088,Açude Cajazeiras II,Cajazeiras,Canindé,Artificial,24.7,Pio IX,Piauí
+55955.97,9255207.73,925.52,12058,Açude Bocaina,Bocaina,Canindé,Artificial,106,Bocaina/São Luis do Piaui,Piauí
+147422.41,18387500.4,1838.75,12388,Açude Saco II,Saco II,Gar?as,Artificial,123.52,Santa Maria da Boa Vista/Lagoa Grande/Santa Cruz,Pernambuco
+191980.94,38693848.7,3869.38,12171,Açude Entremontes,Entremontes,Brígida,Artificial,339.33,Parnamirim/Ouricuri,Pernambuco
+26248.79,4151009.03,415.1,12076,Açude Cachimbo,Cachimbo,Brígida,Artificial,31.21,Parnamirim,Pernambuco
+25812.75,5576350.9,557.64,12167,Açude Engenheiro Camacho (ex Tamboril II),Engenheiro Camacho (Tamboril II),Brígida,Artificial,27.67,Ouricuri,Pernambuco
+60196.56,11680317.59,1168.03,12016,Açude Algodões,Algodões,Brígida,Artificial,54.48,Ouricuri,Pernambuco
+11730.22,1931879.91,193.19,12256,Açude Lopes II,Lopes II,Brígida,Artificial,23.94,Bodocó/Ouricuri,Pernambuco
+19350.05,4417478.15,441.75,12247,Açude Lagoa do Barro,Lagoa do Barro,Brígida,Artificial,22.95,Araripina,Pernambuco
+2272.54,204155.06,20.42,12366,Açude Rancharia,Rancharia,Brígida,Artificial,1.04,Araripina,Pernambuco
+5209.73,502035.12,50.2,12031,Açude Araripina (ex Baixio),Araripina (Baixio),Brígida,Artificial,3.7,Araripina,Pernambuco
+31029.57,4229260.73,422.93,12291,Açude Nilo Coelho,Nilo Coelho,Terra Nova,Artificial,22.71,Terra Nova/Cabrobo,Pernambuco
+4038.51,402122.1,40.21,12242,Açude Juá,Juá,Terra Nova,Artificial,3.5,Mirandiba,Pernambuco
+41058.45,2822073.9,282.21,12056,Açude Boa Vista,Boa Vista,Terra Nova,Artificial,16.45,Verdejante/Salgueiro,Pernambuco
+28892.86,2341956.69,234.2,12002,Açude Abóboras,Abóboras,Terra Nova,Artificial,14.35,Parnamirim/Terra Nova/Serrita,Pernambuco
+7510.11,578448.06,57.84,1927,Açude Parnamirim,Parnamirim,Brígida,Artificial,5.72,Parnamirim,Pernambuco
+7199.09,485992.41,48.6,12390,Açude Salgueiro,Salgueiro,Terra Nova,Artificial,14.7,Verdejante,Pernambuco
+5690.69,420175.67,42.02,1931,Açude Salgueiro,Boa Vista (Salgueiro),TerraNova,Artificial,16.45,Salgueiro,Pernambuco
+16608.35,3545292.05,354.53,12496,Açude Arrodeio,Arrodeio,Pajé,Artificial,14.52,São José do Belmonte,Pernambuco
+185937.25,26940355.55,2694.04,12122,Açude Chapéu,Chapéu,Brígida,Artificial,188,Parnamirim/Serrita,Pernambuco
+35621.8,3495044.32,349.5,12181,Açude Favelas,Favelas,Alto Jaguaribe,Artificial,30.1,Tauá,Ceará
+5395.62,358035.29,35.8,12045,Açude Barrinha,Barrinha,Brígida,Artificial,1.96,Cedro/Serrita,Pernambuco
+45093.97,3853986.63,385.4,12289,Açude Muquém,Muquém,Alto Jaguaribe,Artificial,47.64,Cariús,Ceará
+27657.4,2355457.54,235.55,12052,Açude Benguê,Benguê,Alto Jaguaribe,Artificial,19.56,Aiuaba,Ceará
+112658.38,16775823.5,1677.58,12471,Açude Trussu (Roberto Costa),Trussu,Alto Jaguaribe,Artificial,301,Iguatu/Acopiara/Jucus,Ceará
+24088.15,1648529.6,164.85,12380,Açude Rivaldo de Carvalho,Rivaldo de Carvalho,Alto Jaguaribe,Artificial,19.52,Catarina,Ceará
+38216.81,4761792.02,476.18,12033,Açude Arneiroz II,Arneiroz II,Alto Jaguaribe,Artificial,197.06,Arneiroz,Ceará
+24262.92,1869703.52,186.97,12177,Açude Faé,Faé,Alto Jaguaribe,Artificial,19,Quixelô,Ceará
+6708.33,336932.06,33.69,12363,Açude Quincoé,Quincoé,Alto Jaguaribe,Artificial,4.33,Acopiara,Ceará
+15199.58,1972425.27,197.24,12282,Açude Morcego,Morcego,Apodi/Mossoró,Artificial,6.71,Augusto Severo,Rio Grande do Norte
+14580.03,2246165.29,224.62,12265,Açude Malhada Vermelha,Malhada Vermelha,Apodi/Mossoró,Artificial,7.54,Severiano Melo,Rio Grande do Norte
+9092.09,1012378.3,101.24,12146,Açude Currais (do Angico Velho),Currais,Apodi/Mossoró,Artificial,4.02,Severiano Melo/Itau,Rio Grande do Norte
+5372.89,938208.93,93.82,12444,Açude Sossego,Sossego,Apodi/Mossoró,Artificial,2.33,Rodolfo Fernandes,Rio Grande do Norte
+116564.61,22734862.28,2273.49,12476,Barragem Umari,Umari,Apodi/Mossoró,Artificial,292.81,Upanema/Augusto Severo,Rio Grande do Norte
+121561.66,32060596.76,3206.06,12392,Açude Santa Cruz do Apodi,Santa Cruz do Apodi,Apodi/Mossoró,Artificial,599.71,Apodi,Rio Grande do Norte
+14500.92,1890739.18,189.07,12355,Açude Potiretama,Potiretama,Médio Jaguaribe,Artificial,6.33,Potiretama,Ceará
+21068.23,5928537.21,592.85,2067,Açude do Apanha Peixe,Apanha Peixe,Apodi/Mossoró,Artificial,10,Caraúbas,Rio Grande do Norte
+28843.37,2640692.49,264.07,12459,Açude Thomas Osterne (Umari),Umari,Salgado,Artificial,28.78,Crato,Ceará
+47012.47,4887165.55,488.72,12098,Açude Canoas,Canoas,Alto Jaguaribe,Artificial,69.25,Assaré,Ceará
+14597.63,1469248.63,146.92,12297,Açude Olho d'água,Olho d'água,Salgado,Artificial,21,Várzea Alegre,Ceará
+4555.99,237166.65,23.72,12153,Açude do Coronel,Do Coronel,Alto Jaguaribe,Artificial,1.77,Saboeiro,Ceará
+24655.41,1884501.42,188.45,12395,Açude Santa Inês,Santa Inês,Piancó,Artificial,26.12,Santa Inês,Paraíba
+48468.2,4281157.78,428.12,12036,Açude Atalho,Atalho,Salgado,Artificial,108.25,Jati/Brejo Santo,Ceará
+10314.08,1126504.81,112.65,12430,Açude Serra Vermelha I,Serra Vermelha I,Piancó,Artificial,11.8,Conceição,Paraíba
+19039.43,2330389.44,233.04,12133,Açude Condado,Condado,Piancó,Artificial,35.02,Conceição,Paraíba
+15368.94,1297911.74,129.79,12364,Açude Quixabinha,Quixabinha,Salgado,Artificial,31.78,Mauriti,Ceará
+3580.45,215687.07,21.57,12202,Açude Gomes,Gomes,Salgado,Artificial,2.39,Mauriti,Ceará
+17620.81,1355453.29,135.55,12046,Açude São Bartolomeu I,Bartolomeu I,Alto Piranhas,Artificial,17.57,Bonito de Santa Fé,Paraíba
+8084.97,589659.68,58.97,12413,Açude São José,São José I,Alto Piranhas,Artificial,3.05,São José de Piranhas,Paraíba
+31413.06,2082321.59,208.23,12358,Açude Prazeres,Prazeres,Salgado,Artificial,32.5,Barro,Ceará
+24418.19,1863525.94,186.35,12268,Açude Manoel Balbino (Riacho dos Carneiros),Manoel Balbino,Salgado,Artificial,37.18,Caririaçu,Ceará
+121784.28,18607772.81,1860.78,12166,Açude Engenheiro Ávidos (Piranhas),Engenheiro ávidos,Alto Piranhas,Artificial,255,São José de Piranhas,Paraíba
+38409.06,3254400.89,325.44,12077,Açude Cachoeira,Cachoeira,Salgado,Artificial,34.33,Aurora,Ceará
+3915.78,231536.35,23.15,12407,Açude São Domingos II,São Domingos II,Salgado,Artificial,2.25,Cariria?u,Ceará
+47743.73,5313255.31,531.33,12384,Açude Rosário,Rosário,Salgado,Artificial,47.2,Lavras da Mangabeira,Ceará
+3647.31,442846.49,44.28,12244,Açude Junco,Junco,Salgado,Artificial,2.03,Granjeiro,Ceará
+54234.73,7380225.21,738.02,12246,Açude Lagoa do Arroz,Lagoa do Arroz,Peixe,Artificial,80.22,Cajazeiras/Bom Jesus,Paraíba
+6723.03,551088.6,55.11,12124,Açude Chupadouro,Chupadouro i,Peixe,Artificial,2.76,São João Rio Peixe,Paraíba
+12823.78,4897343.86,489.73,12330,Açude Pilões,Pilões,Peixe,Artificial,13,São João Rio Peixe/Triunfo,Paraíba
+32977.22,6236851.43,623.69,12474,Açude Ubaldinho,Ubaldinho,Salgado,Artificial,31.8,Várzea Alegre,Ceará
+20885.91,1625916.75,162.59,12308,Açude Parambu,Parambu,Alto Jaguaribe,Artificial,8.53,Parambu,Ceará
+15093.33,1291631.31,129.16,12073,Açude Brocó,Brocó,Alto Jaguaribe,Artificial,17.5,Tauá,Ceará
+10312.76,932767.72,93.28,12035,Açude Arrojado,Arrojado,Peixe,Artificial,3.6,Uirauna,Paraíba
+8424.43,521802.1,52.18,12454,Açude Tatajuba,Tatajuba,Salgado,Artificial,2.72,Icó,Ceará
+47891.5,11857007.39,1185.7,12254,Açude Lima Campos,Lima Campos,Salgado,Artificial,66.38,Icó/Orós,Ceará
+16306.78,2066532.87,206.65,12183,Açude Flechas,Flechas,Apodi/Mossoró,Artificial,8.95,José da Penha,Rio Grande do Norte
+9232.81,1343402.23,134.34,2217,Açude Santana (Gangorra),Santana,Apodi/Mossoró,Artificial,7,Rafael Fernandes/Riacho de Santana,Rio Grande do Norte
+20108.51,1891610.02,189.16,12064,Açude do Bonito,Bonito II,Apodi/Mossoró,Artificial,10.87,São Miguel,Rio Grande do Norte
+2932.86,274659.79,27.47,12260,Açude Madeiro,Madeiro,Médio Jaguaribe,Artificial,2.81,Pereiro,Ceará
+526202.05,192705253.71,19270.53,12299,Açude Orós (Presidente Juscelino Kubitschek de Oliveira) (PCH Orós),Orós,Alto Jaguaribe,Artificial,1940,Orós/Quixele/Iguatu,Ceará
+6691.11,825167.37,82.52,12001,Açude Vinte e Cinco de Março,25 de Março,Apodi/Mossoró,Artificial,4.72,Pau dos Ferros,Rio Grande do Norte
+11383.92,1124968.02,112.5,12163,Açude Encanto,Encanto,Apodi/Mossoró,Artificial,5.19,Encanto,Rio Grande do Norte
+15316.67,3168030.69,316.8,12397,Açude Santa Maria,Santa Maria,Médio Jaguaribe,Artificial,5.87,Ererê,Ceará
+6764.99,572395.35,57.24,12006,Açude Pereiro (Adauto Bezerra),Adauto Bezerra,Médio Jaguaribe,Artificial,5.25,Pereiro,Ceará
+31068.87,4852554.29,485.26,12240,Açude Joaquim T?vora (Feiticeiro),Joaquim Távora,Médio Jaguaribe,Artificial,26.77,Jaguaribe,Ceará
+13534.02,1606247.52,160.62,12293,Açude Nova Floresta,Nova Floresta,Médio Jaguaribe,Artificial,5.19,Jaguaribe/Solonopole,Ceará
+57125.48,11680638.63,1168.06,12483,Açude Várzea do Boi,Várzea do Boi,Alto Jaguaribe,Artificial,51.91,Tauá,Ceará
+20948.74,2877716.68,287.77,12470,Açude Trici,Trici,Alto Jaguaribe,Artificial,16.5,Tauá,Ceará
+9799.02,1092613.66,109.26,12132,Açude Colina,Colina,Parnaíba-CE,Artificial,3.25,Quiterianópolis,Ceará
+6651.19,557048.97,55.7,12188,Açude Forquilha II,Forquilha II,Alto Jaguaribe,Artificial,3.4,Tauá,Ceará
+66296.25,15310765.15,1531.08,12184,Açude Flor do Campo (Novo Oriente),Flor do Campo,Parnaíba-CE,Artificial,105,Novo Oriente,Ceará
+75037.15,15808338.09,1580.83,12220,Açude Jaburu II,Jaburu II,Parnaíba-CE,Artificial,116,Independência,Ceará
+9877.55,1650787.74,165.08,12142,Açude Cupim,Cupim,Parnaíba-CE,Artificial,4.55,Independência,Ceará
+78470.86,17924731.26,1792.47,12043,Açude Barra Velha,Barra Velha,Parnaíba-CE,Artificial,99.5,Independência,Ceará
+39160.54,10480875.4,1048.09,12109,Açude Carnaubal,Carnaubal,Parnaíba-CE,Artificial,87.69,Crateús,Ceará
+25840.77,4421959.24,442.2,12367,Açude Realejo,Realejo,Parnaíba-CE,Artificial,31.55,Crateús,Ceará
+12801.57,805280.22,80.53,12460,Açude Tigre,Tigre,Médio Jaguaribe,Artificial,3.51,Solonópole,Ceará
+23035.39,2078689.21,207.87,12230,Açude Jenipapeiro,Jenipapeiro,Médio Jaguaribe,Artificial,17,Deputado Irapuan Pinheiro,Ceará
+28937,1954883.66,195.49,12415,Açude São José II,São José II,Banabuiú,Artificial,29.14,Piquet Carneiro,Ceará
+64966.61,5319956.36,532,12427,Açude Serafim Dias,Serafim Dias,Banabuiú,Artificial,43,Mombaça,Ceará
+51666.87,5685654.4,568.57,12314,Açude do Patu,Patu,Banabuiú,Artificial,71.83,Senador Pompeu,Ceará
+21286.04,1806617.8,180.66,12465,Açude Trapiá II,Trapiá II,Banabuiú,Artificial,18.19,Pedra Branca,Ceará
+17281.75,2136764.61,213.68,12365,Açude Quixeramobim,Quixeramobim,Banabuiú,Artificial,54,Quixeramobim,Ceará
+6711.49,627374.45,62.74,12412,Açude São José I,São José I,Banabuiú,Artificial,7.67,Boa Viagem,Ceará
+30011.22,2955405.04,295.54,12489,Açude Vieirão,Vieirão,Banabuiú,Artificial,20.96,Boa Viagem,Ceará
+108157.66,17204132.66,1720.41,12186,Açude Antônio Ferreira Antero (Fogareiro),Fogareiro,Banabuiú,Artificial,118.82,Quixeramobim/Boa Viagem,Ceará
+339775.29,79567908.34,7956.79,12039,Açude Arrojado Lisboa (Banabuiu) (PCH Banabuiu),Banabuiu,Banabuiú,Artificial,1601,Banabuiú/Quixeramobim,Ceará
+12312.16,3117820.74,311.78,12096,Açude Canafístula,Canafístula,Médio Jaguaribe,Artificial,13.11,Iracema/Ererê,Ceará
+16710.62,2301780.89,230.18,12160,Açude da Ema,Ema,Médio Jaguaribe,Artificial,10.39,Iracema,Ceará
+56682.44,7829312.58,782.93,12343,Açude Poço do Barro,Poço do Barro,Banabuiú,Artificial,52,Morada Nova,Ceará
+21766.88,3364249.35,336.42,12148,Açude do Curral Velho,Curral Velho,Banabuiú,Artificial,12.17,Morada Nova,Ceará
+756625.62,326207543.13,32620.75,12112,Açude Castanhão,Castanhão,Médio Jaguaribe,Artificial,6700,Jaguaribara/Alto Santo/Jaguaretama,Ceará
+38875.29,8744843.92,874.48,12126,Açude Cipoada,Cipoada,Banabuiú,Artificial,86.09,Morada Nova,Ceará
+194615.24,39606934.23,3960.69,12323,Açude Vinicius Barreto (ex Pedra Branca),Pedras Brancas,Banabuiú,Artificial,434.04,Quixadá,Ceará
+59476.16,7759726.32,775.97,12375,Açude Riacho do Sangue,Riacho do Sangue,Médio Jaguaribe,Artificial,61.42,Solonópole,Ceará
+3242.32,365398.16,36.54,12315,Açude Pau Branco,Pau Branco,Pontal,Artificial,3,Afrânio,Pernambuco
+37076.96,5082438.08,508.24,12209,Açude Ingazeiras,Ingazeiras,Canindé,Artificial,25.72,Paulistana,Piauí
+145759.33,20954799.38,2095.48,12321,Açude Pedra Redonda,Pedra Redonda,Canindé,Artificial,216,São Francisco de Assis do Piauí/Jacobina do Piauí/Paulistana,Piauí
+3557.68,513404.51,51.34,2766,Açude Poço do Marruá,Poço do Marruá,Canindé,Artificial,348,Patos do Piauí,Piauí
+38463.15,6817982.51,681.8,12334,Açude Pirabibu,Pirabibu,Banabuiú,Artificial,74,Madalena/Quixeramobim,Ceará
+9135.62,684406.63,68.44,12063,Açude Bonito,Bonito,Acaraú,Artificial,6,Ipu,Ceará
+20178.8,2887233.15,288.72,12105,Açude Carão,Carão,Acaraú,Artificial,26.23,Tamboril,Ceará
+10680.18,1670057.74,167.01,12446,Açude Sucesso,Sucesso,Parnaíba-CE,Artificial,10,Tamboril,Ceará
+39830.22,5370080.79,537.01,12403,Açude Santo Antônio do Aracatiaçu,Santo Antônio do Aracatiaçu,Litoral,Artificial,24.34,Sobral/Iraçuba,Ceará
+155989.14,24903723.87,2490.37,12197,Açude General Sampaio,General Sampaio,Curu,Artificial,322.2,General Sampaio/Paramoti,Ceará
+29060.84,5974737.41,597.47,12404,Açude Santo Antônio de Russas,Santo Antônio de Russas,Baixo Jaguaribe,Artificial,24,Russas,Ceará
+39584.28,7064961.17,706.5,12264,Açude Malcozinhado,Malcozinhado,Metropolitana,Artificial,37.84,Cascavel,Ceará
+11488.28,1304635.84,130.46,12301,Açude Pacajus,Pacajus,Metropolitana,Artificial,240,Pacajus,Ceará
+14700.35,2601315.49,260.13,12048,Açude Batente,Batente,Metropolitana,Artificial,33.51,Ocara/Morada Nova,Ceará
+96763.32,26675031.01,2667.5,12302,Açude Pacoti,Pacoti,Metropolitana,Artificial,380,Horizonte/Itaitinga,Ceará
+72834.03,16781171.41,1678.12,12027,Açude Araçoiaba,Araçoiaba,Metropolitana,Artificial,170.7,Aracoiaba/Redenção,Ceará
+18379.32,2041647.93,204.16,12003,Açude Acarape do Meio (Eugênio Gudin),Acarape do Meio,Metropolitana,Artificial,29.59,Redenção,Ceará
+42604.7,6179106.06,617.91,12113,Açude Castro,Castro,Metropolitana,Artificial,63.9,Itapiúna,Ceará
+71048.33,8962166.4,896.22,12352,Açude Pompeu Sobrinho (Choró Lim?o),Pompeu Sobrinho,Metropolitana,Artificial,143,Choró,Ceará
+43936.65,0,732.5,12118,Açude Cedro,Cedro,Banabuiú,Artificial,126,Quixadá,Ceará
+7068.79,0,51.99,12405,Açude São Domingos,São Domingos,Curu,Artificial,3.2,Caridade,Ceará
+11062.85,0,70.59,12421,Açude São Mateus,São Mateus,Curu,Artificial,10.33,Canindé,Ceará
+18196.55,0,150.14,12445,Açude Sousa,Sousa,Curu,Artificial,30.84,Canindé,Ceará
+11597.99,0,88.21,12389,Açude Salão,Salão,Curu,Artificial,6.04,Canindé,Ceará
+5592.41,0,42.68,12324,Açude Penedo,Penedo,Metropolitana,Artificial,2.41,Maranguape,Ceará
+14492.82,0,204.11,12019,Açude Amanary (ex Pocinhos),Amanary,Metropolitana,Artificial,11.01,Maranguape,Ceará
+15590.28,0,292.1,12116,Açude Cauhípe,Cauhípe,Metropolitana,Artificial,12,Caucaia,Ceará
+70070.46,0,1842.25,12440,Açude Sítios Novos,Sítios Novos,Metropolitana,Artificial,126,Pentecoste/Caucaia,Ceará
+10399.94,0,112.09,12151,Açude Desterro,Desterro,Curu,Artificial,5.01,Caridade,Ceará
+175853.98,0,3764.37,12325,Açude Pereira de Miranda (Pentecoste),Pentecoste,Curu,Artificial,360,Pentecoste/Apuiarus,Ceará
+32580.27,0,360.13,12190,Açude Frios,Frios,Curu,Artificial,33.02,Umirim,Ceará
+40951.75,0,872.38,12023,Açude Angicos,Angicos,Corea?,Artificial,56.05,Frecheirinha/Coreau,Ceará
+13812.28,0,184.75,12418,Açude São José III,São José III,Parnaíba-CE,Artificial,7.96,Ipaporanga,Ceará
+79717.47,0,1769.77,12117,Açude Caxitoré,Caxitoré,Curu,Artificial,202,Umirim/Pentecoste,Ceará
+6558.71,0,105.85,12287,Açude Mundaú,Mundaú,Litoral,Artificial,21.3,Uruburetama,Ceará
+33170.6,0,276.84,12457,Açude Tejuçuoca,Tejuçuoca,Curu,Artificial,28.11,Tejuçuoca,Ceará
+113660.13,0,2190.69,12159,Açude Edson Queiroz (Serrote),Edson Queiroz,Acaraú,Artificial,254,Santa Quitéria,Ceará
+15822.65,0,146.86,12281,Açude Monsenhor Tabosa,Monsenhor Tabosa,Banabuiú,Artificial,12.1,Monsenhor Tabosa,Ceará
+17475.47,0,207.62,12107,Açude Carmina,Carmina,Acaraú,Artificial,13.63,Catunda,Ceará
+351654.57,0,6810.87,12030,PCH Açude Araras (Paulo Sarasate),Araras,Acaraú,Artificial,891,Varjota/Pires Ferreira/Hidrolândia/Santa Quitéria,Ceará
+19347.08,0,148.61,12178,Açude Farias de Souza,Farias de Souza,Acaraú,Artificial,12.23,Nova Russas,Ceará
+11943.14,0,320.27,12348,Açude Poço Verde,Poço Verde,Litoral,Artificial,13.65,Itapipoca,Ceará
+28142,0,261.5,12235,Açude Jerimum,Jerimum,Curu,Artificial,20.5,Tejuçuoca/Irauçuba,Ceará
+14763.01,0,293.58,12423,Açude Sao Pedro da Timbaúba,São Pedro da Timbaúba,Litoral,Artificial,19.25,Miraima/Sobral,Ceará
+12739.73,0,141.32,12313,Açude Patos,Patos,Litoral,Artificial,7.55,Sobral,Ceará
+16433.96,0,171.59,12198,Açude Atimbone,Atimbone,Litoral,Artificial,4,Sobral,Ceará
+17507.44,0,232.73,12398,Açude Santa Maria do Aracatiaçu,Santa Maria do Aracatiaçu,Litoral,Artificial,8.2,Sobral,Ceará
+24639.12,0,240.78,12034,Açude Arrebita,Arrebita,Acaraú,Artificial,19.6,Forquilha,Ceará
+42297.3,0,795.96,12187,Açude Forquilha,Forquilha,Acaraú,Artificial,50.13,Forquilha,Ceará
+34179.64,0,643.62,12004,Açude Acaraú-Mirim,Acaraú-Mirim,Acaraú,Artificial,52,Massapê,Ceará
+20855.93,0,153.25,12426,Açude São Vicente,São  Vicente,Acaraú,Artificial,9.84,Santana do Acaraú,Ceará
+6449.94,0,72.12,12441,Açude Sobral (Cachoeira),Sobral,Acaraú,Artificial,4.68,Sobral,Ceará
+67455.99,0,1241.47,12037,Açude Ayres de Souza (Jaibara),Ayres de Souza,Acaraú,Artificial,96.8,Sobral,Ceará
+4907.19,0,79.04,12237,Açude Joana,Joana,Poti,Artificial,10.67,Pedro II,Piauí
+41058.21,0,1040.6,12219,Açude Jaburu I,Jaburu I,Parnaíba-CE,Artificial,136.76,Ubajara/Tiangua,Ceará
+9020.52,0,81.63,12466,Açude Trapiá,Trapiá,Corea?,Artificial,5.51,Coreaú,Ceará
+15503.93,0,268.96,12152,Açude Diamante,Diamante,Corea?,Artificial,13.2,Coreaú,Ceará
+127700.38,0,3538.2,12054,Barragem Bico da Pedra,Barragem Bico da Pedra,Gorotuba,Artificial,750,Porteirinha/Janaúba,Minas Gerais
+8550.16,0,99.36,12121,Açude Champrão,Champrão,Rio de Contas,Artificial,5.98,Condeúba,Bahia
+46117.95,0,1219.94,12136,Barragem Cova da Mandioca,Cova da Mandioca,São Francisco,Artificial,126,Urandi,Bahia
+35044.45,0,388.48,12472,Açude Truvisco,Truvisco,Rio de Contas,Artificial,39,Licenio de Almeida/Caculé,Bahia
+14345.95,0,356.16,12119,Açude Ceraíma,Ceraíma,São Francisco,Artificial,58,Guanambi,Bahia
+13850.14,0,175.68,12344,Barragem Poço do Magro,Poço do Magro,São Francisco,Artificial,32,Guanambi,Bahia
+21608.33,0,329.28,12374,Açude Riacho do Paulo,Riacho do Paulo,Rio de Contas,Artificial,53.8,Livramento de Nossa Senhora,Bahia
+35955.41,0,774.83,12258,Açude Engenheiro Luís Vieira (ex Brumado),Luís Vieira (Brumado),Rio de Contas,Artificial,105,Rio de Contas,Bahia
+21520.73,0,446.06,12491,Barragem do Zabumbão,Zabumbão,Paramirim,Artificial,60.85,Paramirim,Bahia
+29406.09,0,616.82,12279,Barragem de Mirorós,Mirorós (Manoel Novais),São Francisco,Artificial,158,Ibipeba/Gentio do Ouro,Bahia
+97440.99,0,1174.28,12233,Açude Jenipapo,Jenipapo,Canindé,Artificial,248,São João do Piauí/Capitão Gervásio Oliveira,Piauí
+19056.37,0,177,12292,Barragem do Oiti,Nonato,Canindé,Artificial,9.02,Dom Inocêncio,Piauí
+4723.99,0,21.59,12266,Açude Dirceu Arcoverde,Malhadinha,Canindé,Artificial,2.08,Dirceu Arcoverde,Piauí
+177587.37,0,2160.86,12327,Açude Petrônio Portela,Petrônio Portela,Canindé,Artificial,181.25,São Raimundo Nonato,Piauí
+9325.94,0,79.71,12012,Açude Aldeia (Tanque),Aldeia,Canindé,Artificial,7.24,São Raimundo Nonato,Piauí
+12491.83,0,64.64,12062,Açude Bonfim,Bonfim,Canindé,Artificial,3.82,Bonfim do Piauí,Piauí
+18454.32,0,510.68,12350,Barragem Poços,Poços,Canindé,Artificial,0.91,Rio Grande do Piauí/Itaueira,Piauí
+54583.44,0,1355.05,12391,Açude Salinas,Salinas,Canindé,Artificial,387.41,São Francisco do Piau?,Piauí
+37227.07,0,575.21,12018,Açude Algodões II,Algodões II,Gurgueia,Artificial,247,Curimatá,Piauí
+93259.4,0,1614.36,12005,Açude Argemiro de Figueiredo (Acauã),Acauã,Médio Paraíba,Artificial,253,Itatuba/Natuba,Paraíba
+121375.66,0,3583.57,21662,Açude Piracuruca,Piracuruca,Longá,Artificial,250,Piracuruca,Piauí
+235450.72,0,4375.42,12261,Açude Mãe d'água (Engenheiro Egberto da Cunha),Mãe d'água,Piancó,Artificial,568,Coremas/Aguiar/Igaracy,Paraíba
+47065.36,0,375.38,12328,Açude Piaus,Piaus,Canindé,Artificial,104.51,São Julião,Piauí
+10798.76,0,148.91,12217,Açude Itapebussu,Itapebussu,Metropolitana,Artificial,6.3,Maranguape,Ceará
+26379.83,0,318.37,12100,Açude Capivara,Capivara,Peixe,Artificial,37.55,Uirauna/Santarém,Paraíba
+11261.28,0,61.89,12275,Açude Sindô Ribeiro,Sindô Ribeiro,Mamanguape,Artificial,0.6,Massaranduba,Paraíba
+7363.3,0,31.37,12360,Açude Quandu,Quandu,Litoral,,4,Itapipoca,Ceará
+6254.06,0,43.26,12300,Açude Ouro Velho,Ouro Velho,Alto Paraíba,,1.68,Ouro Velho,Paraíba
+2330.45,0,23.45,12009,Açude Aipim,Aipim,Itapicuru,,2.28,Antonio Gonçalves/Pindobaçu,Bahia
+4350.23,0,29.69,12442,Açude Sohen,Sohen,Itapicuru,,14.46,Senhor Bonfim,Bahia
+5165.64,0,37.45,12014,Açude Algodão,Algodão,Curimata?,,1.03,Algodão de Jandaíra,Paraíba
+3118.46,0,12.89,12059,Açude Bom Jesus,Bom Jesus,Alto Piranhas,,0.34,São José de Piranhas,Paraíba
+6920.88,0,91.29,12081,Açude Cachoeira Grande,Cachoeira Grande,Itapicuru,,5.42,Jacobina,Bahia
+1125.72,0,4.47,12086,Açude Cafundo,Cafundo,Piancó,,0.31,Serra Grande,Paraíba
+4975.82,0,31.35,12084,Açude Cacimba,Cacimba,Gar?as,,1.73,Santa Cruz,Pernambuco
+9700.78,0,60.18,12099,Açude Capitão Mor,Capitão Mor,Banabuiú,,6,Pedra Branca/Mombaça,Ceará
+1635.76,0,9.29,12104,Açude Caraibinhas,Caraibinhas,Complementar,,0.72,Palmeira dos Indios,Alagoas
+2171.5,0,7.08,12137,Açude Covão,Covão,Mamanguape,,0.67,Areial,Paraíba
+2357.91,0,6.69,12047,Açude Bastiana,Bastiana,Espinharas,,1.27,Teixeira,Paraíba
+2122.6,0,11.32,12196,Açude Gavião,Gavião,Médio Paraíba,,1.45,Fagundes,Paraíba
+10357.67,0,132.72,12211,Açude Inhumas,Inhumas,Mundau,,7.87,Garanhuns/São João,Pernambuco
+978.72,0,7.04,12250,Açude Lagoa do Matias,Lagoa do Matias,Mamanguape,,1.24,Bananeiras,Paraíba
+605.65,0,0.92,12467,Açude Travessia,Travessia,São Francisco/Traipu,,0.41,Major Isidoro,Alagoas
+2462.88,0,11.72,12461,Açude Tijuquinha,Tijuquinha,Metropolitana,,0.97,Baturité,Ceará
+1523.82,0,6.45,12425,Açude São Sebastião,São  Sebastião,Mamanguape,,0.45,Esperança/São Sebastião de Lagoa de Roça,Paraíba
+1053.96,0,2.01,12419,Açude São José IV,São José IV,Seridó,,0.55,São José do Sabugi,Paraíba
+3924.47,0,17.95,12378,Açude Ribeirópolis,Ribeirópolis,Sergipe,,0.92,Ribeirópolis,Sergipe
+1411.39,0,8.45,12373,Açude Riacho de Bode,Riacho de Bode,São Francisco/Ipanema,,1.06,Santana do Ipanema,Alagoas
+25696.01,0,231.98,12371,Açude Riacho da Serra,Riacho da Serra,Médio Jaguaribe,,23.47,Alto Santo,Ceará
+2132.07,0,14.65,12353,Açude Ponciano,Ponciano,São Francisco/Traipu,,0.76,Girau do Ponciano,Alagoas
+2279.05,0,2.62,12346,Açude Poço Grande,Poço Grande,Terra Nova,,3.92,Salgueiro/Serrita,Pernambuco
+1111.1,0,4.42,12342,Açude Poço das Trincheiras,Poço das Trincheiras,São Francisco,,0.72,Poço das Trincheiras,Alagoas
+18384.67,0,152.37,12332,Açude Pindobaçu,Pindobaçu,Itapicuru,,16.88,Pindobaçu,Bahia
+6718.32,0,19.57,12331,Açude Pimenta,Pimenta,Piancó,,0.26,São José Caiana,Paraíba
+8880.45,0,50.36,12326,Açude Pesqueiro,Pesqueiro,Metropolitana,,9.03,Capistrano/Aratuba,Ceará
+9892.98,0,73.97,12318,Açude Pau Preto,Pau Preto,Alto Jaguaribe,,1.81,Potengi,Ceará
+1857.67,0,12.76,12309,Açude Pariconha,Pariconha,São Francisco/Pariconha,,1.27,Pariconha,Alagoas
+1489.51,0,6.66,12286,Açude Mulungu,Mulungu,Ipanema,,1.28,Buique,Pernambuco
+19394.07,0,211.68,12259,Açude Macacos,Macacos,Metropolitana,,10.32,Ibaretama,Ceará
+1952.58,0,4.91,12253,Açude Laje de Gato,Laje de Gato,Pajé,,1.1,Afogados da Ingazeira,Pernambuco
+8066.85,0,65.35,12232,Açude Jenipapeiro II,Jenipapeiro II,Salgado,,43.45,Baixio/Umari,Ceará
+1802.5,0,5.47,12221,Açude Jacaré dos Homens,Jacaré dos Homens,São Francisco/Jacaré,,0.57,Jacaré dos Homens,Alagoas
+4251.57,0,30.12,12497,Açude Itapaje,Itapaje,Curu,,4.24,Itapagé,Ceará
+1440.56,0,3.34,12199,Açude Glória,Glória,Piancó,,1.35,Juru,Paraíba
+3148.88,0,11.72,12200,Açude Glória,Glória,Sergipe,,0.58,Nossa Senhora da Glória,Sergipe
+766.48,0,2.15,12193,Açude Gamela,Gamela,Peixe,,0.47,Triunfo,Paraíba
+1312.98,0,1.91,12162,AçudeEmidio,Emidio,Mamanguape,,0.46,Montadas,Paraíba
+5859.65,0,13.99,12141,Açude Cumbe,Cumbe,Japaratuba,,0.99,Cumbe,Sergipe
+2965.26,0,16.03,12106,Açude Carira,Carira,Sergipe,,0.82,Carira,Sergipe
+816.71,0,3.36,12102,Açude Caracol,Caracol,Canindé,,0.58,Caracol,Piauí
+1965.57,0,4.41,12078,Açude Cachoeira da Vaca,Cachoeira da Vaca,Peixe,,0.34,Cachoeira dos Indios,Paraíba
+2381.87,0,10.83,12072,Açude Brejo dos Coelhos,Brejo dos Coelhos,Ipojuca,,0.36,São Caetano,Pernambuco
+2120.52,0,11.12,12071,Açude Brejo do Buraco,Brejo do Buraco,Una,,1.07,Altinho,Pernambuco
+837.17,0,1.05,12010,Açude Alagadiço,Alagadiço,Vaza Barris,,1.06,Frei Paulo,Sergipe
+7658.88,0,98.95,12147,Açude Currais Novos,Currais Novos,Piranhas/Assu,,3.82,Currais Novos,Rio Grande do Norte
+1885,0,5.53,12029,Açude Arapua,Arapua,Apodi/Mossoró,,4.3,Luis Gomes,Rio Grande do Norte
+5506.23,0,44.32,12305,Açude Palmeirinha,Palmeirinha,Goiana,,6.5,Bom Jardim/Machados,Pernambuco
+93454.1,0,2381.14,12040,Açude Bandeira de Melo,Bandeira de Melo,Paraguaçu,,111.59,Itaetê/Boa Vista do Tupim,Bahia
+1433.94,0,8.55,12486,Açude Varzinha,Varzinha,Brígida,,1.13,Santa Cruz,Pernambuco
+32999.42,0,375.35,12475,Açude Umari,Umari,Bababuiú,,35.04,Madalena,Ceará
+71652.85,0,1530.51,12453,Açude Taquara,Taquara,Acaraú,,320.78,Carire,Ceará
+3369.56,0,16.26,12401,Açude Santo Antônio,Santo Antônio,Médio Jaguaribe,,0.83,Iracema,Ceará
+4648.59,0,21.12,12225,Açude Jatobá,Jatobá,Banabuiú,,1.07,Milhã,Ceará
+1088.77,0,1.62,12180,Açude Fátima,Fátima,Canindé,,1.83,Picos,Piauí
+580.41,0,1.36,12154,Açude Público Dois Riachos,Dois Riachos,São Francisco/Ipanema,,2.5,Dois Riachos,Alagoas
+0,0,0,12490,Açude Vira Beiju,Vira Beiju,PONTAL,,11.8,Petrolina,Pernambuco
+0,0,0,12280,Açude Missi,Missi,LITORAL,,65.3,Miraima,Ceará
+0,0,0,12267,Açude Mamoeiro,Mamoeiro,Alto Jaguaribe,,20.68,Antonina do Norte,Ceará
