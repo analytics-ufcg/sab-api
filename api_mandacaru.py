@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 import json
 from unicodedata import normalize
 import IOFiles
@@ -17,7 +17,10 @@ def info_reservatorios(id_reservatorio=None):
 
 def monitoramento_reservatorios(id):
 	monitoramento = IOFiles.monitoramento()
-	return(json.dumps(monitoramento[id]))
+	try :
+		return(json.dumps({'volumes': monitoramento[id]}))
+	except :
+		return(json.dumps({'volumes': []}))
 
 
 def estados_br():
