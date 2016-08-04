@@ -9,40 +9,40 @@ import api_mandacaru
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/api')
 def api():
 	return "Api do monitoramento dos reservatórios da região Semi-árida brasileira"
 
-@app.route('/estados/br')
+@app.route('/api/estados/br')
 def estados_br():
 	response = api_mandacaru.estados_br()
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/estados/sab')
+@app.route('/api/estados/sab')
 def estados_sab():
 	response = api_mandacaru.estados_sab()
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/municipios/sab')
+@app.route('/api/municipios/sab')
 def municipios_sab():
 	response = api_mandacaru.municipios_sab()
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/reservatorios')
+@app.route('/api/reservatorios')
 def reservatorios():
 	response = api_mandacaru.reservatorios()
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/reservatorios/info')
-@app.route('/reservatorios/<id>/info')
+@app.route('/api/reservatorios/info')
+@app.route('/api/reservatorios/<id>/info')
 def info_reservatorios(id=None):
 	if (id is None):
 		response = api_mandacaru.info_reservatorios()
@@ -52,7 +52,7 @@ def info_reservatorios(id=None):
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/reservatorios/<id>/monitoramento')
+@app.route('/api/reservatorios/<id>/monitoramento')
 def monitoramento_reservatorios(id):
 	response = api_mandacaru.monitoramento_reservatorios(int(id))
 	response = make_response(response)

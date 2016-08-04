@@ -11,8 +11,8 @@ def info_reservatorios(id_reservatorio=None):
 		return(json.dumps(reservatorios_detalhes))
 	else:
 		for reserv in reservatorios_detalhes:
-			if (id_reservatorio == reservatorio["GEOCODIGO"]):
-				return(json.dumps(reservatorio))
+			if (id_reservatorio == reserv["GEOCODIGO"]):
+				return(json.dumps(reserv))
 
 
 def monitoramento_reservatorios(id):
