@@ -1,13 +1,16 @@
 library(dplyr)
 library(data.table)
 
+# install.packages("stringdist")
+library(stringdist)
+
 # Tabela Município
-municipios_sab <- read.csv("data/municipios_sab.csv", header=T)
+municipios_sab <- read.csv("data/municipios_sab.csv", header=TRUE, stringsAsFactors=FALSE)
 to_print_municipio <- select(municipios_sab, GEOCODIGO, GEOCODIGO1, MUNICIPIO, UF_COD, MESO_COD, MICRO_COD, AREA_KM2)
 colnames(to_print_municipio) <- c("ID", "GEOCOD", "NOME_MUNICIPIO", "UF_COD", "MESO_COD", "MICRO_COD", "AREA_KM2")
 
 # Tabela Estado 
-estados_br <- read.csv("data/estados_br.csv", header=T)
+estados_br <- read.csv("data/estados_br.csv", header=TRUE, stringsAsFactors=FALSE)
 to_print_estado <- unique(select(estados_br, CD_GEOCODU, NM_ESTADO, NM_REGIAO, SIGLA))
 colnames(to_print_estado)[1] <- "ID"
 
@@ -18,37 +21,22 @@ to_print_mesoregiao <- unique(select(municipios_sab, MESO_COD, MESOREGIAO))
 to_print_microregiao <- unique(select(municipios_sab, MICRO_COD, MICROREGIA))
 
 # Tabela Reservatorio
-reservatorios <- read.csv("~/Projetos/sab-api/data/reservatorios.csv")
+reservatorios <- read.csv("~/Projetos/sab-api/data/reservatorios.csv", header=TRUE, stringsAsFactors=FALSE)
 head(reservatorios)
 
 to_print_reservatorios <- select(reservatorios, GEOCODIGO, NOME, RESERVAT, BACIA, TIPO_RESER, AREA_M2, PERIM, HECTARES, CAP_HM3)
 colnames(to_print_reservatorios)[1] <- "ID"
 
 # Monitoramento
-reservatorios2006.2016 <- read.csv("~/Projetos/sab-api/script/reservatorios2006-2016.csv")
+reservatorios2006.2016 <- read.csv("~/Projetos/sab-api/script/reservatorios2006-2016.csv", header=TRUE, stringsAsFactors=FALSE)
 head(reservatorios2006.2016)
 
-# Tabela Reservatorio Município
-to_print_reservatorio_municipio <- select(reservatorios, GEOCODIGO, MUNICIPIO, ESTADO)
+#### Tratamento dos municípios
 
-to_print_reservatorio_municipio$MUNICIPIO <- as.character(to_print_reservatorio_municipio$MUNICIPIO)
-municipios_sab$MUNICIPIO <- as.character(municipios_sab$MUNICIPIO)
-
-to_print_reservatorio_municipio <- left_join(to_print_reservatorio_municipio, select(municipios_sab, MUNICIPIO, GEOCODIGO), by = "MUNICIPIO")
-colnames(to_print_reservatorio_municipio) <- c("ID_reservatorio", "MUNICIPIO", "ESTADO", "ID_municipio")
-
-to_print_reservatorio_municipio <- select(to_print_reservatorio_municipio, ID_reservatorio, ID_municipio)
-
-
-# Tratamento dos municípios
-
-# install.packages("stringdist")
-library(stringdist)
-
+# Verifica qual é o município que mais se aproxima da lista de município
 closestMatch = function(string, stringVector){
-  stringVector[amatch(string, stringVector, maxDist=2, matchNA = FALSE)]
+    stringVector[amatch(string, stringVector, maxDist=2, matchNA = FALSE)]
 }
-
 
 match_municipio <- function(municipios, municipios_completo){
   df <- data.frame(municipio=character(), 
@@ -56,24 +44,12 @@ match_municipio <- function(municipios, municipios_completo){
                    stringsAsFactors=FALSE)
   
   for(value in municipios){
-    if(length(grep("/", value)) == 1){
-      for (i in strsplit(x, "/")[[1]]){
-        df <- rbind(df, data.frame(municipio=i, 
-                                   municipio_new=closestMatch(i, municipios_completo), 
-                                   stringsAsFactors=FALSE))
-      }
-    } else {
-      df <- rbind(df, data.frame(municipio=value, 
-                                 municipio_new=closestMatch(value, municipios_completo), 
+    df <- rbind(df, data.frame(municipio=value, 
+                                 municipio_new = closestMatch(value, municipios_completo), 
                                  stringsAsFactors=FALSE))
-    } 
   }
-  
   df
-  
 }
-
-xx <- match_municipio(reservatorios$MUNICIPIO, municipios_sab$MUNICIPIO)
 
 # Verifica se o existe mais de um nome de município em uma mesmo reservatório
 unica_cidade_reservatorio <- function(x) {
@@ -119,9 +95,43 @@ unica_cidade_reservatorio <- function(x) {
   return (output)
 }
 
-cc <- apply(x, 1, f)
+# Tabela Reservatorio Município
+reservatorios <- rbindlist(apply(reservatorios, 1, f))
 
-DT <- rbindlist(cc)
+reservatorios <- x
+
+reservatorios$MUNICIPIO <- as.character(reservatorios$MUNICIPIO)
+
+
+reservatorios$MUNICIPIO[reservatorios$MUNICIPIO == "Conceição da Feira"] <- "Feira de Santana"
+reservatorios$MUNICIPIO[reservatorios$MUNICIPIO == "São João Rio Peixe"] <- "São João do Rio do Peixe"
+reservatorios$MUNICIPIO[reservatorios$MUNICIPIO == "Senhor Bonfim"] <- "Senhor do Bonfim"
+reservatorios$MUNICIPIO[reservatorios$MUNICIPIO == "São José Caiana"] <-"São José de Caiana"
+
+
+x <- match_municipio(reservatorios$MUNICIPIO, municipios_sab$MUNICIPIO)
+
+reservatorios$MUNICIPIO <- match_municipio(reservatorios$MUNICIPIO, municipios_sab$MUNICIPIO)$municipio_new
+
+to_print_reservatorio_municipio <- select(reservatorios, GEOCODIGO, MUNICIPIO, ESTADO)
+
+to_print_reservatorio_municipio$MUNICIPIO <- as.character(to_print_reservatorio_municipio$MUNICIPIO)
+municipios_sab$MUNICIPIO <- as.character(municipios_sab$MUNICIPIO)
+
+to_print_reservatorio_municipio <- left_join(as.data.frame(to_print_reservatorio_municipio), 
+                                             select(municipios_sab, MUNICIPIO, GEOCODIGO), by = "MUNICIPIO")
+
+colnames(to_print_reservatorio_municipio) <- c("ID_reservatorio", "MUNICIPIO", "ESTADO", "ID_municipio")
+
+str(reservatorios$GEOCODIGO)
+reservatorios$GEOCODIGO <- as.numeric(as.character(reservatorios$GEOCODIGO))
+filter(reservatorios, reservatorios$GEOCODIGO == as.factor(795))
+
+to_print_reservatorio_municipio <- select(to_print_reservatorio_municipio, ID_reservatorio, ID_municipio)
+
+
+
+
 
 
 
