@@ -1,4 +1,5 @@
 library(dplyr)
+library(data.table)
 
 # Tabela Município
 municipios_sab <- read.csv("data/municipios_sab.csv", header=T)
@@ -73,3 +74,55 @@ match_municipio <- function(municipios, municipios_completo){
 }
 
 xx <- match_municipio(reservatorios$MUNICIPIO, municipios_sab$MUNICIPIO)
+
+# Verifica se o existe mais de um nome de município em uma mesmo reservatório
+unica_cidade_reservatorio <- function(x) {
+  output <- data.frame(PERIM = as.numeric(), 
+                       AREA_M2 = as.numeric(),
+                       HECTARES = as.numeric(), 
+                       GEOCODIGO = as.numeric(),
+                       RESERVAT = as.character(),
+                       NOME = as.character(),
+                       BACIA = as.character(),
+                       TIPO_RESER = as.character(),
+                       CAP_HM3 = as.numeric(),
+                       MUNICIPIO = as.character(),
+                       ESTADO = as.character())
+  
+  if (length(grep("/", x[10])) == 1){
+    for (i in strsplit(x[10], "/")[[1]]){
+      output <- rbind(output, data.frame(PERIM = x[1], 
+                                         AREA_M2 = x[2],
+                                         HECTARES = x[3], 
+                                         GEOCODIGO = x[4],
+                                         RESERVAT = x[5],
+                                         NOME = x[6],
+                                         BACIA = x[7],
+                                         TIPO_RESER = x[8],
+                                         CAP_HM3 = x[9],
+                                         MUNICIPIO = i,
+                                         ESTADO = x[11]))
+    }
+  } else {
+    output <- rbind(output, data.frame(PERIM = x[1], 
+                                       AREA_M2 = x[2],
+                                       HECTARES = x[3], 
+                                       GEOCODIGO = x[4],
+                                       RESERVAT = x[5],
+                                       NOME = x[6],
+                                       BACIA = x[7],
+                                       TIPO_RESER = x[8],
+                                       CAP_HM3 = x[9],
+                                       MUNICIPIO = x[10],
+                                       ESTADO = x[11]))
+  }
+  return (output)
+}
+
+cc <- apply(x, 1, f)
+
+DT <- rbindlist(cc)
+
+
+
+
