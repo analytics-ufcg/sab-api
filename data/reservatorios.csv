@@ -1,7 +1,7 @@
 PERIM,AREA_M2,HECTARES,GEOCODIGO,RESERVAT,NOME,BACIA,TIPO_RESER,CAP_HM3,MUNICIPIO,ESTADO
 2565.17,203018.27,20.3,12087,Açude Caianinha,Caianinha,Una,Artificial,1.36,São Joaquim do Monte,Pernambuco
 7115.29,643727.79,64.37,12085,Açude Cacimba da Várzea,Cacimba da Várzea,Curimataú,Artificial,9.26,Cacimba de Dentro/Casserengue,Paraíba
-6104.64,528816.41,52.88,12145,Açude Curimataú,Curimataú,Curimata?,Artificial,5.99,Barra de Santa Rosa,Paraíba
+6104.64,528816.41,52.88,12145,Açude Curimataú,Curimataú,Curimataú,Artificial,5.99,Barra de Santa Rosa,Paraíba
 10868.93,876467.94,87.65,12351,Açude Poleiros,Poleiros,Curimataú,Artificial,7.93,Barra de Santa Rosa,Paraíba
 13995.54,988064.64,98.81,12067,Açude Boqueirão do Cais,Boqueirão do Cais,Jacu,Artificial,12.37,Cuité,Paraíba
 5253.65,341769.85,34.18,12103,Açude Caraibeiras,Caraibeiras,Seridó,Artificial,2.71,Picuí,Paraíba
@@ -51,16 +51,16 @@ PERIM,AREA_M2,HECTARES,GEOCODIGO,RESERVAT,NOME,BACIA,TIPO_RESER,CAP_HM3,MUNICIPI
 8896.71,761779.89,76.18,12227,Açude Jatobá II,Jatobá II,Piancó,Artificial,6.49,Princesa Isabel,Paraíba
 14418.22,1147426.68,114.74,12241,Açude José Rodrigues,José Rodrigues,Médio Paraíba,Artificial,22.33,Campina Grande/Fagundes,Paraíba
 5944.25,913658.9,91.37,12206,Açude Gurjão,Gurjão,Taperoá,Artificial,3.68,Gurjão,Paraíba
-3678.16,194559.74,19.46,12278,Açude do Milhã (Evaldo Gonçalves),Milhã (Evaldo Gonçalves),Médio Paraíba,Artificial,0.8,Puxinan?,Paraíba
+3678.16,194559.74,19.46,12278,Açude do Milhã (Evaldo Gonçalves),Milhã (Evaldo Gonçalves),Médio Paraíba,Artificial,0.8,Puxinanã,Paraíba
 7003.37,556706.79,55.67,12139,Açude Catolé (Cruz do Riacho),Cruz dos Pocinhos,Mamanguape,Artificial,3.92,Pocinhos,Paraíba
 11988.4,1776891.92,177.69,12443,Açude Soledade,Soledade,Taperoá,Artificial,27.06,Soledade,Paraíba
 7342.93,482099.64,48.21,1041,Açude Barra da Melancia,Barra de Melancia,Pontal,Artificial,1.37,Afrânio,Pernambuco
 8061.83,909138.82,90.91,12298,Açude Olivedos,Olivedos,Taperoá,Artificial,5.88,Olivedos,Paraíba
 5741.35,356809.24,35.68,12182,Açude Felismina Queiroz,Felismina Queiroz,Seridó,Artificial,2.06,Seridó,Paraíba
-8970.61,974581.08,97.46,12377,Açude Riacho de Santo Ant?nio,Riacho de Santo Antônio,Médio Paraíba,Artificial,6.83,Barra de São Miguel,Paraíba
+8970.61,974581.08,97.46,12377,Açude Riacho de Santo Antônio,Riacho de Santo Antônio,Médio Paraíba,Artificial,6.83,Barra de São Miguel,Paraíba
 2389.67,240494.77,24.05,12053,Açude Riacho do Bichinho,Bichinho,Alto Paraíba,Artificial,4.57,Barra de São Miguel,Paraíba
 53085.72,13288331.66,1328.83,1055,Açude Mesa de Pedra,Mesa de Pedra,Poti,Artificial,55,Valença do Piauí/Aroazes,Piauí
-10893.46,1159763.71,115.98,12406,Açude São Domingos,São Domingos,Alto Paraíba,Artificial,7.76,São Domingos Cariri,Paraíba
+10893.46,1159763.71,115.98,12406,Açude São Domingos,São Domingos,Alto Paraíba,Artificial,7.76,São Domingos do Cariri,Paraíba
 11184.2,1398159.14,139.82,12095,Açude Campos (Congo),Campos,Alto Paraíba,Artificial,6.59,Caraúbas,Paraíba
 87231.58,10627211.02,1062.72,12243,Açude Jucazinho (Antônio Gouveia Neto),Jucazinho,Capibaribe,Artificial,327,Frei Miguelinho/Riacho das Almas/Surubim,Pernambuco
 5244.8,609252.16,60.93,12494,Barragem do Estreito,Mateus Vieira,Capibaribe,Artificial,2.75,Taquaritinga do Norte,Pernambuco
@@ -183,7 +183,7 @@ PERIM,AREA_M2,HECTARES,GEOCODIGO,RESERVAT,NOME,BACIA,TIPO_RESER,CAP_HM3,MUNICIPI
 16216.82,2479680.56,247.97,12236,"Açude Jesus, Maria, José","Jesus, Maria, José",Apodi/Mossoró,Artificial,9.64,Tenente Ananias,Rio Grande do Norte
 9524.77,1597644.5,159.76,12399,Açude Santa Rosa,Santa Rosa,Médio Piranhas,Artificial,2.84,Brejo do Cruz,Paraíba
 16466.07,2563277.71,256.33,12270,Açude Marcelino Vieira (Caiçara),Marcelino Vieira,Apodi/Mossoró,Artificial,11.2,Marcelino Vieira,Rio Grande do Norte
-14562.55,3105090.26,310.51,12450,Açude Tapera,Tapera,Médio Piranhas,Artificial,26.42,Brejos do Cruz/Bel?m do Brejo do Cruz,Paraíba
+14562.55,3105090.26,310.51,12450,Açude Tapera,Tapera,Médio Piranhas,Artificial,26.42,Brejos do Cruz/Belém do Brejo do Cruz,Paraíba
 11681.9,990585.32,99.06,12329,Açude Pilões,Pilões,Apodi/Mossoró,Artificial,5.9,Pilões,Rio Grande do Norte
 36127.18,8621272.82,862.13,12038,Açude Baião,Baião,Médio Piranhas,Artificial,39.23,Belém do Brejo do Cruz/São José do Brejo do Cruz,Paraíba
 11332.3,1996210.07,199.62,12173,Açude Escondido,Escondido,Médio Piranhas,Artificial,16.58,Belém do Brejo do Cruz,Paraíba
@@ -393,7 +393,7 @@ PERIM,AREA_M2,HECTARES,GEOCODIGO,RESERVAT,NOME,BACIA,TIPO_RESER,CAP_HM3,MUNICIPI
 6254.06,0,43.26,12300,Açude Ouro Velho,Ouro Velho,Alto Paraíba,,1.68,Ouro Velho,Paraíba
 2330.45,0,23.45,12009,Açude Aipim,Aipim,Itapicuru,,2.28,Antonio Gonçalves/Pindobaçu,Bahia
 4350.23,0,29.69,12442,Açude Sohen,Sohen,Itapicuru,,14.46,Senhor Bonfim,Bahia
-5165.64,0,37.45,12014,Açude Algodão,Algodão,Curimata?,,1.03,Algodão de Jandaíra,Paraíba
+5165.64,0,37.45,12014,Açude Algodão,Algodão,Curimataú,,1.03,Algodão de Jandaíra,Paraíba
 3118.46,0,12.89,12059,Açude Bom Jesus,Bom Jesus,Alto Piranhas,,0.34,São José de Piranhas,Paraíba
 6920.88,0,91.29,12081,Açude Cachoeira Grande,Cachoeira Grande,Itapicuru,,5.42,Jacobina,Bahia
 1125.72,0,4.47,12086,Açude Cafundo,Cafundo,Piancó,,0.31,Serra Grande,Paraíba
