@@ -5,22 +5,26 @@ import json
 import csv
 from pyexcel_xlsx import get_data
 from unicodedata import normalize
+import os
 
-with open('data/reservatorios.json') as data_file:
+
+path_local = os.path.dirname(os.path.realpath(__file__))
+
+with open(path_local+'/data/reservatorios.json') as data_file:
 	_reservatorios = json.load(data_file)
 
-with open('data/div_estadual_sab.json') as data_file:
+with open(path_local+'/data/div_estadual_sab.json') as data_file:
 	_div_estadual_sab = json.load(data_file)	
 
-with open('data/estados_br.json') as data_file:
+with open(path_local+'/data/estados_br.json') as data_file:
 	_estados_br = json.load(data_file)
 
-with open('data/municipios_sab.json') as data_file:
+with open(path_local+'/data/municipios_sab.json') as data_file:
 	_municipios_sab = json.load(data_file)
 
 
 _reservatorios_detalhes = []
-with open('data/reservatorios.csv', 'rb') as csvfile:
+with open(path_local+'/data/reservatorios.csv', 'rb') as csvfile:
 	spamreader = list(list(rec) for rec in csv.reader(csvfile, delimiter=','))
 	for numeroLinha in range(1,len(spamreader)):
 		_dicionario_interno = {}
@@ -31,7 +35,7 @@ with open('data/reservatorios.csv', 'rb') as csvfile:
 
 
 _monitoramento = {}
-with open('data/reservatoriosTotal.csv', 'rb') as csvfile:
+with open(path_local+'/data/reservatoriosTotal.csv', 'rb') as csvfile:
 	spamreader = list(list(rec) for rec in csv.reader(csvfile, delimiter=','))
 
 	for numeroLinha in range(1,len(spamreader)):
