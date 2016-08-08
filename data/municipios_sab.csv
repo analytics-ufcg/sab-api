@@ -355,7 +355,7 @@ ID,GEOCODIGO,GEOCODIGO1,MUNICIPIO,UF_COD,UF,REGIAO,MESO_COD,MESOREGIAO,MICRO_COD
 311,2407906,240790,Monte das Gameleiras,24,RN,Nordeste,2403,Agreste Potiguar,24014,Borborema Potiguar,71.9,Sim
 312,2408003,240800,Mossoró,24,RN,Nordeste,2401,Oeste Potiguar,24001,Mossoró,2099.3,Sim
 315,2408300,240830,Nova Cruz,24,RN,Nordeste,2403,Agreste Potiguar,24015,Agreste Potiguar,277.7,Sim
-316,2408409,240840,Olho-d'Ã?gua do Borges,24,RN,Nordeste,2401,Oeste Potiguar,24007,Umarizal,141.2,Sim
+316,2408409,240840,Olho D'Água do Borges,24,RN,Nordeste,2401,Oeste Potiguar,24007,Umarizal,141.2,Sim
 317,2408508,240850,Ouro Branco,24,RN,Nordeste,2402,Central Potiguar,24012,Seridó Oriental,253.3,Sim
 318,2408607,240860,Paraná,24,RN,Nordeste,2401,Oeste Potiguar,24006,Pau dos Ferros,81.4,Sim
 319,2408706,240870,Paraú,24,RN,Nordeste,2401,Oeste Potiguar,24003,Médio Oeste,383.2,Sim
@@ -454,7 +454,7 @@ ID,GEOCODIGO,GEOCODIGO1,MUNICIPIO,UF_COD,UF,REGIAO,MESO_COD,MESOREGIAO,MICRO_COD
 429,2502805,250280,Brejo do Cruz,25,PB,Nordeste,2501,Sertão Paraibano,25001,Catolé do Rocha,398.9,Sim
 430,2502904,250290,Brejo dos Santos,25,PB,Nordeste,2501,Sertão Paraibano,25001,Catolé do Rocha,93.8,Sim
 432,2503100,250310,Cabaceiras,25,PB,Nordeste,2502,Borborema,25011,Cariri Oriental,452.9,Sim
-434,2503308,250330,Cachoeira dos Ã?ndios,25,PB,Nordeste,2501,Sertão Paraibano,25002,Cajazeiras,193.1,Sim
+434,2503308,250330,Cachoeira dos Indios,25,PB,Nordeste,2501,Sertão Paraibano,25002,Cajazeiras,193.1,Sim
 435,2503407,250340,Cacimba de Areia,25,PB,Nordeste,2501,Sertão Paraibano,25004,Patos,220.4,Sim
 436,2503506,250350,Cacimba de Dentro,25,PB,Nordeste,2503,Agreste Paraibano,25013,Curimataú Oriental,163.7,Sim
 437,2503555,250355,Cacimbas,25,PB,Nordeste,2501,Sertão Paraibano,25007,Serra do Teixeira,126.5,Sim
@@ -519,7 +519,7 @@ ID,GEOCODIGO,GEOCODIGO1,MUNICIPIO,UF_COD,UF,REGIAO,MESO_COD,MESOREGIAO,MICRO_COD
 519,2510105,251010,Nova Floresta,25,PB,Nordeste,2503,Agreste Paraibano,25012,Curimataú Ocidental,47.4,Sim
 520,2510204,251020,Nova Olinda,25,PB,Nordeste,2501,Sertão Paraibano,25005,Piancó,84.3,Sim
 521,2510303,251030,Nova Palmeira,25,PB,Nordeste,2502,Borborema,25009,Seridó Oriental Paraibano,310.4,Sim
-522,2510402,251040,Olho d'Ã?gua,25,PB,Nordeste,2501,Sertão Paraibano,25005,Piancó,596.1,Sim
+522,2510402,251040,Olho D'Água,25,PB,Nordeste,2501,Sertão Paraibano,25005,Piancó,596.1,Sim
 523,2510501,251050,Olivedos,25,PB,Nordeste,2503,Agreste Paraibano,25012,Curimataú Ocidental,317.9,Sim
 524,2510600,251060,Ouro Velho,25,PB,Nordeste,2502,Borborema,25010,Cariri Ocidental,129.4,Sim
 525,2510659,251065,Parari,25,PB,Nordeste,2502,Borborema,25010,Cariri Ocidental,128.5,Sim
@@ -720,16 +720,16 @@ ID,GEOCODIGO,GEOCODIGO1,MUNICIPIO,UF_COD,UF,REGIAO,MESO_COD,MESOREGIAO,MICRO_COD
 3,2700300,270030,Arapiraca,27,AL,Nordeste,2702,Agreste Alagoano,27006,Arapiraca,356.2,Sim
 7,2700706,270070,Batalha,27,AL,Nordeste,2701,Sertão Alagoano,27004,Batalha,320.9,Sim
 9,2700904,270090,Belo Monte,27,AL,Nordeste,2701,Sertão Alagoano,27004,Batalha,334.1,Sim
-12,2701209,270120,Cacimbinhas,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Ã?ndios,273,Sim
+12,2701209,270120,Cacimbinhas,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Indios,273,Sim
 17,2701605,270160,Canapi,27,AL,Nordeste,2701,Sertão Alagoano,27001,Serrana do Sertão Alagoano,574.6,Sim
 19,2701803,270180,Carneiros,27,AL,Nordeste,2701,Sertão Alagoano,27003,Santana do Ipanema,113.1,Sim
 21,2702009,270200,Coité do Nóia,27,AL,Nordeste,2702,Agreste Alagoano,27006,Arapiraca,88.5,Sim
 25,2702355,270235,Craíbas,27,AL,Nordeste,2702,Agreste Alagoano,27006,Arapiraca,271.3,Sim
 26,2702405,270240,Delmiro Gouveia,27,AL,Nordeste,2701,Sertão Alagoano,27002,Alagoana do Sertão do São Francisco,607.8,Sim
 27,2702504,270250,Dois Riachos,27,AL,Nordeste,2701,Sertão Alagoano,27003,Santana do Ipanema,140.5,Sim
-28,2702553,270255,Estrela de Alagoas,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Ã?ndios,259.8,Sim
+28,2702553,270255,Estrela de Alagoas,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Indios,259.8,Sim
 32,2702900,270290,Girau do Ponciano,27,AL,Nordeste,2702,Agreste Alagoano,27006,Arapiraca,500.6,Sim
-34,2703106,270310,Igaci,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Ã?ndios,334.5,Sim
+34,2703106,270310,Igaci,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Indios,334.5,Sim
 36,2703304,270330,Inhapi,27,AL,Nordeste,2701,Sertão Alagoano,27001,Serrana do Sertão Alagoano,376.9,Sim
 37,2703403,270340,Jacaré dos Homens,27,AL,Nordeste,2701,Sertão Alagoano,27004,Batalha,142.3,Sim
 40,2703700,270370,Jaramataia,27,AL,Nordeste,2701,Sertão Alagoano,27004,Batalha,103.7,Sim
@@ -737,14 +737,14 @@ ID,GEOCODIGO,GEOCODIGO1,MUNICIPIO,UF_COD,UF,REGIAO,MESO_COD,MESOREGIAO,MICRO_COD
 48,2704401,270440,Major Isidoro,27,AL,Nordeste,2701,Sertão Alagoano,27004,Batalha,453.9,Sim
 50,2704609,270460,Maravilha,27,AL,Nordeste,2701,Sertão Alagoano,27003,Santana do Ipanema,302.1,Sim
 54,2705002,270500,Mata Grande,27,AL,Nordeste,2701,Sertão Alagoano,27001,Serrana do Sertão Alagoano,908,Sim
-57,2705309,270530,Minador do Negrão,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Ã?ndios,167.6,Sim
+57,2705309,270530,Minador do Negrão,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Indios,167.6,Sim
 58,2705408,270540,Monteirópolis,27,AL,Nordeste,2701,Sertão Alagoano,27004,Batalha,86.1,Sim
 61,2705705,270570,Olho d'Ã?gua das Flores,27,AL,Nordeste,2701,Sertão Alagoano,27004,Batalha,183.4,Sim
 62,2705804,270580,Olho d'Ã?gua do Casado,27,AL,Nordeste,2701,Sertão Alagoano,27002,Alagoana do Sertão do São Francisco,322.9,Sim
 64,2706000,270600,Olivença,27,AL,Nordeste,2701,Sertão Alagoano,27004,Batalha,173,Sim
 65,2706109,270610,Ouro Branco,27,AL,Nordeste,2701,Sertão Alagoano,27003,Santana do Ipanema,204.8,Sim
 66,2706208,270620,Palestina,27,AL,Nordeste,2701,Sertão Alagoano,27003,Santana do Ipanema,48.9,Sim
-67,2706307,270630,Palmeira dos Ã?ndios,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Ã?ndios,452.7,Sim
+67,2706307,270630,Palmeira dos Ã?ndios,27,AL,Nordeste,2702,Agreste Alagoano,27005,Palmeira dos Indios,452.7,Sim
 68,2706406,270640,Pão de Açúcar,27,AL,Nordeste,2701,Sertão Alagoano,27003,Santana do Ipanema,683,Sim
 69,2706422,270642,Pariconha,27,AL,Nordeste,2701,Sertão Alagoano,27001,Serrana do Sertão Alagoano,258.5,Sim
 77,2707107,270710,Piranhas,27,AL,Nordeste,2701,Sertão Alagoano,27002,Alagoana do Sertão do São Francisco,408.1,Sim
