@@ -75,11 +75,32 @@ unica_cidade_reservatorio <- function(x) {
 
 ## Tabela Município
 municipios_sab <- read.csv("data/municipios_sab.csv", header=TRUE, stringsAsFactors=FALSE)
+municipios_sab <- rbind(municipios_sab, data.frame(ID = -99,
+                                                    GEOCODIGO = 999999,
+                                                    GEOCODIGO1 = 999999,
+                                                    MUNICIPIO = 9999999,
+                                                    UF_COD = 99,
+                                                    UF   = 9999999,
+                                                    REGIAO = 999999,
+                                                    MESO_COD = 9999,
+                                                    MESOREGIAO = 9999999,
+                                                    MICRO_COD = 99999,
+                                                    MICROREGIA = 9999999,
+                                                    AREA_KM2 = 999,
+                                                    SEMIARIDO = 999))
+  
 to_print_municipio <- select(municipios_sab, GEOCODIGO, GEOCODIGO1, MUNICIPIO, UF_COD, MESO_COD, MICRO_COD, AREA_KM2)
 colnames(to_print_municipio) <- c("ID_municipio", "GEOCOD", "NOME_MUNICIPIO", "UF_COD", "MESO_COD", "MICRO_COD", "AREA_KM2")
 
 ## Tabela Estado 
 estados_br <- read.csv("data/estados_br.csv", header=TRUE, stringsAsFactors=FALSE)
+head(estados_br)
+estados_br <- rbind(estados_br, data.frame(ID = -99,
+                                           CD_GEOCODU = 99,
+                                           NM_ESTADO = 9999,
+                                           NM_REGIAO = 9999,
+                                           SIGLA = 99))
+
 to_print_estado <- unique(select(estados_br, CD_GEOCODU, NM_ESTADO, NM_REGIAO, SIGLA))
 colnames(to_print_estado)[1] <- "ID_estado"
 
@@ -119,7 +140,7 @@ to_print_reservatorio_municipio <- left_join(as.data.frame(to_print_reservatorio
                                              select(municipios_sab, MUNICIPIO, GEOCODIGO), by = "MUNICIPIO")
 colnames(to_print_reservatorio_municipio) <- c("ID_reservatorio", "MUNICIPIO", "ESTADO", "ID_municipio")
 
-to_print_reservatorio_municipio <- select(to_print_reservatorio_municipio, ID_reservatorio, ID_municipio, MUNICIPIO, ESTADO)
+to_print_reservatorio_municipio <- select(to_print_reservatorio_municipio, ID_reservatorio, ID_municipio)
 
 # 99999 São municípios não mapeados pelo municipios_sab
 to_print_reservatorio_municipio[is.na(to_print_reservatorio_municipio)] <- 999999
