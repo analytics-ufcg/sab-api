@@ -2,10 +2,13 @@
 # install.packages("dplyr")
 # install.packages("data.table")
 # install.packages("stringdist")
+# install.packages("lubridate")
+# install.packages("DBI")
 
 library(dplyr)
 library(data.table)
 library(stringdist)
+library(lubridate)
 
 ### Funções criadas para auxiliar no script
 
@@ -74,7 +77,7 @@ unica_cidade_reservatorio <- function(x) {
 }
 
 ## Tabela Município
-municipios_sab <- read.csv("data/municipios_sab.csv", header=TRUE, stringsAsFactors=FALSE)
+municipios_sab <- read.csv("../data/municipios_sab.csv", header=TRUE, stringsAsFactors=FALSE)
 municipios_sab <- rbind(municipios_sab, data.frame(ID = -99,
                                                     GEOCODIGO = 999999,
                                                     GEOCODIGO1 = 999999,
@@ -90,10 +93,10 @@ municipios_sab <- rbind(municipios_sab, data.frame(ID = -99,
                                                     SEMIARIDO = 999))
   
 to_print_municipio <- select(municipios_sab, GEOCODIGO, GEOCODIGO1, MUNICIPIO, UF_COD, MESO_COD, MICRO_COD, AREA_KM2)
-colnames(to_print_municipio) <- c("ID_municipio", "GEOCOD", "NOME_MUNICIPIO", "UF_COD", "MESO_COD", "MICRO_COD", "AREA_KM2")
+colnames(to_print_municipio) <- c("id", "geocod_min", "nome", "id_estado", "id_mesoregiao", "id_microregiao", "area")
 
 ## Tabela Estado 
-estados_br <- read.csv("data/estados_br.csv", header=TRUE, stringsAsFactors=FALSE)
+estados_br <- read.csv("../data/estados_br.csv", header=TRUE, stringsAsFactors=FALSE)
 head(estados_br)
 estados_br <- rbind(estados_br, data.frame(ID = -99,
                                            CD_GEOCODU = 99,
@@ -102,23 +105,28 @@ estados_br <- rbind(estados_br, data.frame(ID = -99,
                                            SIGLA = 99))
 
 to_print_estado <- unique(select(estados_br, CD_GEOCODU, NM_ESTADO, NM_REGIAO, SIGLA))
-colnames(to_print_estado)[1] <- "ID_estado"
+colnames(to_print_estado) <- c("id", "nome", "nome_regiao", "sigla")
 
 ## Tabela MesoRegiao
 to_print_mesoregiao <- unique(select(municipios_sab, MESO_COD, MESOREGIAO))
+colnames(to_print_mesoregiao) <- c("id","nome")
+
 
 ## Tabela MicroRegiao
 to_print_microregiao <- unique(select(municipios_sab, MICRO_COD, MICROREGIA))
+colnames(to_print_microregiao) <- c("id","nome")
 
 ## Tabela Reservatorio
-reservatorios <- read.csv("data/reservatorios.csv", header=TRUE, stringsAsFactors=FALSE)
+reservatorios <- read.csv("../data/reservatorios.csv", header=TRUE, stringsAsFactors=FALSE)
 to_print_reservatorios <- select(reservatorios, GEOCODIGO, NOME, RESERVAT, BACIA, TIPO_RESER, AREA_M2, PERIM, HECTARES, CAP_HM3)
-colnames(to_print_reservatorios)[1] <- "ID_reservatorio"
+colnames(to_print_reservatorios) <- c("id", "nome", "reservat", "bacia", "tipo", "area", "perimetro", "hectares", "capacidade")
 
 ## Monitoramento
-reservatorios2006.2016 <- read.csv("data/reservatorios2006-2016.csv", header=TRUE, stringsAsFactors=FALSE)
+reservatorios2006.2016 <- read.csv("../data/reservatorios2006-2016.csv", header=TRUE, stringsAsFactors=FALSE)
 colnames(reservatorios2006.2016) <- c("ID_reser", "Reservatorio", "Cota", "Capacidade", "Volume", "VolumePercentual", "DataInformacao")
 to_print_monitoramento <- select(reservatorios2006.2016, ID_reser, Cota, Volume, VolumePercentual, DataInformacao)
+to_print_monitoramento$DataInformacao = as.Date(parse_date_time(to_print_monitoramento$DataInformacao,"dmy"))
+colnames(to_print_monitoramento) <- c("id_reservatorio", "cota", "volume", "volume_percentual", "data_informacao")
 
 ## Tabela Reservatorio Município
 reservatorios <- rbindlist(apply(reservatorios, 1, unica_cidade_reservatorio))
@@ -138,16 +146,37 @@ municipios_sab$MUNICIPIO <- as.character(municipios_sab$MUNICIPIO)
 
 to_print_reservatorio_municipio <- left_join(as.data.frame(to_print_reservatorio_municipio), 
                                              select(municipios_sab, MUNICIPIO, GEOCODIGO), by = "MUNICIPIO")
-colnames(to_print_reservatorio_municipio) <- c("ID_reservatorio", "MUNICIPIO", "ESTADO", "ID_municipio")
+colnames(to_print_reservatorio_municipio) <- c("id_reservatorio", "MUNICIPIO", "ESTADO", "id_municipio")
 
-to_print_reservatorio_municipio <- select(to_print_reservatorio_municipio, ID_reservatorio, ID_municipio)
+to_print_reservatorio_municipio <- select(to_print_reservatorio_municipio, id_reservatorio, id_municipio)
 
 # 99999 São municípios não mapeados pelo municipios_sab
 to_print_reservatorio_municipio[is.na(to_print_reservatorio_municipio)] <- 999999
 
 
 
+############### INSERE NO BD
 
+library(DBI)
 
+con <- dbConnect(RMySQL::MySQL(),
+                 group="INSA")
+dbWriteTable(con, "tb_mesoregiao", value=to_print_mesoregiao, overwrite=FALSE, append=TRUE, row.names=FALSE)
 
+dbWriteTable(con, "tb_microregiao", value=to_print_microregiao, overwrite=FALSE, append=TRUE, row.names=FALSE)
 
+dbWriteTable(con, "tb_estado", value=to_print_estado, overwrite=FALSE, append=TRUE, row.names=FALSE)
+
+dbWriteTable(con, "tb_municipio", value=to_print_municipio, overwrite=FALSE, append=TRUE, row.names=FALSE)
+
+dbWriteTable(con, "tb_reservatorio", value=to_print_reservatorios, overwrite=FALSE, append=TRUE, row.names=FALSE)
+
+dbWriteTable(con, "tb_reservatorio_municipio", value=to_print_reservatorio_municipio, overwrite=FALSE, append=TRUE, row.names=FALSE)
+
+dbWriteTable(con, "tb_monitoramento", value=to_print_monitoramento, overwrite=FALSE, append=TRUE, row.names=FALSE)
+
+dbDisconnect(con)
+
+teste <- dbGetQuery(con, "select * from tb_microregiao")
+
+to_print_microregiao[(to_print_microregiao$id)==27005,]
