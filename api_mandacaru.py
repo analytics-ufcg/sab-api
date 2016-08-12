@@ -49,32 +49,35 @@ def info_reservatorios_BD(id_res=None):
 	if (id_res is None):
 		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
 				",r.tipo,r.area,r.capacidade"
-				",mo.volume, mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y')"
+				",mo.volume, mo.volume_percentual, date_format(aux.data_info,'%d/%m/%Y')"
 				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
-				" FROM tb_reservatorio r, tb_municipio m, tb_reservatorio_municipio rm"
-				", tb_estado e, tb_monitoramento mo, "
-				"(select id_reservatorio as id_reserv, max(data_informacao) as data_info from tb_monitoramento group by id_reservatorio) aux"
-				" WHERE rm.id_municipio= m.id and r.id=rm.id_reservatorio"
-				" and e.id=m.id_estado and mo.id_reservatorio=r.id and mo.data_informacao=aux.data_info and aux.id_reserv=mo.id_reservatorio"
-				" GROUP BY r.id,mo.volume, mo.volume_percentual")
+				" FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
+				" JOIN tb_municipio m ON rm.id_municipio=m.id"
+				" JOIN tb_estado e ON m.id_estado=e.id"
+				" LEFT OUTER JOIN (select id_reservatorio as id_reserv, max(data_informacao) as data_info from tb_monitoramento group by id_reservatorio) aux"
+				" ON aux.id_reserv=r.id"
+				" LEFT OUTER JOIN tb_monitoramento mo ON (r.id=mo.id_reservatorio) and (mo.data_informacao=aux.data_info)"
+				" GROUP BY r.id,mo.volume, mo.volume_percentual,aux.data_info")
 	else:
-				query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
+		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
 				",r.tipo,r.area,r.capacidade"
-				",mo.volume, mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y')"
+				",mo.volume, mo.volume_percentual, date_format(aux.data_info,'%d/%m/%Y')"
 				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
-				" FROM tb_reservatorio r, tb_municipio m, tb_reservatorio_municipio rm"
-				", tb_estado e, tb_monitoramento mo, "
-				"(select id_reservatorio as id_reserv, max(data_informacao) as data_info from tb_monitoramento group by id_reservatorio) aux"
-				" WHERE rm.id_municipio= m.id and r.id=rm.id_reservatorio and r.id="+str(id_res)+
-				" and e.id=m.id_estado and mo.id_reservatorio=r.id and mo.data_informacao=aux.data_info and aux.id_reserv=mo.id_reservatorio"
-				" GROUP BY r.id,mo.volume, mo.volume_percentual")
+				" FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
+				" JOIN tb_municipio m ON rm.id_municipio=m.id"
+				" JOIN tb_estado e ON m.id_estado=e.id"
+				" LEFT OUTER JOIN (select id_reservatorio as id_reserv, max(data_informacao) as data_info from tb_monitoramento group by id_reservatorio) aux"
+				" ON aux.id_reserv=r.id"
+				" LEFT OUTER JOIN tb_monitoramento mo ON (r.id=mo.id_reservatorio) and (mo.data_informacao=aux.data_info)"
+				" WHERE r.id="+str(id_res)+
+				" GROUP BY r.id,mo.volume, mo.volume_percentual,aux.data_info")
 
 	resposta_consulta = IO.consulta_BD(query)
 
 	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado"]
-	#print lista_dicionarios(resposta_consulta, keys)
+
 	return(json.dumps(lista_dicionarios(resposta_consulta, keys)))
 
 def lista_dicionarios(list_of_values, keys):
