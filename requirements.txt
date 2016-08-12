@@ -1,2 +1,3 @@
 Flask
 pyexcel-xlsx
+MySQL-python

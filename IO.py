@@ -6,6 +6,7 @@ import csv
 from pyexcel_xlsx import get_data
 from unicodedata import normalize
 import os
+import MySQLdb
 
 
 path_local = os.path.dirname(os.path.realpath(__file__))
@@ -69,3 +70,21 @@ def estados_br():
 def monitoramento():
 	"""return a dictionary"""
 	return _monitoramento
+
+
+def consulta_BD(query):
+	""" Connect to MySQL database """
+	try:
+		conn = MySQLdb.connect(read_default_group='INSA')
+		cursor = conn.cursor()
+
+		cursor.execute(query)
+
+		rows = cursor.fetchall()
+
+	finally:
+		cursor.close()
+		conn.close()
+	
+	return rows
+ 
