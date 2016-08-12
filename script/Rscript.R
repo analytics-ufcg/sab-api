@@ -4,6 +4,7 @@
 # install.packages("stringdist")
 # install.packages("lubridate")
 # install.packages("DBI")
+# install.packages("RMySQL", dependencies=TRUE)
 
 library(dplyr)
 library(data.table)
@@ -158,6 +159,7 @@ to_print_reservatorio_municipio[is.na(to_print_reservatorio_municipio)] <- 99999
 ############### INSERE NO BD
 
 library(DBI)
+library(RMySQL)
 
 con <- dbConnect(RMySQL::MySQL(),
                  group="INSA")
