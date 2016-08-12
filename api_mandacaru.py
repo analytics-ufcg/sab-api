@@ -17,6 +17,7 @@ def info_reservatorios(id_reservatorio=None):
 
 def monitoramento_reservatorios(id):
 	monitoramento = IO.monitoramento()
+
 	try :
 		return(json.dumps({'volumes': monitoramento[id]}))
 	except :
@@ -30,7 +31,17 @@ def estados_sab():
 	return(json.dumps(IO.estados_sab()))
 
 def reservatorios():
-	return(json.dumps(IO.reservatorios()))
+	query = ("SELECT r.id,r.capacidade FROM tb_reservatorio r")
+
+	resposta_consulta = IO.consulta_BD(query)
+	dict_capacidade = {}
+	for r in resposta_consulta:
+		dict_capacidade[r[0]] = r[1]
+
+	reservatorios = IO.reservatorios()
+	for reserv in reservatorios["objects"]["reservatorios"]["geometries"]:
+		reserv["properties"]["CAPACIDADE"] = dict_capacidade[reserv["properties"]["ID"]]
+	return(json.dumps(reservatorios))
 
 def municipios_sab():
 	return(json.dumps(IO.municipios_sab()))
