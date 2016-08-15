@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
-from unicodedata import normalize
 import IO
+import funcoes_aux
 
 def info_reservatorios(id_reservatorio=None):
 	reservatorios_detalhes = IO.reservatorios_detalhes()
@@ -46,15 +46,6 @@ def reservatorios():
 def municipios_sab():
 	return(json.dumps(IO.municipios_sab()))
 
-def remover_acentos(txt):
-	return normalize('NFKD', txt).encode('ASCII','ignore').decode('ASCII')
-
-def ajuste_acentos(txt):
-	return unicode(txt, 'unicode-escape')
-
-def remover_espacos(txt):
-	return txt.replace(" ", "")
-
 
 def info_reservatorios_BD(id_res=None):
 	if (id_res is None):
@@ -89,7 +80,7 @@ def info_reservatorios_BD(id_res=None):
 
 	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado"]
 
-	return(json.dumps(lista_dicionarios(resposta_consulta, keys)))
+	return(json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys)))
 
 def monitoramento_reservatorios_BD(id_reserv):
 	query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(id_reserv)+
@@ -99,19 +90,4 @@ def monitoramento_reservatorios_BD(id_reserv):
 	
 	keys = ["VolumePercentual","DataInformacao", "Volume"]
 
-	return(json.dumps({'volumes': lista_dicionarios(resposta_consulta, keys)}))
-
-def lista_dicionarios(list_of_values, keys):
-	lista_resposta = []
-	for valor in list_of_values:
-		lista_resposta.append(cria_dicionario(valor,keys))
-	return lista_resposta
-
-def cria_dicionario(values, keys):
-	dicionario = {}
-	for i in range(len(keys)):
-		if (type(values[i]) is str):
-			dicionario[keys[i]] = ajuste_acentos(values[i])
-		else:
-			dicionario[keys[i]] = values[i]
-	return dicionario
+	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys)}))
