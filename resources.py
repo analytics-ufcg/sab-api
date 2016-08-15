@@ -54,7 +54,7 @@ def info_reservatorios(id=None):
 
 @app.route('/api/reservatorios/<id>/monitoramento')
 def monitoramento_reservatorios(id):
-	response = api_mandacaru.monitoramento_reservatorios(int(id))
+	response = api_mandacaru.monitoramento_reservatorios_BD(int(id))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response

@@ -91,6 +91,16 @@ def info_reservatorios_BD(id_res=None):
 
 	return(json.dumps(lista_dicionarios(resposta_consulta, keys)))
 
+def monitoramento_reservatorios_BD(id_reserv):
+	query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(id_reserv)+
+		" ORDER BY mo.data_informacao desc")
+
+	resposta_consulta = IO.consulta_BD(query)
+	
+	keys = ["VolumePercentual","DataInformacao", "Volume"]
+
+	return(json.dumps({'volumes': lista_dicionarios(resposta_consulta, keys)}))
+
 def lista_dicionarios(list_of_values, keys):
 	lista_resposta = []
 	for valor in list_of_values:
