@@ -4,26 +4,6 @@ import json
 import IO
 import funcoes_aux
 
-def info_reservatorios(id_reservatorio=None):
-	reservatorios_detalhes = IO.reservatorios_detalhes()
-
-	if(id_reservatorio is None):
-		return(json.dumps(reservatorios_detalhes))
-	else:
-		for reserv in reservatorios_detalhes:
-			if (int(id_reservatorio) == int(reserv["GEOCODIGO"])):
-				return(json.dumps(reserv))
-
-
-def monitoramento_reservatorios(id):
-	monitoramento = IO.monitoramento()
-
-	try :
-		return(json.dumps({'volumes': monitoramento[id]}))
-	except :
-		return(json.dumps({'volumes': []}))
-
-
 def estados_br():
 	return(json.dumps(IO.estados_br()))
 
@@ -43,8 +23,8 @@ def reservatorios():
 		reserv["properties"]["CAPACIDADE"] = dict_capacidade[reserv["properties"]["ID"]]
 	return(json.dumps(reservatorios))
 
-def municipios_sab():
-	return(json.dumps(IO.municipios_sab()))
+# def municipios_sab():
+# 	return(json.dumps(IO.municipios_sab()))
 
 
 def info_reservatorios_BD(id_res=None):

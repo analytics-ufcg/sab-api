@@ -5,13 +5,12 @@ from unicodedata import normalize
 import math
 
 def remover_acentos(txt):
+	if (type(txt) is str):
+		txt= unicode(txt, "utf-8")
 	return normalize('NFKD', txt).encode('ASCII','ignore').decode('ASCII')
 
 def ajuste_acentos(txt):
 	return unicode(txt, 'unicode-escape')
-
-def remover_espacos(txt):
-	return txt.replace(" ", "")
 
 def lista_dicionarios(list_of_values, keys):
 	lista_resposta = []
