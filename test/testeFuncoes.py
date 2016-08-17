@@ -40,10 +40,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertTrue(len(IO.estados_sab()) > 0)
         self.assertTrue(len(IO.reservatorios()) > 0)
 
-    def test_conection(self):
-        # 26 estados e distrito federal e UM QUE NÃO EXISTE
-        self.assertEqual(len(IO.consulta_BD("SELECT * FROM tb_estado")), 28)
-
 
 
 if __name__ == '__main__':
