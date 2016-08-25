@@ -20,7 +20,7 @@ def lista_dicionarios(list_of_values, keys):
 
 def cria_dicionario(values, keys):
 	dicionario = {}
-	for i in range(len(keys)):
+	for i in range(len(values)):
 		if (type(values[i]) is str):
 			dicionario[keys[i]] = ajuste_acentos(values[i])
 		else:

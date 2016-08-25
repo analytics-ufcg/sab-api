@@ -56,3 +56,19 @@ def consulta_BD(query):
 	
 	return rows
  
+def consulta_BD_one(query):
+	""" Connect to MySQL database """
+	try:
+		conn = MySQLdb.connect(read_default_group='INSA')
+		cursor = conn.cursor()
+
+		cursor.execute(query)
+
+		rows = cursor.fetchone()
+
+	finally:
+		cursor.close()
+		conn.close()
+	
+	return rows
+ 
