@@ -1,28 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
-from unicodedata import normalize
 import IO
-
-def info_reservatorios(id_reservatorio=None):
-	reservatorios_detalhes = IO.reservatorios_detalhes()
-
-	if(id_reservatorio is None):
-		return(json.dumps(reservatorios_detalhes))
-	else:
-		for reserv in reservatorios_detalhes:
-			if (int(id_reservatorio) == int(reserv["GEOCODIGO"])):
-				return(json.dumps(reserv))
-
-
-def monitoramento_reservatorios(id):
-	monitoramento = IO.monitoramento()
-
-	try :
-		return(json.dumps({'volumes': monitoramento[id]}))
-	except :
-		return(json.dumps({'volumes': []}))
-
+import funcoes_aux
 
 def estados_br():
 	return(json.dumps(IO.estados_br()))
@@ -43,17 +23,8 @@ def reservatorios():
 		reserv["properties"]["CAPACIDADE"] = dict_capacidade[reserv["properties"]["ID"]]
 	return(json.dumps(reservatorios))
 
-def municipios_sab():
-	return(json.dumps(IO.municipios_sab()))
-
-def remover_acentos(txt):
-	return normalize('NFKD', txt).encode('ASCII','ignore').decode('ASCII')
-
-def ajuste_acentos(txt):
-	return unicode(txt, 'unicode-escape')
-
-def remover_espacos(txt):
-	return txt.replace(" ", "")
+# def municipios_sab():
+# 	return(json.dumps(IO.municipios_sab()))
 
 
 def info_reservatorios_BD(id_res=None):
@@ -89,19 +60,14 @@ def info_reservatorios_BD(id_res=None):
 
 	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado"]
 
-	return(json.dumps(lista_dicionarios(resposta_consulta, keys)))
+	return(json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys)))
 
-def lista_dicionarios(list_of_values, keys):
-	lista_resposta = []
-	for valor in list_of_values:
-		lista_resposta.append(cria_dicionario(valor,keys))
-	return lista_resposta
+def monitoramento_reservatorios_BD(id_reserv):
+	query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(id_reserv)+
+		" ORDER BY mo.data_informacao desc")
 
-def cria_dicionario(values, keys):
-	dicionario = {}
-	for i in range(len(keys)):
-		if (type(values[i]) is str):
-			dicionario[keys[i]] = ajuste_acentos(values[i])
-		else:
-			dicionario[keys[i]] = values[i]
-	return dicionario
+	resposta_consulta = IO.consulta_BD(query)
+	
+	keys = ["VolumePercentual","DataInformacao", "Volume"]
+
+	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys)}))
