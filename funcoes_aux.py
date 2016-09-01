@@ -22,7 +22,7 @@ def cria_dicionario(values, keys):
 	dicionario = {}
 	for i in range(len(values)):
 		if (type(values[i]) is str):
-			dicionario[keys[i]] = ajuste_acentos(values[i])
+			dicionario[keys[i]] = values[i]
 		else:
 			dicionario[keys[i]] = values[i]
 	return dicionario

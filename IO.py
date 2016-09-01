@@ -43,7 +43,7 @@ def estados_br():
 def consulta_BD(query):
 	""" Connect to MySQL database """
 	try:
-		conn = MySQLdb.connect(read_default_group='INSA')
+		conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
 		cursor = conn.cursor()
 
 		cursor.execute(query)
@@ -59,7 +59,7 @@ def consulta_BD(query):
 def consulta_BD_one(query):
 	""" Connect to MySQL database """
 	try:
-		conn = MySQLdb.connect(read_default_group='INSA')
+		conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
 		cursor = conn.cursor()
 
 		cursor.execute(query)

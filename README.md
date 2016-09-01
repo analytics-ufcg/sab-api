@@ -19,7 +19,6 @@ Também é necessário o arquivo de configuração do banco de dados que deve se
 user=usuarioDoBD
 password=SenhaDoUsuario
 host=db-insa
-database=INSA
 ```
 
 
