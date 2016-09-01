@@ -30,9 +30,9 @@ pip install requests
 pip install bs4
 ```
 
-- executar o script:
+- executar na pasta script:
 ```
-python <caminho>/script/inicial_script_DB.py
+python inicial_script_DB.py
 ```
 
 Caso queira colocar uma rotina no Ubuntu para todo primeiro dia do mês atualizar o banco de dados as 5 da manhã:
