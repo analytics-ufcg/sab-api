@@ -63,6 +63,22 @@ def info_reservatorios_BD(id_res=None):
 	return(json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys)))
 
 def monitoramento_reservatorios_BD(id_reserv):
+	query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(id_reserv)+
+		" ORDER BY mo.data_informacao desc")
+
+	resposta_consulta = IO.consulta_BD(query)
+	
+	keys = ["VolumePercentual","DataInformacao", "Volume"]
+
+	query_anos = ("SELECT YEAR(MAX(mo.data_informacao)), YEAR(MIN(mo.data_informacao)) FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(id_reserv))	
+	resposta_consulta_anos = IO.consulta_BD_one(query_anos)
+
+	keys_anos = ["ano_info_max","ano_info_min"]
+
+	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys), 'anos':funcoes_aux.cria_dicionario(resposta_consulta_anos,keys_anos)}))
+
+
+def monitoramento_reservatorios_BD_completo(id_reserv):
 	query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(id_reserv)+
 		" ORDER BY mo.data_informacao desc")
 
