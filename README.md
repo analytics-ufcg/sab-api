@@ -18,27 +18,11 @@ Também é necessário o arquivo de configuração do banco de dados que deve se
 [INSA]
 user=usuarioDoBD
 password=SenhaDoUsuario
-host=db-insa
+host=hostDoUsuario
 ```
 
 
 Para criar o Banco de dados e populá-lo inicialmente com os dados previamente baixados é necessário:
-
-- instalar o R  na sua máquina:
-```
-sudo echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" | sudo tee -a /etc/apt/sources.list
-gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
-gpg -a --export E084DAB9 | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install r-base r-base-dev
-```
-
-- executar o script:
-```
-script/buildBD.sh
-```
-
-Caso queira que a aplicação tenha a versão mais atual dos dados vindos do site da ANA é necessário:
 
 - instalar:
 ```
@@ -48,12 +32,12 @@ pip install bs4
 
 - executar o script:
 ```
-python script/insert_month_on_DB.py
+python <caminho>/script/inicial_script_DB.py
 ```
 
 Caso queira colocar uma rotina no Ubuntu para todo primeiro dia do mês atualizar o banco de dados as 5 da manhã:
 ```
 crontab -e
-0 5 1 * *   <caminho>/insert_month_on_DB.py
+0 5 1 * *   <caminho>/script/insert_month_on_DB.py
 
 ```
