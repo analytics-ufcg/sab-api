@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 import MySQLdb
 from datetime import datetime
+import time
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -80,6 +81,8 @@ for monitoramento in ultimos_monitoramentos:
 				to_insert.append((id_reservatorio,cota,volume,volumePercentual,dataInformacao,1))
 
 			json_insert={}
+
+	time.sleep(3)
 
 
 insert_many_BD(to_insert)
