@@ -38,6 +38,13 @@ python inicial_script_DB.py
 Caso queira colocar uma rotina no Ubuntu para todo primeiro dia do mês atualizar o banco de dados as 5 da manhã:
 ```
 crontab -e
-0 5 1 * *   <caminho>/script/insert_month_on_DB.py
+0 5 1 * *  python <caminho>/script/insert_month_on_DB.py
+
+```
+
+Para executar a api na pasta raiz executar:
+
+```
+python run.py
 
 ```
