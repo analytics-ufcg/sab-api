@@ -54,7 +54,7 @@ for monitoramento in ultimos_monitoramentos:
 
 	reserv = str(monitoramento[0])
 	if (monitoramento[1] is None):
-		data_inicial = "31-12-2005"
+		data_inicial = "31-12-1969"
 	else: 
 		data_inicial = str(monitoramento[1])
 
