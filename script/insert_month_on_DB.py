@@ -37,6 +37,7 @@ def insert_many_BD(values):
 		print "Error", e
 		conn.rollback()
 
+	cursor.close()
 	conn.close()
 
 
@@ -50,8 +51,8 @@ data_final = str(datetime.now().strftime(formato_data_2))
 
 cabecalho = ['Codigo','Reservatorio','Cota','Capacidade','Volume','VolumePercentual','DataInformacao']
 
-to_insert = []
 for monitoramento in ultimos_monitoramentos:
+	to_insert = []
 
 	reserv = str(monitoramento[0])
 	if (monitoramento[1] is None):
@@ -82,7 +83,8 @@ for monitoramento in ultimos_monitoramentos:
 
 			json_insert={}
 
-	time.sleep(3)
+	if(to_insert >0):
+		insert_many_BD(to_insert)
+		
+	time.sleep(1)
 
-
-insert_many_BD(to_insert)
