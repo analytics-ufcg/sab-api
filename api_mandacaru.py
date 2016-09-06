@@ -3,6 +3,10 @@
 import json
 import IO
 import funcoes_aux
+from scipy import stats
+from dateutil import relativedelta
+from datetime import datetime
+import math
 
 def estados_br():
 	return(json.dumps(IO.estados_br()))
@@ -62,9 +66,13 @@ def info_reservatorios_BD(id_res=None):
 
 	return(json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys)))
 
-def monitoramento_reservatorios_BD(id_reserv):
-	query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(id_reserv)+
-		" ORDER BY mo.data_informacao desc")
+def monitoramento_reservatorios_BD(id_reserv,completo=False):
+	if(completo):
+		query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(id_reserv)+
+			" ORDER BY mo.data_informacao")
+	else:
+		query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(id_reserv)+
+			" ORDER BY mo.data_informacao")
 
 	resposta_consulta = IO.consulta_BD(query)
 	
@@ -75,20 +83,45 @@ def monitoramento_reservatorios_BD(id_reserv):
 
 	keys_anos = ["ano_info_max","ano_info_min"]
 
-	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys), 'anos':funcoes_aux.cria_dicionario(resposta_consulta_anos,keys_anos)}))
+	lista_volumes = []
+	lista_datas = []
+	monitoramento_meses = monitoramento_6meses(id_reserv,completo)
+	data_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
+
+	for monitoramento in monitoramento_meses:
+		lista_volumes.append(float(monitoramento["Volume"]))
+		data = datetime.strptime(monitoramento["DataInformacao"], '%d/%m/%Y')
+		if (data > data_final):
+			data_final = data
+		lista_datas.append(float(data.strftime('%s')))
+
+	data_inicial = data_final- relativedelta.relativedelta(months=6)
+		
+	coeficiente_regressao = gradiente_regressao(lista_volumes,lista_datas)
+	if(math.isnan(coeficiente_regressao)):
+		coeficiente_regressao=0
+
+	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys), 'anos':funcoes_aux.cria_dicionario(resposta_consulta_anos,keys_anos),
+		'volumes_recentes':{'volumes':monitoramento_meses, 'coeficiente_regressao': coeficiente_regressao, 'data_final':data_final.strftime('%d/%m/%Y')
+		, 'data_inicial':data_inicial.strftime('%d/%m/%Y')}}))
 
 
-def monitoramento_reservatorios_BD_completo(id_reserv):
-	query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(id_reserv)+
-		" ORDER BY mo.data_informacao desc")
+def gradiente_regressao(lista1,lista2):
+	gradient, intercept, r_value, p_value, std_err = stats.linregress(lista1,lista2)
+	return gradient
 
-	resposta_consulta = IO.consulta_BD(query)
-	
+def monitoramento_6meses(id_reserv,completo=False):
+	if(completo):
+		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(id_reserv)+
+			" and data_informacao BETWEEN ((select max(data_informacao) from tb_monitoramento where id_reservatorio="+str(id_reserv)+
+			")  - INTERVAL 6 MONTH) AND (select max(data_informacao) from tb_monitoramento where id_reservatorio="+str(id_reserv)+") order by data_informacao;")
+	else:
+		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(id_reserv)+
+			" and data_informacao BETWEEN ((select max(data_informacao) from tb_monitoramento where visualizacao=1 and id_reservatorio="+str(id_reserv)+
+			")  - INTERVAL 6 MONTH) AND (select max(data_informacao) from tb_monitoramento where id_reservatorio="+str(id_reserv)+") order by data_informacao;")
+
+	resposta_consulta_min_graph = IO.consulta_BD(query_min_graph)
+
 	keys = ["VolumePercentual","DataInformacao", "Volume"]
 
-	query_anos = ("SELECT YEAR(MAX(mo.data_informacao)), YEAR(MIN(mo.data_informacao)) FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(id_reserv))	
-	resposta_consulta_anos = IO.consulta_BD_one(query_anos)
-
-	keys_anos = ["ano_info_max","ano_info_min"]
-
-	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys), 'anos':funcoes_aux.cria_dicionario(resposta_consulta_anos,keys_anos)}))
+	return funcoes_aux.lista_dicionarios(resposta_consulta_min_graph,keys)

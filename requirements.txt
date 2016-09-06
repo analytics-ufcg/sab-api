@@ -1,3 +1,6 @@
 Flask
 pyexcel-xlsx
 MySQL-python
+numpy
+scipy
+python-dateutil
