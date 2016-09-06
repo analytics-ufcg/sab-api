@@ -5,8 +5,14 @@
 Contém o acesso aos dados do monitoramento em uma API.
 
 ## Desenvolvimento
+Previamente a instalação do projeto é necessária a instalação do libmysql:
 
-Para instalar as dependencias necessárias só é necessário executar o comando abaixo na pasta do projeto:
+```
+sudo apt-get install libmysqlclient-dev
+```
+
+Para instalar as dependencias necessárias é necessário executar o comando abaixo na pasta do projeto:
+
 
 ```
 pip install -r requirements.txt
