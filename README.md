@@ -9,6 +9,8 @@ Previamente a instalação do projeto é necessária a instalação do libmysql:
 
 ```
 sudo apt-get install libmysqlclient-dev
+sudo apt-get install python-numpy python-scipy
+
 ```
 
 Para instalar as dependencias necessárias é necessário executar o comando abaixo na pasta do projeto:
