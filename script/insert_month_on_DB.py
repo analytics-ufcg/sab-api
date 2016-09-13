@@ -14,17 +14,17 @@ sys.setdefaultencoding('utf8')
 
 def consulta_BD(query):
 	""" Connect to MySQL database """
+	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
+	cursor = conn.cursor()
 	try:
-		conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
-		cursor = conn.cursor()
-
 		cursor.execute(query)
-
 		rows = cursor.fetchall()
+	except MySQLdb.Error as e:
+		print "Error", e
+		conn.rollback()
 
-	finally:
-		cursor.close()
-		conn.close()
+	cursor.close()
+	conn.close()
 	
 	return rows
 
