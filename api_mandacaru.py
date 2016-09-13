@@ -97,9 +97,11 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 
 	data_inicial = data_final- relativedelta.relativedelta(months=6)
 		
-	coeficiente_regressao = gradiente_regressao(lista_volumes,lista_datas)
-	if(math.isnan(coeficiente_regressao)):
-		coeficiente_regressao=0
+	coeficiente_regressao=0
+	if(len(lista_volumes)>0):
+		grad_regressao = gradiente_regressao(lista_volumes,lista_datas)
+		if(not math.isnan(grad_regressao)):
+			coeficiente_regressao=grad_regressao
 
 	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys), 'anos':funcoes_aux.cria_dicionario(resposta_consulta_anos,keys_anos),
 		'volumes_recentes':{'volumes':monitoramento_meses, 'coeficiente_regressao': coeficiente_regressao, 'data_final':data_final.strftime('%d/%m/%Y')
