@@ -6,9 +6,6 @@
 *GET*		/estados/br
 *GET*           /estados/sab
 
-### **Municípios**
-*GET*           /municipios/sab
-
 ### **Reservatórios**
 *GET*           /reservatorios
 
@@ -21,4 +18,4 @@
 ## Monitoramento
 ### **Reservatórios**
 *GET*           /reservatorios/:id/monitoramento
-
+*GET*           /reservatorios/:id/monitoramento/completo
