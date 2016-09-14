@@ -1,21 +1,20 @@
 #**Rotas da api**
 
-
 ## Shapes
 ### **Estados**
-*GET*		/estados/br
-*GET*           /estados/sab
+*GET*		/api/estados/br
+*GET*           /api/estados/sab
 
 ### **Reservatórios**
-*GET*           /reservatorios
+*GET*           /api/reservatorios
 
 ## Informações
 ### **Reservatórios**
-*GET*           /reservatorios/info
-*GET*           /reservatorios/:id/info
+*GET*           /api/reservatorios/info
+*GET*           /api/reservatorios/:id/info
 
 
 ## Monitoramento
 ### **Reservatórios**
-*GET*           /reservatorios/:id/monitoramento
-*GET*           /reservatorios/:id/monitoramento/completo
+*GET*           /api/reservatorios/:id/monitoramento
+*GET*           /api/reservatorios/:id/monitoramento/completo
