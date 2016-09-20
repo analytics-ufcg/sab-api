@@ -97,6 +97,8 @@ def retira_ruido(lista_reserv, ultimo_monitoramento):
 				lista_reservatorios[m].append(0)
 		else:
 			lista_reservatorios[m].append(1)
+	if(not ultimo_monitoramento[3] is None):
+		lista_reservatorios.pop(0)
 	
 	return lista_reservatorios
 
