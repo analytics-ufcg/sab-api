@@ -78,11 +78,6 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 	
 	keys = ["VolumePercentual","DataInformacao", "Volume"]
 
-	query_anos = ("SELECT YEAR(MAX(mo.data_informacao)), YEAR(MIN(mo.data_informacao)) FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(id_reserv))	
-	resposta_consulta_anos = IO.consulta_BD_one(query_anos)
-
-	keys_anos = ["ano_info_max","ano_info_min"]
-
 	lista_volumes = []
 	lista_datas = []
 	monitoramento_meses = monitoramento_6meses(id_reserv,completo)
@@ -103,7 +98,7 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 		if(not math.isnan(grad_regressao)):
 			coeficiente_regressao=grad_regressao
 
-	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys), 'anos':funcoes_aux.cria_dicionario(resposta_consulta_anos,keys_anos),
+	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(resposta_consulta, keys),
 		'volumes_recentes':{'volumes':monitoramento_meses, 'coeficiente_regressao': coeficiente_regressao, 'data_final':data_final.strftime('%d/%m/%Y')
 		, 'data_inicial':data_inicial.strftime('%d/%m/%Y')}}))
 
