@@ -2,7 +2,6 @@
 
 ## Shapes
 ### **Estados**
-*GET*		/api/estados/br
 *GET*           /api/estados/sab
 
 ### **Reservatórios**

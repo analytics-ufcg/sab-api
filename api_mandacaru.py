@@ -8,23 +8,26 @@ from dateutil import relativedelta
 from datetime import datetime
 import math
 
-def estados_br():
-	return(json.dumps(IO.estados_br()))
+# def estados_br():
+# 	return(json.dumps(IO.estados_br()))
 
 def estados_sab():
 	return(json.dumps(IO.estados_sab()))
 
 def reservatorios():
-	query = ("SELECT r.id,r.capacidade FROM tb_reservatorio r")
+	# query = ("SELECT r.id,r.capacidade FROM tb_reservatorio r")
 
-	resposta_consulta = IO.consulta_BD(query)
-	dict_capacidade = {}
-	for r in resposta_consulta:
-		dict_capacidade[r[0]] = r[1]
+	# resposta_consulta = IO.consulta_BD(query)
+	# dict_capacidade = {}
+	# for r in resposta_consulta:
+	# 	dict_capacidade[r[0]] = r[1]
+
+	# print dict_capacidade
 
 	reservatorios = IO.reservatorios()
-	for reserv in reservatorios["objects"]["reservatorios"]["geometries"]:
-		reserv["properties"]["CAPACIDADE"] = dict_capacidade[reserv["properties"]["ID"]]
+	print reservatorios
+	for reserv in reservatorios["features"]:
+		reserv["properties"]["CAPACIDADE"] = reserv["properties"]["CAP_HM3"]
 	return(json.dumps(reservatorios))
 
 # def municipios_sab():

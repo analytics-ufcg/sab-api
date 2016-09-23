@@ -13,12 +13,12 @@ app = Flask(__name__)
 def api():
 	return "Api do monitoramento dos reservatórios da região Semi-árida brasileira"
 
-@app.route('/api/estados/br')
-def estados_br():
-	response = api_mandacaru.estados_br()
-	response = make_response(response)
-	response.headers['Access-Control-Allow-Origin'] = "*"
-	return response
+# @app.route('/api/estados/br')
+# def estados_br():
+# 	response = api_mandacaru.estados_br()
+# 	response = make_response(response)
+# 	response.headers['Access-Control-Allow-Origin'] = "*"
+# 	return response
 
 @app.route('/api/estados/sab')
 def estados_sab():
