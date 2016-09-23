@@ -16,7 +16,6 @@ def estados_sab():
 
 def reservatorios():
 	reservatorios = IO.reservatorios()
-	print reservatorios
 	for reserv in reservatorios["features"]:
 		reserv["properties"]["CAPACIDADE"] = reserv["properties"]["CAP_HM3"]
 		reserv["properties"]["ID"] = reserv["properties"]["GEOCODIGO"]
