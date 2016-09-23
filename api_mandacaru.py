@@ -15,19 +15,13 @@ def estados_sab():
 	return(json.dumps(IO.estados_sab()))
 
 def reservatorios():
-	# query = ("SELECT r.id,r.capacidade FROM tb_reservatorio r")
-
-	# resposta_consulta = IO.consulta_BD(query)
-	# dict_capacidade = {}
-	# for r in resposta_consulta:
-	# 	dict_capacidade[r[0]] = r[1]
-
-	# print dict_capacidade
-
 	reservatorios = IO.reservatorios()
 	print reservatorios
 	for reserv in reservatorios["features"]:
 		reserv["properties"]["CAPACIDADE"] = reserv["properties"]["CAP_HM3"]
+		reserv["properties"]["ID"] = reserv["properties"]["GEOCODIGO"]
+		reserv["properties"]["LATITUDE"] = reserv["geometry"]["coordinates"][1]
+		reserv["properties"]["LONGITUDE"] = reserv["geometry"]["coordinates"][0]
 	return(json.dumps(reservatorios))
 
 # def municipios_sab():
