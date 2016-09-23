@@ -95,7 +95,7 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 		if(not math.isnan(grad_regressao)):
 			coeficiente_regressao=grad_regressao
 
-	monitoramento_dados = ajusteDadosComIntervalo(resposta_consulta)
+	monitoramento_dados = funcoes_aux.ajuste_dados_com_intervalo(resposta_consulta)
 
 	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(monitoramento_dados, keys),
 		'volumes_recentes':{'volumes':monitoramento_meses, 'coeficiente_regressao': coeficiente_regressao, 'data_final':data_final.strftime('%d/%m/%Y')
@@ -122,18 +122,3 @@ def monitoramento_6meses(id_reserv,completo=False):
 
 	return funcoes_aux.lista_dicionarios(resposta_consulta_min_graph,keys)
 
-def ajusteDadosComIntervalo(monitoramento):
-	result = []
-	diasRange = relativedelta.relativedelta(days=60)
-	dia = relativedelta.relativedelta(days=1)
-	for m in range(len(monitoramento)-1):
-		result.append(monitoramento[m])
-		if(datetime.strptime(monitoramento[m][1], "%d/%m/%Y") <= (datetime.strptime(monitoramento[m+1][1], "%d/%m/%Y")- diasRange)):
-			dataVaziaInicial = (datetime.strptime(monitoramento[m][1], "%d/%m/%Y")+dia).strftime("%d/%m/%Y")
-			dataVaziaFinal = (datetime.strptime(monitoramento[m+1][1], "%d/%m/%Y")-dia).strftime("%d/%m/%Y")
-			result.append((None,monitoramento[m][1],None))
-			result.append((None,monitoramento[m+1][1],None))
-	result.append(monitoramento[len(monitoramento)-1])
-
-
-	return result
