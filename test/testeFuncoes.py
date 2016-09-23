@@ -36,7 +36,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(funcoes_aux.lista_dicionarios(list_values,keys), list_dictionarys)
 
     def test_shapes(self):
-        self.assertTrue(len(IO.estados_br()) > 0)
         self.assertTrue(len(IO.estados_sab()) > 0)
         self.assertTrue(len(IO.reservatorios()) > 0)
 
