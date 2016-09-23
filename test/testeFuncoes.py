@@ -39,6 +39,14 @@ class TestStringMethods(unittest.TestCase):
         self.assertTrue(len(IO.estados_sab()) > 0)
         self.assertTrue(len(IO.reservatorios()) > 0)
 
+    def test_ajuste_dados_intervalo(self):
+        boa = [(100,"20/06/2016",10),(100,"21/06/2016",10),(100,"22/06/2016",10),(100,"23/06/2016",10),(100,"24/06/2016",10)]
+        boa_resp = [(100,"20/06/2016",10),(100,"21/06/2016",10),(100,"22/06/2016",10),(100,"23/06/2016",10),(100,"24/06/2016",10)]
+        self.assertEqual(funcoes_aux.ajuste_dados_com_intervalo(boa), boa_resp)
+
+        ruim = [(100,"20/06/2016",10),(100,"21/09/2016",10),(100,"22/06/2016",10),(100,"23/06/2016",10),(100,"24/06/2016",10)]
+        ruim_resp = [(100,"20/06/2016",10),(None,"20/06/2016",None),(None,"21/09/2016",None),(100,"21/09/2016",10),(100,"22/06/2016",10),(100,"23/06/2016",10),(100,"24/06/2016",10)]
+        self.assertEqual(funcoes_aux.ajuste_dados_com_intervalo(ruim), ruim_resp)
 
 
 if __name__ == '__main__':
