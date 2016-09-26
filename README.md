@@ -53,6 +53,6 @@ crontab -e
 Para executar a api na pasta raiz executar:
 
 ```
-python run.py
+python run.py [--debug]
 
 ```
