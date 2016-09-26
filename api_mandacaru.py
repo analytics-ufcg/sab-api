@@ -16,7 +16,6 @@ def estados_sab():
 
 def reservatorios():
 	reservatorios = IO.reservatorios()
-	print reservatorios
 	for reserv in reservatorios["features"]:
 		reserv["properties"]["CAPACIDADE"] = reserv["properties"]["CAP_HM3"]
 		reserv["properties"]["ID"] = reserv["properties"]["GEOCODIGO"]
@@ -72,7 +71,7 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 			" ORDER BY mo.data_informacao")
 
 	resposta_consulta = IO.consulta_BD(query)
-	
+
 	keys = ["VolumePercentual","DataInformacao", "Volume"]
 
 	lista_volumes = []
@@ -88,7 +87,7 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 		lista_datas.append(float(data.strftime('%s')))
 
 	data_inicial = data_final- relativedelta.relativedelta(months=6)
-		
+
 	coeficiente_regressao=0
 	if(len(lista_volumes)>0):
 		grad_regressao = gradiente_regressao(lista_volumes,lista_datas)
@@ -121,4 +120,3 @@ def monitoramento_6meses(id_reserv,completo=False):
 	keys = ["VolumePercentual","DataInformacao", "Volume"]
 
 	return funcoes_aux.lista_dicionarios(resposta_consulta_min_graph,keys)
-
