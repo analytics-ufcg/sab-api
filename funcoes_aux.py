@@ -40,7 +40,8 @@ def ajuste_dados_com_intervalo(monitoramento):
 			dataVaziaFinal = (datetime.strptime(monitoramento[m+1][1], "%d/%m/%Y")-dia).strftime("%d/%m/%Y")
 			result.append((None,monitoramento[m][1],None))
 			result.append((None,monitoramento[m+1][1],None))
-	result.append(monitoramento[len(monitoramento)-1])
+	if(len(monitoramento) > 0):
+		result.append(monitoramento[len(monitoramento)-1])
 
 
 	return result
