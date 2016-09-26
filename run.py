@@ -9,4 +9,4 @@ parser.add_argument('--debug', action='store_true')
 
 if __name__ == '__main__':
 	app.debug = parser.parse_args().debug
-	app.run(host='0.0.0.0', port=5003, threaded=True)
+	app.run(host='0.0.0.0', port=5003, threaded=True, use_reloader=True)
