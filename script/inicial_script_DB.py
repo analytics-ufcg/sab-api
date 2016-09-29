@@ -3,6 +3,7 @@
 
 import MySQLdb
 import csv
+import json
 from unicodedata import normalize
 
 try:
@@ -60,17 +61,28 @@ reservatorios = {}
 for row in reader_reservatorios:
 	for column, value in row.iteritems():
 		reservatorios.setdefault(column, []).append(value)
-#CABEÇALHO estados_br
+#CABEÇALHO reservatorios
 #PERIM,AREA_M2,HECTARES,GEOCODIGO,RESERVAT,NOME,BACIA,TIPO_RESER,CAP_HM3,MUNICIPIO,ESTADO
+
+
+# adicionando geolocalizacao nos reservatorios
+with open('../data/reserv.json') as data_file:
+	_reservatorios = json.load(data_file)
+geocodes = {}
+for reservat in _reservatorios['features']:
+	geocodes[int(reservat['properties']['GEOCODIGO'])] = reservat['geometry']['coordinates']
+
 
 
 #tabela tb_estado
 tb_estado = zip(estados_br["CD_GEOCODU"], estados_br["NM_ESTADO"], estados_br["NM_REGIAO"], estados_br["SIGLA"])
 
-#tabela tb_reservatorio
-tb_reservatorio = zip(reservatorios["GEOCODIGO"], reservatorios["NOME"], reservatorios["RESERVAT"],reservatorios["BACIA"], 
-	reservatorios["TIPO_RESER"], reservatorios["AREA_M2"],reservatorios["PERIM"], reservatorios["HECTARES"], reservatorios["CAP_HM3"])
+longitude = [geocodes[int(reservat)][0] for reservat in reservatorios['GEOCODIGO']]
+latitude = [geocodes[int(reservat)][1] for reservat in reservatorios['GEOCODIGO']]
 
+#tabela tb_reservatorio
+tb_reservatorio = zip(reservatorios["GEOCODIGO"], reservatorios["NOME"], reservatorios["RESERVAT"],reservatorios["BACIA"],
+	reservatorios["TIPO_RESER"], reservatorios["AREA_M2"],reservatorios["PERIM"], reservatorios["HECTARES"], reservatorios["CAP_HM3"],latitude,longitude)
 
 #tabela tb_municipio
 tb_municipio = []
@@ -189,7 +201,7 @@ for municipio_reservatorio in info_municipio_reservatorio:
 				municipio_reservatorio_uf = "Coreaú - CE"
 			elif(municipio_reservatorio_uf == "Tiangua - CE"):
 				municipio_reservatorio_uf = "Tianguá - CE"
-			
+
 
 			for municipio in municipios_br:
 				municipio_uf = municipio[1] + " - "+municipio[2]
@@ -198,7 +210,7 @@ for municipio_reservatorio in info_municipio_reservatorio:
 
 insert_many_BD("""INSERT INTO tb_estado (id,nome,nome_regiao,sigla) VALUES (%s,%s,%s,%s)""", tb_estado)
 insert_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,semiarido) VALUES (%s,%s,%s,%s,%s)""", tb_municipio)
-insert_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
+insert_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade,latitude,longitude) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
 insert_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_municipio) VALUES (%s,%s)""", tb_reservatorio_municipio)
 
 import insert_month_on_DB
