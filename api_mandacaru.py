@@ -15,13 +15,35 @@ def estados_sab():
 	return(json.dumps(IO.estados_sab()))
 
 def reservatorios():
-	reservatorios = IO.reservatorios()
-	for reserv in reservatorios["features"]:
-		reserv["properties"]["CAPACIDADE"] = reserv["properties"]["CAP_HM3"]
-		reserv["properties"]["ID"] = reserv["properties"]["GEOCODIGO"]
-		reserv["properties"]["LATITUDE"] = reserv["geometry"]["coordinates"][1]
-		reserv["properties"]["LONGITUDE"] = reserv["geometry"]["coordinates"][0]
-	return(json.dumps(reservatorios))
+	query = ("SELECT mon.id,mon.latitude,mon.longitude, mon.capacidade, mo.volume_percentual, mo.volume"
+		" FROM tb_monitoramento mo RIGHT JOIN "
+		"(SELECT r.id,r.latitude,r.longitude, r.capacidade, max(m.data_informacao) AS maior_data "
+		"FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
+		" ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao;")
+	resposta_consulta = IO.consulta_BD(query)
+
+	keys = ["id", "latitude", "longitude", "capacidade","volume_percentual","volume"]
+
+	features = []
+	for linha in resposta_consulta:
+		feature = {}
+		geometry = {}
+		propriedades = funcoes_aux.cria_dicionario(linha, keys)
+
+		geometry["type"] = "Point"
+		geometry["coordinates"] = [float(propriedades["longitude"]),float(propriedades["latitude"])]
+
+		feature["geometry"] = geometry
+		feature["type"] = "Feature"
+		feature["properties"] = propriedades
+
+		features.append(feature)
+
+	resposta = {}
+	resposta["type"] = "FeatureCollection"
+	resposta["features"] = features
+
+	return(json.dumps(resposta))
 
 # def municipios_sab():
 # 	return(json.dumps(IO.municipios_sab()))
