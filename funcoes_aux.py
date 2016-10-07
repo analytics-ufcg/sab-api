@@ -5,6 +5,8 @@ from unicodedata import normalize
 import math
 from dateutil import relativedelta
 from datetime import datetime
+from fuzzywuzzy import fuzz
+
 
 def remover_acentos(txt):
 	if (type(txt) is str):
@@ -45,3 +47,20 @@ def ajuste_dados_com_intervalo(monitoramento):
 
 
 	return result
+
+def reservatorios_similares(nome_reservatorio, reservatorios):
+	lista_reservatorios = []
+
+	for reserv in reservatorios:
+		rt = fuzz.token_set_ratio(remover_acentos(nome_reservatorio),remover_acentos(reserv["reservat"]))
+
+		reserv["semelhanca"] = rt
+		lista_reservatorios.append(reserv)
+
+	# Filtra os 90% mais semelhantes
+	lista_reservatorios_filtrada = list(filter(lambda d: d['semelhanca'] > 90, lista_reservatorios))
+
+	# Pega os 5 mais semelhantes
+	lista_reservatorios_ordenada = sorted(lista_reservatorios_filtrada, key=lambda k: k['semelhanca'], reverse=True)[:5]
+
+	return lista_reservatorios_ordenada

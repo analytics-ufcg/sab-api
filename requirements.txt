@@ -2,3 +2,5 @@ Flask
 pyexcel-xlsx
 MySQL-python
 python-dateutil
+fuzzywuzzy
+python-levenshtein
