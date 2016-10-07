@@ -142,3 +142,21 @@ def monitoramento_6meses(id_reserv,completo=False):
 	keys = ["VolumePercentual","DataInformacao", "Volume"]
 
 	return funcoes_aux.lista_dicionarios(resposta_consulta_min_graph,keys)
+
+
+def similares_reservatorios(nome):
+	query = ("SELECT mon.id,mon.reservat,date_format(mon.maior_data,'%d/%m/%Y'), mo.volume_percentual, mo.volume"
+		" FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id,r.reservat, max(m.data_informacao) AS maior_data"
+		" FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
+		" ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao;")
+	resposta_consulta = IO.consulta_BD(query)
+
+	keys = ["id", "reservat", "data", "volume_percentual","volume"]
+
+	reservatorios = funcoes_aux.lista_dicionarios(resposta_consulta, keys)
+
+	return json.dumps(reservatorios)
+
+	similares = funcoes_aux.reservatorios_similares(nome,reservatorios)
+
+	return json.dumps(similares)

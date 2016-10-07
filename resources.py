@@ -65,3 +65,11 @@ def monitoramento_reservatorios_completo(id):
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
+
+
+@app.route('/api/reservatorios/similares/<nome>')
+def similares_reservatorios(nome):
+	response = api_mandacaru.similares_reservatorios(nome)
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response

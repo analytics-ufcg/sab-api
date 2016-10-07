@@ -17,3 +17,8 @@
 ### **Reservatórios**
 *GET*           /api/reservatorios/:id/monitoramento
 *GET*           /api/reservatorios/:id/monitoramento/completo
+
+
+## Similares
+### **Reservatórios**
+*GET*           /api/reservatorios/similares/:nome

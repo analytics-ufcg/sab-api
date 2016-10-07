@@ -49,5 +49,14 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(funcoes_aux.ajuste_dados_com_intervalo(ruim), ruim_resp)
 
 
+    def test_ajuste_dados_intervalo(self):
+        reservatorios =[{"reservat": "Barragem Jabiberi", "volume": None, "volume_percentual": None, "data": None, "id": 751}, {"reservat": "UHE Pedra do Cavalo", "volume": None, "volume_percentual": None, "data": None, "id": 795}, {"reservat": "Açude Barra da Melancia", "volume": None, "volume_percentual": None, "data": None, "id": 1041}, {"reservat": "Açude Mesa de Pedra", "volume": None, "volume_percentual": None, "data": None, "id": 1055}, {"reservat": "Açude Machado", "volume": None, "volume_percentual": None, "data": None, "id": 1066}]
+
+        resp1 =[{"reservat": "Barragem Jabiberi", "volume": None, "volume_percentual": None, "data": None, "id": 751, 'semelhanca': 100}]
+        self.assertEqual(funcoes_aux.reservatorios_similares("jabiberi", reservatorios), resp1)
+
+        resp2 = [{"reservat": "Açude Barra da Melancia", "volume": None, "volume_percentual": None, "data": None, "id": 1041, 'semelhanca': 100}, {"reservat": "Açude Mesa de Pedra", "volume": None, "volume_percentual": None, "data": None, "id": 1055, 'semelhanca': 100}, {"reservat": "Açude Machado", "volume": None, "volume_percentual": None, "data": None, "id": 1066, 'semelhanca': 100}]
+        self.assertEqual(funcoes_aux.reservatorios_similares("acude", reservatorios), resp2)
+
 if __name__ == '__main__':
     unittest.main()
