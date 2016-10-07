@@ -155,8 +155,6 @@ def similares_reservatorios(nome):
 
 	reservatorios = funcoes_aux.lista_dicionarios(resposta_consulta, keys)
 
-	return json.dumps(reservatorios)
-
 	similares = funcoes_aux.reservatorios_similares(nome,reservatorios)
 
 	return json.dumps(similares)
