@@ -145,13 +145,14 @@ def monitoramento_6meses(id_reserv,completo=False):
 
 
 def similares_reservatorios(nome):
-	query = ("SELECT mon.id,mon.reservat,date_format(mon.maior_data,'%d/%m/%Y'), mo.volume_percentual, mo.volume"
-		" FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id,r.reservat, max(m.data_informacao) AS maior_data"
+	query = ("SELECT DISTINCT mon.id,mon.reservat,mon.nome, date_format(mon.maior_data,'%d/%m/%Y'), mo.volume_percentual, mo.volume, es.nome, es.sigla"
+		" FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id,r.reservat,r.nome, max(m.data_informacao) AS maior_data"
 		" FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
-		" ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao;")
+		" ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao LEFT JOIN tb_reservatorio_municipio re ON mon.id= re.id_reservatorio"
+		" LEFT JOIN tb_municipio mu ON mu.id= re.id_municipio LEFT JOIN tb_estado es ON es.id= mu.id_estado;")
 	resposta_consulta = IO.consulta_BD(query)
 
-	keys = ["id", "reservat", "data", "volume_percentual","volume"]
+	keys = ["id", "reservat","nome", "data", "volume_percentual","volume", "nome_estado", "uf"]
 
 	reservatorios = funcoes_aux.lista_dicionarios(resposta_consulta, keys)
 
