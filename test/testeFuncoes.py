@@ -50,12 +50,12 @@ class TestStringMethods(unittest.TestCase):
 
 
     def test_ajuste_dados_intervalo(self):
-        reservatorios =[{"reservat": "Barragem Jabiberi", "volume": None, "volume_percentual": None, "data": None, "id": 751}, {"reservat": "UHE Pedra do Cavalo", "volume": None, "volume_percentual": None, "data": None, "id": 795}, {"reservat": "Açude Barra da Melancia", "volume": None, "volume_percentual": None, "data": None, "id": 1041}, {"reservat": "Açude Mesa de Pedra", "volume": None, "volume_percentual": None, "data": None, "id": 1055}, {"reservat": "Açude Machado", "volume": None, "volume_percentual": None, "data": None, "id": 1066}]
+        reservatorios =[{"nome": "Barragem Jabiberi","reservat": "Barragem Jabiberi", "volume": None, "volume_percentual": None, "data": None, "id": 751, "estado": "", "uf": ""}, {"nome": "UHE Pedra do Cavalo","reservat": "UHE Pedra do Cavalo", "volume": None, "volume_percentual": None, "data": None, "id": 795, "estado": "", "uf": ""}, {"nome": "Açude Barra da Melancia","reservat": "Açude Barra da Melancia", "volume": None, "volume_percentual": None, "data": None, "id": 1041, "estado": "", "uf": ""}, {"nome": "Açude Mesa de Pedra","reservat": "Açude Mesa de Pedra", "volume": None, "volume_percentual": None, "data": None, "id": 1055, "estado": "", "uf": ""}]
 
-        resp1 =[{"reservat": "Barragem Jabiberi", "volume": None, "volume_percentual": None, "data": None, "id": 751, 'semelhanca': 100}]
+        resp1 =[{"nome": "Barragem Jabiberi","reservat": "Barragem Jabiberi", "volume": None, "volume_percentual": None, "data": None, "id": 751, 'semelhanca': 100, "apelido": "", "estado": "", "uf": ""}]
         self.assertEqual(funcoes_aux.reservatorios_similares("jabiberi", reservatorios), resp1)
 
-        resp2 = [{"reservat": "Açude Barra da Melancia", "volume": None, "volume_percentual": None, "data": None, "id": 1041, 'semelhanca': 100}, {"reservat": "Açude Mesa de Pedra", "volume": None, "volume_percentual": None, "data": None, "id": 1055, 'semelhanca': 100}, {"reservat": "Açude Machado", "volume": None, "volume_percentual": None, "data": None, "id": 1066, 'semelhanca': 100}]
+        resp2 = [{"nome": "Açude Barra da Melancia","reservat": "Açude Barra da Melancia", "volume": None, "volume_percentual": None, "data": None, "id": 1041, 'semelhanca': 100, "apelido": "", "estado": "", "uf": ""}, {"reservat": "Açude Mesa de Pedra","nome": "Açude Mesa de Pedra", "volume": None, "volume_percentual": None, "data": None, "id": 1055, 'semelhanca': 100, "apelido": "", "estado": "", "uf": ""}]
         self.assertEqual(funcoes_aux.reservatorios_similares("acude", reservatorios), resp2)
 
 if __name__ == '__main__':

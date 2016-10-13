@@ -6,6 +6,7 @@ import math
 from dateutil import relativedelta
 from datetime import datetime
 from fuzzywuzzy import fuzz
+import re
 
 
 def remover_acentos(txt):
@@ -52,15 +53,23 @@ def reservatorios_similares(nome_reservatorio, reservatorios):
 	lista_reservatorios = []
 
 	for reserv in reservatorios:
-		rt = fuzz.token_set_ratio(remover_acentos(nome_reservatorio),remover_acentos(reserv["reservat"]))
+		reserv["apelido"] = re.sub(remover_acentos(reserv["nome"])+'|acude|barragem|lagoa|[()-]| do | da | de ','',remover_acentos(reserv["reservat"]), flags=re.IGNORECASE).strip()
+		semelhanca_reservat = fuzz.token_set_ratio(remover_acentos(nome_reservatorio),remover_acentos(reserv["reservat"]))
+		semelhanca_nome = fuzz.token_set_ratio(remover_acentos(nome_reservatorio),remover_acentos(reserv["nome"]))
+		semelhanca_apelido = fuzz.token_set_ratio(remover_acentos(nome_reservatorio),remover_acentos(reserv["apelido"]))
 
-		reserv["semelhanca"] = rt
+		reserv["semelhanca"] = max(semelhanca_reservat,semelhanca_nome,semelhanca_apelido)
+
 		lista_reservatorios.append(reserv)
 
-	# Filtra os 90% mais semelhantes
-	lista_reservatorios_filtrada = list(filter(lambda d: d['semelhanca'] > 90, lista_reservatorios))
-
 	# Pega os 5 mais semelhantes
-	lista_reservatorios_ordenada = sorted(lista_reservatorios_filtrada, key=lambda k: k['semelhanca'], reverse=True)[:5]
+	lista_reservatorios_ordenada = sorted(lista_reservatorios, key=lambda k: k['semelhanca'], reverse=True)
 
-	return lista_reservatorios_ordenada
+	# Filtra os 100% semelhantes
+	lista_reservatorios_filtrada = list(filter(lambda d: d['semelhanca'] == 100, lista_reservatorios_ordenada))
+
+	# Se não tiver nenhum 100% semelhante retorna os 5 primeiros, caso contrário os semelhantes
+	if(len(lista_reservatorios_filtrada) == 0):
+		return lista_reservatorios_ordenada[:5]
+	else:
+		return lista_reservatorios_filtrada
