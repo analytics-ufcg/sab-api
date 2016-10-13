@@ -72,4 +72,4 @@ def reservatorios_similares(nome_reservatorio, reservatorios):
 	if(len(lista_reservatorios_filtrada) == 0):
 		return lista_reservatorios_ordenada[:5]
 	else:
-		return lista_reservatorios_filtrada
+		return lista_reservatorios_filtrada[:10]
