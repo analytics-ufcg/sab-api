@@ -56,33 +56,21 @@ for row in reader_estado_br:
 #ID,CD_GEOCODU,NM_ESTADO,NM_REGIAO,SIGLA
 
 
-reader_reservatorios = csv.DictReader(open('../data/reservatorios.csv'))
-reservatorios = {}
-for row in reader_reservatorios:
-	for column, value in row.iteritems():
-		reservatorios.setdefault(column, []).append(value)
-#CABEÇALHO reservatorios
-#PERIM,AREA_M2,HECTARES,GEOCODIGO,RESERVAT,NOME,BACIA,TIPO_RESER,CAP_HM3,MUNICIPIO,ESTADO
-
-
-# adicionando geolocalizacao nos reservatorios
+#tabela tb_reservatorio
 with open('../data/reserv.json') as data_file:
 	_reservatorios = json.load(data_file)
 geocodes = {}
+tb_reservatorio = []
+info_municipio_reservatorio = []
 for reservat in _reservatorios['features']:
 	geocodes[int(reservat['properties']['GEOCODIGO'])] = reservat['geometry']['coordinates']
-
-
+	tb_reservatorio.append((int(reservat['properties']['GEOCODIGO']),reservat['properties']['NOME'].encode('utf8'), reservat['properties']['RESERVAT'].encode('utf8'),
+		reservat['properties']['BACIA'].encode('utf8'),reservat['properties']['TIPO_RESER'],reservat['properties']['AREA_M2'],reservat['properties']['PERIM'],
+		reservat['properties']['HECTARES'],reservat['properties']['CAP_HM3'],reservat['geometry']['coordinates'][1],reservat['geometry']['coordinates'][0]))
+	info_municipio_reservatorio.append((int(reservat['properties']['GEOCODIGO']),reservat['properties']['MUNICIPIO'].encode('utf8'),reservat['properties']['ESTADO'].encode('utf8')))
 
 #tabela tb_estado
 tb_estado = zip(estados_br["CD_GEOCODU"], estados_br["NM_ESTADO"], estados_br["NM_REGIAO"], estados_br["SIGLA"])
-
-longitude = [geocodes[int(reservat)][0] for reservat in reservatorios['GEOCODIGO']]
-latitude = [geocodes[int(reservat)][1] for reservat in reservatorios['GEOCODIGO']]
-
-#tabela tb_reservatorio
-tb_reservatorio = zip(reservatorios["GEOCODIGO"], reservatorios["NOME"], reservatorios["RESERVAT"],reservatorios["BACIA"],
-	reservatorios["TIPO_RESER"], reservatorios["AREA_M2"],reservatorios["PERIM"], reservatorios["HECTARES"], reservatorios["CAP_HM3"],latitude,longitude)
 
 #tabela tb_municipio
 tb_municipio = []
@@ -99,8 +87,6 @@ for municipio in municipios_br:
 
 #tabela tb_reservatorio_municipio
 tb_reservatorio_municipio = []
-info_municipio_reservatorio = zip(reservatorios["GEOCODIGO"], reservatorios["MUNICIPIO"], reservatorios["ESTADO"])
-
 
 def remover_acentos(txt):
 	if (type(txt) is str):
