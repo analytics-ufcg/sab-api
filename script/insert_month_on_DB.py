@@ -85,6 +85,6 @@ for monitoramento in ultimos_monitoramentos:
 			json_insert={}
 
 	if(len(to_insert) >0):
-		insert_many_BD(retira_ruido(to_insert, monitoramento))
+		insert_many_BD(aux_insert_month.retira_ruido(to_insert, monitoramento))
 		
 	time.sleep(4)
