@@ -3,7 +3,6 @@
 import json
 import IO
 import funcoes_aux
-from scipy import stats
 from dateutil import relativedelta
 from datetime import datetime
 import math
@@ -112,7 +111,7 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 
 	coeficiente_regressao=0
 	if(len(lista_volumes)>0):
-		grad_regressao = gradiente_regressao(lista_volumes,lista_datas)
+		grad_regressao = funcoes_aux.gradiente_regressao(lista_volumes,lista_datas)
 		if(not math.isnan(grad_regressao)):
 			coeficiente_regressao=grad_regressao
 
@@ -122,10 +121,6 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 		'volumes_recentes':{'volumes':monitoramento_meses, 'coeficiente_regressao': coeficiente_regressao, 'data_final':data_final.strftime('%d/%m/%Y')
 		, 'data_inicial':data_inicial.strftime('%d/%m/%Y')}}))
 
-
-def gradiente_regressao(lista1,lista2):
-	gradient, intercept, r_value, p_value, std_err = stats.linregress(lista1,lista2)
-	return gradient
 
 def monitoramento_6meses(id_reserv,completo=False):
 	if(completo):
@@ -159,3 +154,22 @@ def similares_reservatorios(nome):
 	similares = funcoes_aux.reservatorios_similares(nome,reservatorios)
 
 	return json.dumps(similares)
+
+def reservatorio_equivalente_bacia():
+
+	query = ("SELECT res.bacia AS bacia, ROUND(SUM(info.volume),2) AS volume_equivalente, ROUND(SUM(info.capacidade),2) AS capacidade_equivalente,"
+		" ROUND((SUM(info.volume)/SUM(info.capacidade)*100),2) AS porcentagem_equivalente,"
+		" COUNT(DISTINCT info.id_reservatorio) AS quant_reservatorio_com_info,"
+		" (COUNT(DISTINCT res.id)-COUNT(DISTINCT info.id_reservatorio)) AS quant_reservatorio_sem_info ,COUNT(DISTINCT res.id) AS total_reservatorios"
+		" FROM tb_reservatorio res LEFT JOIN (SELECT mo.volume AS volume, re.capacidade AS capacidade, re.id AS id_reservatorio"
+		" FROM tb_monitoramento mo, tb_reservatorio re, (SELECT m.id_reservatorio as id_reserv, MAX(m.data_informacao) as data_info"
+		" FROM tb_monitoramento m WHERE m.data_informacao >= (CURDATE() - INTERVAL 90 DAY) GROUP BY m.id_reservatorio) info_data"
+		" WHERE info_data.id_reserv=mo.id_reservatorio AND re.id=mo.id_reservatorio AND mo.data_informacao=info_data.data_info) info"
+		" ON info.id_reservatorio=res.id GROUP BY res.bacia;")
+
+	resposta_consulta = IO.consulta_BD(query)
+
+	keys = ["bacia", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
+	 "total_reservatorios"]
+
+	return json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys))

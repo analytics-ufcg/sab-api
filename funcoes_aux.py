@@ -7,6 +7,8 @@ from dateutil import relativedelta
 from datetime import datetime
 from fuzzywuzzy import fuzz
 import re
+from scipy import stats
+
 
 
 def remover_acentos(txt):
@@ -73,3 +75,7 @@ def reservatorios_similares(nome_reservatorio, reservatorios):
 		return lista_reservatorios_ordenada[:5]
 	else:
 		return lista_reservatorios_filtrada[:10]
+
+def gradiente_regressao(lista1,lista2):
+	gradient, intercept, r_value, p_value, std_err = stats.linregress(lista1,lista2)
+	return gradient
