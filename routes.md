@@ -22,3 +22,10 @@
 ## Similares
 ### **Reservatórios**
 *GET*           /api/reservatorios/similares/:nome
+
+
+## Equivalentes
+### **Reservatórios**
+*GET*           /api/reservatorio/equivalente/bacia
+*GET*           /api/reservatorio/equivalente/estado
+

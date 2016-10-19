@@ -81,3 +81,11 @@ def reservatorio_equivalente_bacia():
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
+
+
+@app.route('/api/reservatorio/equivalente/estado')
+def reservatorio_equivalente_estado():
+	response = api_mandacaru.reservatorio_equivalente_estado()
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
