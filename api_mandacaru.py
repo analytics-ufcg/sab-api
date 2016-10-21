@@ -125,12 +125,10 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 def monitoramento_6meses(id_reserv,completo=False):
 	if(completo):
 		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(id_reserv)+
-			" and data_informacao BETWEEN ((select max(data_informacao) from tb_monitoramento where id_reservatorio="+str(id_reserv)+
-			")  - INTERVAL 6 MONTH) AND (select max(data_informacao) from tb_monitoramento where id_reservatorio="+str(id_reserv)+") order by data_informacao;")
+			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
 	else:
 		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(id_reserv)+
-			" and data_informacao BETWEEN ((select max(data_informacao) from tb_monitoramento where visualizacao=1 and id_reservatorio="+str(id_reserv)+
-			")  - INTERVAL 6 MONTH) AND (select max(data_informacao) from tb_monitoramento where id_reservatorio="+str(id_reserv)+") order by data_informacao;")
+			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
 
 	resposta_consulta_min_graph = IO.consulta_BD(query_min_graph)
 
