@@ -4,3 +4,5 @@ MySQL-python
 python-dateutil
 fuzzywuzzy
 python-levenshtein
+Numpy
+Scipy
