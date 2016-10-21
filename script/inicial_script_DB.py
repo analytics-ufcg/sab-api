@@ -16,7 +16,7 @@ finally:
 	cursor.close()
 	conn.close()
 
-def insert_many_BD(insert,values):
+def execute_many_BD(insert,values):
 	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
 	cursor = conn.cursor()
 	try:
@@ -27,7 +27,6 @@ def insert_many_BD(insert,values):
 		conn.rollback()
 
 	conn.close()
-
 
 reader_cidades_br = csv.DictReader(open('../data/cidades_br.csv'))
 cidades_br = {}
@@ -64,8 +63,25 @@ tb_reservatorio = []
 info_municipio_reservatorio = []
 for reservat in _reservatorios['features']:
 	geocodes[int(reservat['properties']['GEOCODIGO'])] = reservat['geometry']['coordinates']
-	tb_reservatorio.append((int(reservat['properties']['GEOCODIGO']),reservat['properties']['NOME'].encode('utf8'), reservat['properties']['RESERVAT'].encode('utf8'),
-		reservat['properties']['BACIA'].encode('utf8'),reservat['properties']['TIPO_RESER'],reservat['properties']['AREA_M2'],reservat['properties']['PERIM'],
+	bacia = reservat['properties']['BACIA'].encode('utf8')
+	reservat_nome = reservat['properties']['RESERVAT'].encode('utf8')
+	if (bacia == "Curimata?"):
+		bacia = "Curimataú"
+	elif(bacia == "Gar?as"):
+		bacia = "Garças"
+	elif (bacia == "Corea?"):
+		bacia = "Coreaú"
+		
+	if (reservat_nome == "Açude Riacho de Santo Ant?nio"):
+		reservat_nome = "Açude Riacho de Santo Antônio"
+	elif (reservat_nome == "Açude Joaquim T?vora (Feiticeiro)"):
+		reservat_nome = "Açude Joaquim Távora (Feiticeiro)"
+	elif (reservat_nome == "Açude Pompeu Sobrinho (Choró Lim?o)"):
+		reservat_nome = "Açude Pompeu Sobrinho (Choró Limão)"
+
+
+	tb_reservatorio.append((int(reservat['properties']['GEOCODIGO']),reservat['properties']['NOME'].encode('utf8'), reservat_nome,
+		bacia,reservat['properties']['TIPO_RESER'],reservat['properties']['AREA_M2'],reservat['properties']['PERIM'],
 		reservat['properties']['HECTARES'],reservat['properties']['CAP_HM3'],reservat['geometry']['coordinates'][1],reservat['geometry']['coordinates'][0]))
 	info_municipio_reservatorio.append((int(reservat['properties']['GEOCODIGO']),reservat['properties']['MUNICIPIO'].encode('utf8'),reservat['properties']['ESTADO'].encode('utf8')))
 
@@ -187,16 +203,28 @@ for municipio_reservatorio in info_municipio_reservatorio:
 				municipio_reservatorio_uf = "Coreaú - CE"
 			elif(municipio_reservatorio_uf == "Tiangua - CE"):
 				municipio_reservatorio_uf = "Tianguá - CE"
-
+			elif(municipio_reservatorio_uf == "Puxinan? - PB"):
+				municipio_reservatorio_uf = "Puxinanã - PB"
+			elif(municipio_reservatorio_uf == "Bel?m do Brejo do Cruz - PB"):
+				municipio_reservatorio_uf = "Belém do Brejo do Cruz - PB"
+			elif(municipio_reservatorio_uf == "São Domingos Cariri - PB"):
+				municipio_reservatorio_uf = "São Domingos do Cariri - PB"
 
 			for municipio in municipios_br:
 				municipio_uf = municipio[1] + " - "+municipio[2]
 				if (municipio_uf == municipio_reservatorio_uf):
 					tb_reservatorio_municipio.append((municipio_reservatorio[0],municipio[0]))
 
-insert_many_BD("""INSERT INTO tb_estado (id,nome,nome_regiao,sigla) VALUES (%s,%s,%s,%s)""", tb_estado)
-insert_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,semiarido) VALUES (%s,%s,%s,%s,%s)""", tb_municipio)
-insert_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade,latitude,longitude) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
-insert_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_municipio) VALUES (%s,%s)""", tb_reservatorio_municipio)
+execute_many_BD("""INSERT INTO tb_estado (id,nome,nome_regiao,sigla) VALUES (%s,%s,%s,%s)""", tb_estado)
+execute_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,semiarido) VALUES (%s,%s,%s,%s,%s)""", tb_municipio)
+execute_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade,latitude,longitude) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
+execute_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_municipio) VALUES (%s,%s)""", tb_reservatorio_municipio)
+
+
+########  REMOVENDO dos açudes (Estreito e Pai Mané) as cidades que não são contabilizadas no boletim informativo do INSA
+# (Estreito,Espinosa-MG) e (Pai Mané, Iati=AL)
+reservatorios_municipios = [(12176,3124302),(12303,2606507)]
+execute_many_BD("""DELETE FROM tb_reservatorio_municipio WHERE id_reservatorio=%s and id_municipio=%s""", reservatorios_municipios)
+
 
 import insert_month_on_DB
