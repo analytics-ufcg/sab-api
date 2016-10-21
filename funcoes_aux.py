@@ -36,7 +36,7 @@ def cria_dicionario(values, keys):
 
 def ajuste_dados_com_intervalo(monitoramento):
 	result = []
-	diasRange = relativedelta.relativedelta(days=60)
+	diasRange = relativedelta.relativedelta(days=90)
 	dia = relativedelta.relativedelta(days=1)
 	for m in range(len(monitoramento)-1):
 		result.append(monitoramento[m])
