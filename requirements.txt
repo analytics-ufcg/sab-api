@@ -3,6 +3,5 @@ pyexcel-xlsx
 MySQL-python
 python-dateutil
 fuzzywuzzy
-numpy
 scipy
 python-levenshtein
