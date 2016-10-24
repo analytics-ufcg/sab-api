@@ -19,10 +19,14 @@ def remover_acentos(txt):
 def ajuste_acentos(txt):
 	return unicode(txt, 'unicode-escape')
 
-def lista_dicionarios(list_of_values, keys):
+def lista_dicionarios(list_of_values, keys, especial=None):
 	lista_resposta = []
 	for valor in list_of_values:
-		lista_resposta.append(cria_dicionario(valor,keys))
+		dicionario = cria_dicionario(valor,keys)
+		if (especial == "info"):
+			dicionario["nome_sem_acento"] = remover_acentos(dicionario["nome"])
+			dicionario["reservat_sem_acento"] = remover_acentos(dicionario["reservat"])
+		lista_resposta.append(dicionario)
 	return lista_resposta
 
 def cria_dicionario(values, keys):

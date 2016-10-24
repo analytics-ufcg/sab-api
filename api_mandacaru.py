@@ -81,7 +81,7 @@ def info_reservatorios_BD(id_res=None):
 
 	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado"]
 
-	return(json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys)))
+	return(json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys, "info")))
 
 def monitoramento_reservatorios_BD(id_reserv,completo=False):
 	if(completo):
