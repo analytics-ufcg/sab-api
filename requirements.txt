@@ -3,4 +3,5 @@ pyexcel-xlsx
 MySQL-python
 python-dateutil
 fuzzywuzzy
+scipy
 python-levenshtein
