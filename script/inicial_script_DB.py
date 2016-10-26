@@ -71,6 +71,8 @@ for reservat in _reservatorios['features']:
 		bacia = "Garças"
 	elif (bacia == "Corea?"):
 		bacia = "Coreaú"
+	elif ("São Francisco" in bacia):
+		bacia = "São Francisco"
 		
 	if (reservat_nome == "Açude Riacho de Santo Ant?nio"):
 		reservat_nome = "Açude Riacho de Santo Antônio"
