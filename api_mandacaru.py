@@ -158,8 +158,14 @@ def reservatorio_equivalente_bacia():
 	query = ("SELECT res.bacia AS bacia, ROUND(SUM(info.volume),2) AS volume_equivalente, ROUND(SUM(info.capacidade),2) AS capacidade_equivalente,"
 		" ROUND((SUM(info.volume)/SUM(info.capacidade)*100),2) AS porcentagem_equivalente,"
 		" COUNT(DISTINCT info.id_reservatorio) AS quant_reservatorio_com_info,"
-		" (COUNT(DISTINCT res.id)-COUNT(DISTINCT info.id_reservatorio)) AS quant_reservatorio_sem_info ,COUNT(DISTINCT res.id) AS total_reservatorios"
-		" FROM tb_reservatorio res LEFT JOIN (SELECT mo.volume AS volume, re.capacidade AS capacidade, re.id AS id_reservatorio"
+		" (COUNT(DISTINCT res.id)-COUNT(DISTINCT info.id_reservatorio)) AS quant_reservatorio_sem_info ,COUNT(DISTINCT res.id) AS total_reservatorios,"
+		" CAST(SUM(CASE WHEN info.volume_percentual <= 10 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_1,"
+		" CAST(SUM(CASE WHEN info.volume_percentual > 10 AND info.volume_percentual <=25 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_2,"
+		" CAST(SUM(CASE WHEN info.volume_percentual > 25 AND info.volume_percentual <=50 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_3,"
+		" CAST(SUM(CASE WHEN info.volume_percentual > 50 AND info.volume_percentual <=75 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_4,"
+		" CAST(SUM(CASE WHEN info.volume_percentual > 75 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_5"
+		" FROM tb_reservatorio res LEFT JOIN (SELECT mo.volume AS volume, re.capacidade AS capacidade, re.id AS id_reservatorio,"
+		" mo.volume_percentual AS volume_percentual"
 		" FROM tb_monitoramento mo, tb_reservatorio re, (SELECT m.id_reservatorio as id_reserv, MAX(m.data_informacao) as data_info"
 		" FROM tb_monitoramento m WHERE m.data_informacao >= (CURDATE() - INTERVAL 90 DAY) GROUP BY m.id_reservatorio) info_data"
 		" WHERE info_data.id_reserv=mo.id_reservatorio AND re.id=mo.id_reservatorio AND mo.data_informacao=info_data.data_info) info"
@@ -168,19 +174,33 @@ def reservatorio_equivalente_bacia():
 	resposta_consulta = IO.consulta_BD(query)
 
 	keys = ["bacia", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
-	 "total_reservatorios"]
+	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_5",
+	  "quant_reserv_intervalo_5"]
 
 	return json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys))
 
 
 def reservatorio_equivalente_estado():
-	# AINDA COM ERRO, FALTA DEFINIR ONDE/COMO VÃO FICAR OS AÇUDES EM MAIS DE 1 ESTADO
-	query = ("SELECT es.nome AS estado, ROUND(SUM(info.volume),2) AS volume_equivalente, ROUND(SUM(info.capacidade),2) AS capacidade_equivalente, ROUND((SUM(info.volume)/SUM(info.capacidade)*100),2) AS porcentagem_equivalente, COUNT(DISTINCT info.id_reservatorio) AS quant_reservatorio_com_info, (COUNT(DISTINCT res.id)-COUNT(DISTINCT info.id_reservatorio)) AS quant_reservatorio_sem_info ,COUNT(DISTINCT res.id) AS total_reservatorios FROM tb_reservatorio res LEFT JOIN (SELECT mo.volume AS volume, re.capacidade AS capacidade, re.id AS id_reservatorio FROM tb_monitoramento mo, tb_reservatorio re, (SELECT m.id_reservatorio as id_reserv, MAX(m.data_informacao) as data_info FROM tb_monitoramento m WHERE m.data_informacao >= (CURDATE() - INTERVAL 90 DAY) GROUP BY m.id_reservatorio) info_data WHERE info_data.id_reserv=mo.id_reservatorio AND re.id=mo.id_reservatorio AND mo.data_informacao=info_data.data_info) info ON info.id_reservatorio=res.id INNER JOIN tb_reservatorio_municipio rm ON rm.id_reservatorio=res.id INNER JOIN tb_municipio mu ON rm.id_municipio=mu.id INNER JOIN tb_estado es ON es.id=mu.id_estado GROUP BY es.nome;")
+	query = ("SELECT es.nome AS estado, ROUND(SUM(info.volume),2) AS volume_equivalente, ROUND(SUM(info.capacidade),2) AS capacidade_equivalente,"
+		" ROUND((SUM(info.volume)/SUM(info.capacidade)*100),2) AS porcentagem_equivalente, COUNT(DISTINCT info.id_reservatorio) AS quant_reservatorio_com_info,"
+		" (COUNT(DISTINCT res.id)-COUNT(DISTINCT info.id_reservatorio)) AS quant_reservatorio_sem_info ,COUNT(DISTINCT res.id) AS total_reservatorios,"
+		" CAST(SUM(CASE WHEN info.volume_percentual <= 10 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_1,"
+		" CAST(SUM(CASE WHEN info.volume_percentual > 10 AND info.volume_percentual <=25 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_2,"
+		" CAST(SUM(CASE WHEN info.volume_percentual > 25 AND info.volume_percentual <=50 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_3,"
+		" CAST(SUM(CASE WHEN info.volume_percentual > 50 AND info.volume_percentual <=75 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_4,"
+		" CAST(SUM(CASE WHEN info.volume_percentual > 75 THEN 1 ELSE 0 END) as UNSIGNED) AS intervalo_5"
+		" FROM tb_reservatorio res LEFT JOIN (SELECT mo.volume AS volume, re.capacidade AS capacidade, re.id AS id_reservatorio,"
+		" mo.volume_percentual AS volume_percentual FROM tb_monitoramento mo, tb_reservatorio re,"
+		" (SELECT m.id_reservatorio AS id_reserv, MAX(m.data_informacao) as data_info FROM tb_monitoramento m"
+		" WHERE m.data_informacao >= (CURDATE() - INTERVAL 90 DAY) GROUP BY m.id_reservatorio) info_data"
+		" WHERE info_data.id_reserv=mo.id_reservatorio AND re.id=mo.id_reservatorio AND mo.data_informacao=info_data.data_info) info"
+		" ON info.id_reservatorio=res.id INNER JOIN tb_reservatorio_municipio rm ON rm.id_reservatorio=res.id INNER JOIN tb_municipio mu"
+		" ON rm.id_municipio=mu.id INNER JOIN tb_estado es ON es.id=mu.id_estado GROUP BY es.nome;")
 
 	resposta_consulta = IO.consulta_BD(query)
 
 	keys = ["estado", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
-	 "total_reservatorios"]
+	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_5",
+	  "quant_reserv_intervalo_5"]
 
 	return json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys))
-
