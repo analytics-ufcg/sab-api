@@ -165,7 +165,7 @@ def reservatorio_equivalente_bacia():
 	resposta_consulta = IO.consulta_BD(query)
 
 	keys = ["bacia", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
-	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_5",
+	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  "quant_reserv_intervalo_5"]
 
 	return(funcoes_aux.lista_dicionarios(resposta_consulta, keys))
@@ -191,7 +191,7 @@ def reservatorio_equivalente_estado():
 	resposta_consulta = IO.consulta_BD(query)
 
 	keys = ["estado", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
-	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_5",
+	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  "quant_reserv_intervalo_5"]
 
 	return(funcoes_aux.lista_dicionarios(resposta_consulta, keys))
