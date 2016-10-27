@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from unicodedata import normalize
-import math
 from dateutil import relativedelta
 from datetime import datetime
 from fuzzywuzzy import fuzz

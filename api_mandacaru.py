@@ -1,17 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import json
 import IO
 import funcoes_aux
 from dateutil import relativedelta
 from datetime import datetime
 import math
 
-# def estados_br():
-# 	return(json.dumps(IO.estados_br()))
-
 def estados_sab():
-	return(json.dumps(IO.estados_sab()))
+	return(IO.estados_sab())
 
 def reservatorios():
 	query = ("SELECT mon.id,mon.latitude,mon.longitude, mon.capacidade, mo.volume_percentual, mo.volume"
@@ -42,11 +38,7 @@ def reservatorios():
 	resposta["type"] = "FeatureCollection"
 	resposta["features"] = features
 
-	return(json.dumps(resposta))
-
-# def municipios_sab():
-# 	return(json.dumps(IO.municipios_sab()))
-
+	return(resposta)
 
 def info_reservatorios_BD(id_res=None):
 	if (id_res is None):
@@ -81,7 +73,7 @@ def info_reservatorios_BD(id_res=None):
 
 	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado"]
 
-	return(json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys, "info")))
+	return(funcoes_aux.lista_dicionarios(resposta_consulta, keys, "info"))
 
 def monitoramento_reservatorios_BD(id_reserv,completo=False):
 	if(completo):
@@ -117,9 +109,8 @@ def monitoramento_reservatorios_BD(id_reserv,completo=False):
 
 	monitoramento_dados = funcoes_aux.ajuste_dados_com_intervalo(resposta_consulta)
 
-	return(json.dumps({'volumes': funcoes_aux.lista_dicionarios(monitoramento_dados, keys),
-		'volumes_recentes':{'volumes':monitoramento_meses, 'coeficiente_regressao': coeficiente_regressao, 'data_final':data_final.strftime('%d/%m/%Y')
-		, 'data_inicial':data_inicial.strftime('%d/%m/%Y')}}))
+	return({'volumes': funcoes_aux.lista_dicionarios(monitoramento_dados, keys), 'volumes_recentes':{'volumes':monitoramento_meses, 
+		'coeficiente_regressao': coeficiente_regressao, 'data_final':data_final.strftime('%d/%m/%Y'), 'data_inicial':data_inicial.strftime('%d/%m/%Y')}})
 
 
 def monitoramento_6meses(id_reserv,completo=False):
@@ -151,7 +142,7 @@ def similares_reservatorios(nome):
 
 	similares = funcoes_aux.reservatorios_similares(nome,reservatorios)
 
-	return json.dumps(similares)
+	return(similares)
 
 def reservatorio_equivalente_bacia():
 
@@ -177,7 +168,7 @@ def reservatorio_equivalente_bacia():
 	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_5",
 	  "quant_reserv_intervalo_5"]
 
-	return json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys))
+	return(funcoes_aux.lista_dicionarios(resposta_consulta, keys))
 
 
 def reservatorio_equivalente_estado():
@@ -203,4 +194,4 @@ def reservatorio_equivalente_estado():
 	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_5",
 	  "quant_reserv_intervalo_5"]
 
-	return json.dumps(funcoes_aux.lista_dicionarios(resposta_consulta, keys))
+	return(funcoes_aux.lista_dicionarios(resposta_consulta, keys))

@@ -2,17 +2,14 @@
 # -*- coding: utf-8 -*- 
 
 import json
-import csv
-from pyexcel_xlsx import get_data
-from unicodedata import normalize
 import os
 import MySQLdb
 
 
 path_local = os.path.dirname(os.path.realpath(__file__))
 
-with open(path_local+'/data/reserv.json') as data_file:
-	_reservatorios = json.load(data_file)
+# with open(path_local+'/data/reserv.json') as data_file:
+# 	_reservatorios = json.load(data_file)
 
 with open(path_local+'/data/div_estadual.json') as data_file:
 	_div_estadual_sab = json.load(data_file)	
@@ -23,9 +20,9 @@ with open(path_local+'/data/div_estadual.json') as data_file:
 # with open(path_local+'/data/municipios_sab.json') as data_file:
 # 	_municipios_sab = json.load(data_file)
 
-def reservatorios():
-	"""return a dictionary"""
-	return _reservatorios
+# def reservatorios():
+# 	"""return a dictionary"""
+# 	return _reservatorios
 
 # def municipios_sab():
 # 	"""return a dictionary"""

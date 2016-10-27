@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 
-from flask import Flask, make_response, request, Response
-import json
-import unicodedata
+from flask import Flask, make_response, request, Response, jsonify
 import api_mandacaru
 
 app = Flask(__name__)
@@ -22,7 +20,7 @@ def api():
 
 @app.route('/api/estados/sab')
 def estados_sab():
-	response = api_mandacaru.estados_sab()
+	response = jsonify(api_mandacaru.estados_sab())
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
@@ -36,7 +34,7 @@ def estados_sab():
 
 @app.route('/api/reservatorios')
 def reservatorios():
-	response = api_mandacaru.reservatorios()
+	response = jsonify(api_mandacaru.reservatorios())
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
@@ -45,23 +43,23 @@ def reservatorios():
 @app.route('/api/reservatorios/<id>/info')
 def info_reservatorios(id=None):
 	if (id is None):
-		response = api_mandacaru.info_reservatorios_BD()
+		response = jsonify(api_mandacaru.info_reservatorios_BD())
 	else:
-		response = api_mandacaru.info_reservatorios_BD(int(id))
+		response = jsonify(api_mandacaru.info_reservatorios_BD(int(id)))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios/<id>/monitoramento')
 def monitoramento_reservatorios(id):
-	response = api_mandacaru.monitoramento_reservatorios_BD(int(id),False)
+	response = jsonify(api_mandacaru.monitoramento_reservatorios_BD(int(id),False))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios/<id>/monitoramento/completo')
 def monitoramento_reservatorios_completo(id):
-	response = api_mandacaru.monitoramento_reservatorios_BD(int(id),True)
+	response = jsonify(api_mandacaru.monitoramento_reservatorios_BD(int(id),True))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
@@ -69,7 +67,7 @@ def monitoramento_reservatorios_completo(id):
 
 @app.route('/api/reservatorios/similares/<nome>')
 def similares_reservatorios(nome):
-	response = api_mandacaru.similares_reservatorios(nome)
+	response = jsonify(api_mandacaru.similares_reservatorios(nome))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
@@ -77,7 +75,7 @@ def similares_reservatorios(nome):
 
 @app.route('/api/reservatorio/equivalente/bacia')
 def reservatorio_equivalente_bacia():
-	response = api_mandacaru.reservatorio_equivalente_bacia()
+	response = jsonify(api_mandacaru.reservatorio_equivalente_bacia())
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
@@ -85,7 +83,7 @@ def reservatorio_equivalente_bacia():
 
 @app.route('/api/reservatorio/equivalente/estado')
 def reservatorio_equivalente_estado():
-	response = api_mandacaru.reservatorio_equivalente_estado()
+	response = jsonify(api_mandacaru.reservatorio_equivalente_estado())
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
