@@ -10,75 +10,74 @@ from scipy import stats
 
 
 
-def remover_acentos(txt):
+def remove_accents(txt):
 	if (type(txt) is str):
 		txt= unicode(txt, "utf-8")
 	return normalize('NFKD', txt).encode('ASCII','ignore').decode('ASCII')
 
-def ajuste_acentos(txt):
+def fix_accents(txt):
 	return unicode(txt, 'unicode-escape')
 
-def lista_dicionarios(list_of_values, keys, especial=None):
-	lista_resposta = []
-	for valor in list_of_values:
-		dicionario = cria_dicionario(valor,keys)
+def list_of_dictionarys(list_of_values, keys, especial=None):
+	answer_list = []
+	for value in list_of_values:
+		dictionary = create_dictionary(value,keys)
 		if (especial == "info"):
-			dicionario["nome_sem_acento"] = remover_acentos(dicionario["nome"])
-			dicionario["reservat_sem_acento"] = remover_acentos(dicionario["reservat"])
-		lista_resposta.append(dicionario)
-	return lista_resposta
+			dictionary["nome_sem_acento"] = remove_accents(dictionary["nome"])
+			dictionary["reservat_sem_acento"] = remove_accents(dictionary["reservat"])
+		answer_list.append(dictionary)
+	return answer_list
 
-def cria_dicionario(values, keys):
-	dicionario = {}
+def create_dictionary(values, keys):
+	dictionary = {}
 	for i in range(len(values)):
 		if (type(values[i]) is str):
-			dicionario[keys[i]] = values[i]
+			dictionary[keys[i]] = values[i]
 		else:
-			dicionario[keys[i]] = values[i]
-	return dicionario
+			dictionary[keys[i]] = values[i]
+	return dictionary
 
-def ajuste_dados_com_intervalo(monitoramento):
+def fix_data_interval_limit(monitoring):
 	result = []
-	diasRange = relativedelta.relativedelta(days=90)
-	dia = relativedelta.relativedelta(days=1)
-	for m in range(len(monitoramento)-1):
-		result.append(monitoramento[m])
-		if(datetime.strptime(monitoramento[m][1], "%d/%m/%Y") <= (datetime.strptime(monitoramento[m+1][1], "%d/%m/%Y")- diasRange)):
-			dataVaziaInicial = (datetime.strptime(monitoramento[m][1], "%d/%m/%Y")+dia).strftime("%d/%m/%Y")
-			dataVaziaFinal = (datetime.strptime(monitoramento[m+1][1], "%d/%m/%Y")-dia).strftime("%d/%m/%Y")
-			result.append((None,monitoramento[m][1],None))
-			result.append((None,monitoramento[m+1][1],None))
-	if(len(monitoramento) > 0):
-		result.append(monitoramento[len(monitoramento)-1])
-
+	range_days = relativedelta.relativedelta(days=90)
+	day = relativedelta.relativedelta(days=1)
+	for m in range(len(monitoring)-1):
+		result.append(monitoring[m])
+		if(datetime.strptime(monitoring[m][1], "%d/%m/%Y") <= (datetime.strptime(monitoring[m+1][1], "%d/%m/%Y")- range_days)):
+			empty_date_inicial = (datetime.strptime(monitoring[m][1], "%d/%m/%Y")+day).strftime("%d/%m/%Y")
+			empty_date_final = (datetime.strptime(monitoring[m+1][1], "%d/%m/%Y")-day).strftime("%d/%m/%Y")
+			result.append((None,monitoring[m][1],None))
+			result.append((None,monitoring[m+1][1],None))
+	if(len(monitoring) > 0):
+		result.append(monitoring[len(monitoring)-1])
 
 	return result
 
-def reservatorios_similares(nome_reservatorio, reservatorios):
-	lista_reservatorios = []
+def reservoirs_similar(reservoir_name, reservoirs):
+	reservoirs_list = []
 
-	for reserv in reservatorios:
-		reserv["apelido"] = re.sub(remover_acentos(reserv["nome"])+'|acude|barragem|lagoa|[()-]| do | da | de ','',remover_acentos(reserv["reservat"]), flags=re.IGNORECASE).strip()
-		semelhanca_reservat = fuzz.token_set_ratio(remover_acentos(nome_reservatorio),remover_acentos(reserv["reservat"]))
-		semelhanca_nome = fuzz.token_set_ratio(remover_acentos(nome_reservatorio),remover_acentos(reserv["nome"]))
-		semelhanca_apelido = fuzz.token_set_ratio(remover_acentos(nome_reservatorio),remover_acentos(reserv["apelido"]))
+	for reserv in reservoirs:
+		reserv["apelido"] = re.sub(remove_accents(reserv["nome"])+'|acude|barragem|lagoa|[()-]| do | da | de ','',remove_accents(reserv["reservat"]), flags=re.IGNORECASE).strip()
+		similar_reservat = fuzz.token_set_ratio(remove_accents(reservoir_name),remove_accents(reserv["reservat"]))
+		similar_name = fuzz.token_set_ratio(remove_accents(reservoir_name),remove_accents(reserv["nome"]))
+		similar_nickname = fuzz.token_set_ratio(remove_accents(reservoir_name),remove_accents(reserv["apelido"]))
 
-		reserv["semelhanca"] = max(semelhanca_reservat,semelhanca_nome,semelhanca_apelido)
+		reserv["semelhanca"] = max(similar_reservat,similar_name,similar_nickname)
 
-		lista_reservatorios.append(reserv)
+		reservoirs_list.append(reserv)
 
 	# Pega os 5 mais semelhantes
-	lista_reservatorios_ordenada = sorted(lista_reservatorios, key=lambda k: k['semelhanca'], reverse=True)
+	reservoirs_list_ordered = sorted(reservoirs_list, key=lambda k: k['semelhanca'], reverse=True)
 
 	# Filtra os 100% semelhantes
-	lista_reservatorios_filtrada = list(filter(lambda d: d['semelhanca'] == 100, lista_reservatorios_ordenada))
+	reservoirs_list_filtered = list(filter(lambda d: d['semelhanca'] == 100, reservoirs_list_ordered))
 
 	# Se não tiver nenhum 100% semelhante retorna os 5 primeiros, caso contrário os semelhantes
-	if(len(lista_reservatorios_filtrada) == 0):
-		return lista_reservatorios_ordenada[:5]
+	if(len(reservoirs_list_filtered) == 0):
+		return reservoirs_list_ordered[:5]
 	else:
-		return lista_reservatorios_filtrada[:10]
+		return reservoirs_list_filtered[:10]
 
-def gradiente_regressao(lista1,lista2):
-	gradient, intercept, r_value, p_value, std_err = stats.linregress(lista1,lista2)
+def regression_gradient(list_1,list_2):
+	gradient, intercept, r_value, p_value, std_err = stats.linregress(list_1,list_2)
 	return gradient

@@ -8,36 +8,15 @@ import MySQLdb
 
 path_local = os.path.dirname(os.path.realpath(__file__))
 
-# with open(path_local+'/data/reserv.json') as data_file:
-# 	_reservatorios = json.load(data_file)
 
 with open(path_local+'/data/div_estadual.json') as data_file:
-	_div_estadual_sab = json.load(data_file)	
+	_state_division_sab = json.load(data_file)	
 
-# with open(path_local+'/data/estados_br.json') as data_file:
-# 	_estados_br = json.load(data_file)
+def states_sab():
+	"""return a json"""
+	return _state_division_sab
 
-# with open(path_local+'/data/municipios_sab.json') as data_file:
-# 	_municipios_sab = json.load(data_file)
-
-# def reservatorios():
-# 	"""return a dictionary"""
-# 	return _reservatorios
-
-# def municipios_sab():
-# 	"""return a dictionary"""
-# 	return _municipios_sab
-
-def estados_sab():
-	"""return a dictionary"""
-	return _div_estadual_sab
-
-# def estados_br():
-# 	"""return a dictionary"""
-# 	return _estados_br
-
-
-def consulta_BD(query):
+def select_DB(query):
 	""" Connect to MySQL database """
 	try:
 		conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
@@ -53,7 +32,7 @@ def consulta_BD(query):
 	
 	return rows
  
-def consulta_BD_one(query):
+def select_one_DB(query):
 	""" Connect to MySQL database """
 	try:
 		conn = MySQLdb.connect(read_default_group='INSA',db="INSA")

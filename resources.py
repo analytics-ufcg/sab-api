@@ -11,79 +11,65 @@ app = Flask(__name__)
 def api():
 	return "Api do monitoramento dos reservatórios da região Semi-árida brasileira"
 
-# @app.route('/api/estados/br')
-# def estados_br():
-# 	response = api_mandacaru.estados_br()
-# 	response = make_response(response)
-# 	response.headers['Access-Control-Allow-Origin'] = "*"
-# 	return response
-
 @app.route('/api/estados/sab')
-def estados_sab():
-	response = json.dumps(api_mandacaru.estados_sab())
+def states_sab():
+	response = json.dumps(api_mandacaru.states_sab())
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-# @app.route('/api/municipios/sab')
-# def municipios_sab():
-# 	response = api_mandacaru.municipios_sab()
-# 	response = make_response(response)
-# 	response.headers['Access-Control-Allow-Origin'] = "*"
-# 	return response
-
 @app.route('/api/reservatorios')
-def reservatorios():
-	response = json.dumps(api_mandacaru.reservatorios())
+def reservoirs():
+	response = json.dumps(api_mandacaru.reservoirs())
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios/info')
 @app.route('/api/reservatorios/<id>/info')
-def info_reservatorios(id=None):
+def reservoirs_information(id=None):
 	if (id is None):
-		response = json.dumps(api_mandacaru.info_reservatorios_BD())
+		response = json.dumps(api_mandacaru.reservoirs_information())
 	else:
-		response = json.dumps(api_mandacaru.info_reservatorios_BD(int(id)))
+		response = json.dumps(api_mandacaru.reservoirs_information(int(id)))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios/<id>/monitoramento')
-def monitoramento_reservatorios(id):
-	response = json.dumps(api_mandacaru.monitoramento_reservatorios_BD(int(id),False))
+def reservoirs_monitoring(id):
+	response = json.dumps(api_mandacaru.reservoirs_monitoring(int(id),False))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios/<id>/monitoramento/completo')
-def monitoramento_reservatorios_completo(id):
-	response = json.dumps(api_mandacaru.monitoramento_reservatorios_BD(int(id),True))
+def reservoirs_monitoring_complete(id):
+	response = json.dumps(api_mandacaru.reservoirs_monitoring(int(id),True))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 
 @app.route('/api/reservatorios/similares/<nome>')
-def similares_reservatorios(nome):
-	response = json.dumps(api_mandacaru.similares_reservatorios(nome))
+def reservoirs_similar(nome):
+	response = json.dumps(api_mandacaru.reservoirs_similar(nome))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 
 @app.route('/api/reservatorio/equivalente/bacia')
-def reservatorio_equivalente_bacia():
-	response = json.dumps(api_mandacaru.reservatorio_equivalente_bacia())
+def reservoirs_equivalent_hydrographic_basin():
+	response = json.dumps(api_mandacaru.reservoirs_equivalent_hydrographic_basin())
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 
 @app.route('/api/reservatorio/equivalente/estado')
-def reservatorio_equivalente_estado():
-	response = json.dumps(api_mandacaru.reservatorio_equivalente_estado())
+def reservoirs_equivalent_states():
+	response = json.dumps(api_mandacaru.reservoirs_equivalent_states())
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response

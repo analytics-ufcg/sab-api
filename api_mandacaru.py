@@ -6,42 +6,42 @@ from dateutil import relativedelta
 from datetime import datetime
 import math
 
-def estados_sab():
-	return(IO.estados_sab())
+def states_sab():
+	return(IO.states_sab())
 
-def reservatorios():
+def reservoirs():
 	query = ("SELECT mon.id,mon.latitude,mon.longitude, mon.capacidade, mo.volume_percentual, mo.volume"
 		" FROM tb_monitoramento mo RIGHT JOIN "
 		"(SELECT r.id,r.latitude,r.longitude, r.capacidade, max(m.data_informacao) AS maior_data "
 		"FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
 		" ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao;")
-	resposta_consulta = IO.consulta_BD(query)
+	select_answer = IO.select_DB(query)
 
 	keys = ["id", "latitude", "longitude", "capacidade","volume_percentual","volume"]
 
 	features = []
-	for linha in resposta_consulta:
+	for line in select_answer:
 		feature = {}
 		geometry = {}
-		propriedades = funcoes_aux.cria_dicionario(linha, keys)
+		properties = funcoes_aux.create_dictionary(line, keys)
 
 		geometry["type"] = "Point"
-		geometry["coordinates"] = [float(propriedades["longitude"]),float(propriedades["latitude"])]
+		geometry["coordinates"] = [float(properties["longitude"]),float(properties["latitude"])]
 
 		feature["geometry"] = geometry
 		feature["type"] = "Feature"
-		feature["properties"] = propriedades
+		feature["properties"] = properties
 
 		features.append(feature)
 
-	resposta = {}
-	resposta["type"] = "FeatureCollection"
-	resposta["features"] = features
+	answer = {}
+	answer["type"] = "FeatureCollection"
+	answer["features"] = features
 
-	return resposta
+	return answer
 
-def info_reservatorios_BD(id_res=None):
-	if (id_res is None):
+def reservoirs_information(res_id=None):
+	if (res_id is None):
 		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
 				",r.tipo,r.area,r.capacidade"
 				",mo.volume, mo.volume_percentual, date_format(aux.data_info,'%d/%m/%Y')"
@@ -66,85 +66,85 @@ def info_reservatorios_BD(id_res=None):
 				" LEFT OUTER JOIN (select id_reservatorio as id_reserv, max(data_informacao) as data_info from tb_monitoramento group by id_reservatorio) aux"
 				" ON aux.id_reserv=r.id"
 				" LEFT OUTER JOIN tb_monitoramento mo ON (r.id=mo.id_reservatorio) and (mo.data_informacao=aux.data_info)"
-				" WHERE r.id="+str(id_res)+
+				" WHERE r.id="+str(res_id)+
 				" GROUP BY r.id,mo.volume, mo.volume_percentual,aux.data_info")
 
-	resposta_consulta = IO.consulta_BD(query)
+	select_answer = IO.select_DB(query)
 
 	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado"]
 
-	return funcoes_aux.lista_dicionarios(resposta_consulta, keys, "info")
+	return funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
 
-def monitoramento_reservatorios_BD(id_reserv,completo=False):
-	if(completo):
-		query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(id_reserv)+
+def reservoirs_monitoring(res_id,all_reservoirs=False):
+	if(all_reservoirs):
+		query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(res_id)+
 			" ORDER BY mo.data_informacao")
 	else:
-		query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(id_reserv)+
+		query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(res_id)+
 			" ORDER BY mo.data_informacao")
 
-	resposta_consulta = IO.consulta_BD(query)
+	select_answer = IO.select_DB(query)
 
 	keys = ["VolumePercentual","DataInformacao", "Volume"]
 
-	lista_volumes = []
-	lista_datas = []
-	monitoramento_meses = monitoramento_6meses(id_reserv,completo)
-	data_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
+	volumes_list = []
+	dates_list = []
+	months_monitoring = monitoring_6_meses(res_id,all_reservoirs)
+	date_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
 
-	for monitoramento in monitoramento_meses:
-		lista_volumes.append(float(monitoramento["Volume"]))
-		data = datetime.strptime(monitoramento["DataInformacao"], '%d/%m/%Y')
-		if (data > data_final):
-			data_final = data
-		lista_datas.append(float(data.strftime('%s')))
+	for monitoring in months_monitoring:
+		volumes_list.append(float(monitoring["Volume"]))
+		date = datetime.strptime(monitoring["DataInformacao"], '%d/%m/%Y')
+		if (date > date_final):
+			date_final = date
+		dates_list.append(float(date.strftime('%s')))
 
-	data_inicial = data_final- relativedelta.relativedelta(months=6)
+	inicial_date = date_final- relativedelta.relativedelta(months=6)
 
-	coeficiente_regressao=0
-	if(len(lista_volumes)>0):
-		grad_regressao = funcoes_aux.gradiente_regressao(lista_volumes,lista_datas)
-		if(not math.isnan(grad_regressao)):
-			coeficiente_regressao=grad_regressao
+	regression_coefficient=0
+	if(len(volumes_list)>0):
+		regression_gradient = funcoes_aux.regression_gradient(volumes_list,dates_list)
+		if(not math.isnan(regression_gradient)):
+			regression_coefficient=regression_gradient
 
-	monitoramento_dados = funcoes_aux.ajuste_dados_com_intervalo(resposta_consulta)
+	data_monitoring = funcoes_aux.fix_data_interval_limit(select_answer)
 
-	return {'volumes': funcoes_aux.lista_dicionarios(monitoramento_dados, keys), 'volumes_recentes':{'volumes':monitoramento_meses, 
-		'coeficiente_regressao': coeficiente_regressao, 'data_final':data_final.strftime('%d/%m/%Y'), 'data_inicial':data_inicial.strftime('%d/%m/%Y')}}
+	return {'volumes': funcoes_aux.list_of_dictionarys(data_monitoring, keys), 'volumes_recentes':{'volumes':months_monitoring, 
+		'coeficiente_regressao': regression_coefficient, 'data_final':date_final.strftime('%d/%m/%Y'), 'data_inicial':inicial_date.strftime('%d/%m/%Y')}}
 
 
-def monitoramento_6meses(id_reserv,completo=False):
-	if(completo):
-		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(id_reserv)+
+def monitoring_6_meses(res_id,all_reservoirs=False):
+	if(all_reservoirs):
+		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
 			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
 	else:
-		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(id_reserv)+
+		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
 			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
 
-	resposta_consulta_min_graph = IO.consulta_BD(query_min_graph)
+	select_answer = IO.select_DB(query_min_graph)
 
 	keys = ["VolumePercentual","DataInformacao", "Volume"]
 
-	return funcoes_aux.lista_dicionarios(resposta_consulta_min_graph,keys)
+	return funcoes_aux.list_of_dictionarys(select_answer,keys)
 
 
-def similares_reservatorios(nome):
+def reservoirs_similar(name):
 	query = ("SELECT DISTINCT mon.id,mon.reservat,mon.nome, date_format(mon.maior_data,'%d/%m/%Y'), mo.volume_percentual, mo.volume, es.nome, es.sigla"
 		" FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id,r.reservat,r.nome, max(m.data_informacao) AS maior_data"
 		" FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
 		" ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao LEFT JOIN tb_reservatorio_municipio re ON mon.id= re.id_reservatorio"
 		" LEFT JOIN tb_municipio mu ON mu.id= re.id_municipio LEFT JOIN tb_estado es ON es.id= mu.id_estado;")
-	resposta_consulta = IO.consulta_BD(query)
+	select_answer = IO.select_DB(query)
 
 	keys = ["id", "reservat","nome", "data", "volume_percentual","volume", "nome_estado", "uf"]
 
-	reservatorios = funcoes_aux.lista_dicionarios(resposta_consulta, keys)
+	reservoirs = funcoes_aux.list_of_dictionarys(select_answer, keys)
 
-	similares = funcoes_aux.reservatorios_similares(nome,reservatorios)
+	similar = funcoes_aux.reservoirs_similar(name,reservoirs)
 
-	return similares
+	return similar
 
-def reservatorio_equivalente_bacia():
+def reservoirs_equivalent_hydrographic_basin():
 
 	query = ("SELECT res.bacia AS bacia, ROUND(SUM(info.volume),2) AS volume_equivalente, ROUND(SUM(info.capacidade),2) AS capacidade_equivalente,"
 		" ROUND((SUM(info.volume)/SUM(info.capacidade)*100),2) AS porcentagem_equivalente,"
@@ -162,16 +162,16 @@ def reservatorio_equivalente_bacia():
 		" WHERE info_data.id_reserv=mo.id_reservatorio AND re.id=mo.id_reservatorio AND mo.data_informacao=info_data.data_info) info"
 		" ON info.id_reservatorio=res.id GROUP BY res.bacia;")
 
-	resposta_consulta = IO.consulta_BD(query)
+	select_answer = IO.select_DB(query)
 
 	keys = ["bacia", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
 	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  "quant_reserv_intervalo_5"]
 
-	return funcoes_aux.lista_dicionarios(resposta_consulta, keys)
+	return funcoes_aux.list_of_dictionarys(select_answer, keys)
 
 
-def reservatorio_equivalente_estado():
+def reservoirs_equivalent_states():
 	query = ("SELECT es.nome AS estado, ROUND(SUM(info.volume),2) AS volume_equivalente, ROUND(SUM(info.capacidade),2) AS capacidade_equivalente,"
 		" ROUND((SUM(info.volume)/SUM(info.capacidade)*100),2) AS porcentagem_equivalente, COUNT(DISTINCT info.id_reservatorio) AS quant_reservatorio_com_info,"
 		" (COUNT(DISTINCT res.id)-COUNT(DISTINCT info.id_reservatorio)) AS quant_reservatorio_sem_info ,COUNT(DISTINCT res.id) AS total_reservatorios,"
@@ -188,10 +188,10 @@ def reservatorio_equivalente_estado():
 		" ON info.id_reservatorio=res.id INNER JOIN tb_reservatorio_municipio rm ON rm.id_reservatorio=res.id INNER JOIN tb_municipio mu"
 		" ON rm.id_municipio=mu.id INNER JOIN tb_estado es ON es.id=mu.id_estado GROUP BY es.nome;")
 
-	resposta_consulta = IO.consulta_BD(query)
+	select_answer = IO.select_DB(query)
 
 	keys = ["estado", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
 	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  "quant_reserv_intervalo_5"]
 
-	return funcoes_aux.lista_dicionarios(resposta_consulta, keys)
+	return funcoes_aux.list_of_dictionarys(select_answer, keys)
