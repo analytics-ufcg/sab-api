@@ -239,8 +239,8 @@ def reservoirs_equivalent_states():
 		quant_reserv_intervalo_5 = quant_reserv_intervalo_5 + list_dictionarys[i]["quant_reserv_intervalo_5"]
 
 
-	list_dictionarys.append({"estado":"Semiarido", "uf":"Semiarido","semiarido":"Semiárido Brasileiro", "volume_equivalente":volume_equivalente,
-		"capacidade_equivalente":capacidade_equivalente, "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,2), 
+	list_dictionarys.append({"estado":"Semiarido", "uf":"Semiarido","semiarido":"Semiárido Brasileiro", "volume_equivalente":round(volume_equivalente,2),
+		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,2), 
 		"quant_reservatorio_com_info":quant_reservatorio_com_info,"quant_reservatorio_sem_info":quant_reservatorio_sem_info,
 		"total_reservatorios":total_reservatorios, "quant_reserv_intervalo_1":quant_reserv_intervalo_1, "quant_reserv_intervalo_2":quant_reserv_intervalo_2,
 		 "quant_reserv_intervalo_3":quant_reserv_intervalo_3, "quant_reserv_intervalo_4":quant_reserv_intervalo_4, 
