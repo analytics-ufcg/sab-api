@@ -194,4 +194,56 @@ def reservoirs_equivalent_states():
 	 "total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  "quant_reserv_intervalo_5"]
 
-	return funcoes_aux.list_of_dictionarys(select_answer, keys)
+	list_dictionarys = funcoes_aux.list_of_dictionarys(select_answer, keys)
+
+	# Semiarido Brasileiro
+	volume_equivalente = 0
+	capacidade_equivalente = 0
+	quant_reservatorio_com_info = 0
+	quant_reservatorio_sem_info = 0
+	total_reservatorios = 0
+	quant_reserv_intervalo_1 = 0
+	quant_reserv_intervalo_2 = 0
+	quant_reserv_intervalo_3 = 0
+	quant_reserv_intervalo_4 = 0
+	quant_reserv_intervalo_5 = 0
+
+	for i in range(len(list_dictionarys)):
+		if(list_dictionarys[i]["uf"] == "AL"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Alagoano"
+		elif(list_dictionarys[i]["uf"] == "PE"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Pernambucano"
+		elif(list_dictionarys[i]["uf"] == "BA"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Baiano"
+		elif(list_dictionarys[i]["uf"] == "PB"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Paraibano"
+		elif(list_dictionarys[i]["uf"] == "CE"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Cearense"
+		elif(list_dictionarys[i]["uf"] == "MG"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Mineiro"
+		elif(list_dictionarys[i]["uf"] == "PI"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Piauiense"
+		elif(list_dictionarys[i]["uf"] == "SE"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Sergipano"
+		elif(list_dictionarys[i]["uf"] == "RN"):
+			list_dictionarys[i]["semiarido"] = "Semiárido Potiguar"
+		volume_equivalente = volume_equivalente + (list_dictionarys[i]["volume_equivalente"] if list_dictionarys[i]["volume_equivalente"] is not None else 0)
+		capacidade_equivalente = capacidade_equivalente + (list_dictionarys[i]["capacidade_equivalente"] if list_dictionarys[i]["capacidade_equivalente"] is not None else 0)
+		quant_reservatorio_com_info = quant_reservatorio_com_info + list_dictionarys[i]["quant_reservatorio_com_info"]
+		quant_reservatorio_sem_info = quant_reservatorio_sem_info + list_dictionarys[i]["quant_reservatorio_sem_info"]
+		total_reservatorios = total_reservatorios + list_dictionarys[i]["total_reservatorios"]
+		quant_reserv_intervalo_1 = quant_reserv_intervalo_1 + list_dictionarys[i]["quant_reserv_intervalo_1"]
+		quant_reserv_intervalo_2 = quant_reserv_intervalo_2 + list_dictionarys[i]["quant_reserv_intervalo_2"]
+		quant_reserv_intervalo_3 = quant_reserv_intervalo_3 + list_dictionarys[i]["quant_reserv_intervalo_3"]
+		quant_reserv_intervalo_4 = quant_reserv_intervalo_4 + list_dictionarys[i]["quant_reserv_intervalo_4"]
+		quant_reserv_intervalo_5 = quant_reserv_intervalo_5 + list_dictionarys[i]["quant_reserv_intervalo_5"]
+
+
+	list_dictionarys.append({"estado":"Semiarido", "uf":"Semiarido","semiarido":"Semiárido Brasileiro", "volume_equivalente":volume_equivalente,
+		"capacidade_equivalente":capacidade_equivalente, "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,2), 
+		"quant_reservatorio_com_info":quant_reservatorio_com_info,"quant_reservatorio_sem_info":quant_reservatorio_sem_info,
+		"total_reservatorios":total_reservatorios, "quant_reserv_intervalo_1":quant_reserv_intervalo_1, "quant_reserv_intervalo_2":quant_reserv_intervalo_2,
+		 "quant_reserv_intervalo_3":quant_reserv_intervalo_3, "quant_reserv_intervalo_4":quant_reserv_intervalo_4, 
+		 "quant_reserv_intervalo_5":quant_reserv_intervalo_5})
+
+	return list_dictionarys
