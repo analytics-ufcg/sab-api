@@ -128,7 +128,7 @@ def monitoring_6_meses(res_id,all_reservoirs=False):
 	return funcoes_aux.list_of_dictionarys(select_answer,keys)
 
 
-def reservoirs_similar(name):
+def reservoirs_similar(name, threshold):
 	query = ("SELECT DISTINCT mon.id,mon.reservat,mon.nome, date_format(mon.maior_data,'%d/%m/%Y'), mo.volume_percentual, mo.volume, es.nome, es.sigla"
 		" FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id,r.reservat,r.nome, max(m.data_informacao) AS maior_data"
 		" FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
@@ -140,7 +140,7 @@ def reservoirs_similar(name):
 
 	reservoirs = funcoes_aux.list_of_dictionarys(select_answer, keys)
 
-	similar = funcoes_aux.reservoirs_similar(name,reservoirs)
+	similar = funcoes_aux.reservoirs_similar(name,reservoirs,threshold)
 
 	return similar
 

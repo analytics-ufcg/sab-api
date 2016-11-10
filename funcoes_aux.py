@@ -53,7 +53,7 @@ def fix_data_interval_limit(monitoring):
 
 	return result
 
-def reservoirs_similar(reservoir_name, reservoirs):
+def reservoirs_similar(reservoir_name, reservoirs, threshold):
 	reservoirs_list = []
 
 	for reserv in reservoirs:
@@ -73,10 +73,10 @@ def reservoirs_similar(reservoir_name, reservoirs):
 	reservoirs_list_filtered = list(filter(lambda d: d['semelhanca'] == 100, reservoirs_list_ordered))
 
 	# Se não tiver nenhum 100% semelhante retorna os 5 primeiros, caso contrário os semelhantes
-	if(len(reservoirs_list_filtered) == 0):
-		return reservoirs_list_ordered[:5]
+	if(len(reservoirs_list_filtered) > 0):
+		return reservoirs_list_filtered
 	else:
-		return reservoirs_list_filtered[:10]
+		return list(filter(lambda d: d['semelhanca'] >= threshold, reservoirs_list_ordered))[:5]
 
 def regression_gradient(list_1,list_2):
 	gradient, intercept, r_value, p_value, std_err = stats.linregress(list_1,list_2)

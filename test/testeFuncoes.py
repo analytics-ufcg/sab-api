@@ -52,10 +52,10 @@ class TestStringMethods(unittest.TestCase):
         reservoirs =[{"nome": "Barragem Jabiberi","reservat": "Barragem Jabiberi", "volume": None, "volume_percentual": None, "data": None, "id": 751, "estado": "", "uf": ""}, {"nome": "UHE Pedra do Cavalo","reservat": "UHE Pedra do Cavalo", "volume": None, "volume_percentual": None, "data": None, "id": 795, "estado": "", "uf": ""}, {"nome": "Açude Barra da Melancia","reservat": "Açude Barra da Melancia", "volume": None, "volume_percentual": None, "data": None, "id": 1041, "estado": "", "uf": ""}, {"nome": "Açude Mesa de Pedra","reservat": "Açude Mesa de Pedra", "volume": None, "volume_percentual": None, "data": None, "id": 1055, "estado": "", "uf": ""}]
 
         answer_1 =[{"nome": "Barragem Jabiberi","reservat": "Barragem Jabiberi", "volume": None, "volume_percentual": None, "data": None, "id": 751, 'semelhanca': 100, "apelido": "", "estado": "", "uf": ""}]
-        self.assertEqual(funcoes_aux.reservoirs_similar("jabiberi", reservoirs), answer_1)
+        self.assertEqual(funcoes_aux.reservoirs_similar("jabiberi", reservoirs,50), answer_1)
 
         answer_2 = [{"nome": "Açude Barra da Melancia","reservat": "Açude Barra da Melancia", "volume": None, "volume_percentual": None, "data": None, "id": 1041, 'semelhanca': 100, "apelido": "", "estado": "", "uf": ""}, {"reservat": "Açude Mesa de Pedra","nome": "Açude Mesa de Pedra", "volume": None, "volume_percentual": None, "data": None, "id": 1055, 'semelhanca': 100, "apelido": "", "estado": "", "uf": ""}]
-        self.assertEqual(funcoes_aux.reservoirs_similar("acude", reservoirs), answer_2)
+        self.assertEqual(funcoes_aux.reservoirs_similar("acude", reservoirs,50), answer_2)
 
 if __name__ == '__main__':
     unittest.main()

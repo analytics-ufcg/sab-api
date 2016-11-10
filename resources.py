@@ -50,10 +50,9 @@ def reservoirs_monitoring_complete(id):
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-
-@app.route('/api/reservatorios/similares/<nome>')
-def reservoirs_similar(nome):
-	response = json.dumps(api_mandacaru.reservoirs_similar(nome))
+@app.route('/api/reservatorios/similares/<nome>/<limiar>')
+def reservoirs_similar(nome, limiar):
+	response = json.dumps(api_mandacaru.reservoirs_similar(nome, int(limiar)))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
