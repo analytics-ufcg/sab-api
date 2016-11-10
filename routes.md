@@ -21,7 +21,7 @@
 
 ## Similares
 ### **Reservatórios**
-*GET*           /api/reservatorios/similares/:nome
+*GET*           /api/reservatorios/similares/:nome/:limiar
 
 
 ## Equivalentes
