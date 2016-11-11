@@ -37,7 +37,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_shapes(self):
         self.assertTrue(len(IO.states_sab()) > 0)
-        self.assertTrue(len(IO.brazil()) > 0)
+        self.assertTrue(len(IO.json_brazil()) > 0)
 
     def test_fix_data_interval_limit(self):
         answer = [(100,"20/06/2016",10),(100,"21/06/2016",10),(100,"22/06/2016",10),(100,"23/06/2016",10),(100,"24/06/2016",10)]
