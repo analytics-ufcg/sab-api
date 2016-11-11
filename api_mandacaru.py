@@ -9,6 +9,9 @@ import math
 def states_sab():
 	return(IO.states_sab())
 
+def json_brazil():
+	return(IO.json_brazil())
+
 def reservoirs():
 	query = ("SELECT mon.id,mon.latitude,mon.longitude, mon.capacidade, mo.volume_percentual, mo.volume"
 		" FROM tb_monitoramento mo RIGHT JOIN "

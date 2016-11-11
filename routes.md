@@ -4,6 +4,9 @@
 ### **Estados**
 *GET*           /api/estados/sab
 
+### **Brasil**
+*GET*           /api/pais
+
 ### **Reservatórios**
 *GET*           /api/reservatorios
 

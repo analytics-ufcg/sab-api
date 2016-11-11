@@ -18,6 +18,13 @@ def states_sab():
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
+@app.route('/api/pais')
+def json_brazil():
+	response = json.dumps(api_mandacaru.json_brazil())
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
 @app.route('/api/reservatorios')
 def reservoirs():
 	response = json.dumps(api_mandacaru.reservoirs())

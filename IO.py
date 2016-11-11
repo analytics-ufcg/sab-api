@@ -16,6 +16,14 @@ def states_sab():
 	"""return a json"""
 	return _state_division_sab
 
+with open(path_local+'/data/brasil.json') as data_file:
+	_json_brazil = json.load(data_file)	
+
+def json_brazil():
+	"""return a json"""
+	return _json_brazil
+
+
 def select_DB(query):
 	""" Connect to MySQL database """
 	try:
