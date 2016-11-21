@@ -42,6 +42,22 @@ def insert_many_BD(values):
 	cursor.close()
 	conn.close()
 
+def update_BD(query):
+	""" Connect to MySQL database """
+	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
+	cursor = conn.cursor()
+	try:
+		cursor.execute(query)
+		rows = cursor.fetchall()
+	except MySQLdb.Error as e:
+		print "Error", e
+		conn.rollback()
+
+	cursor.close()
+	conn.close()
+	
+
+
 ultimos_monitoramentos = consulta_BD("SELECT mon.id, mo.cota, mo.volume, mo.volume_percentual, date_format(mo.data_informacao,'%d-%m-%Y') FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id, max(m.data_informacao) AS maior_data FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao;")
 
 formato_data_1 = '%d/%m/%Y'
@@ -51,6 +67,8 @@ formato_data_3 = '%Y-%m-%d'
 data_final = str(datetime.now().strftime(formato_data_2))
 
 cabecalho = ['Codigo','Reservatorio','Cota','Capacidade','Volume','VolumePercentual','DataInformacao']
+
+update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 0;")
 
 for monitoramento in ultimos_monitoramentos:
 	to_insert = []
@@ -85,6 +103,7 @@ for monitoramento in ultimos_monitoramentos:
 			json_insert={}
 
 	if(len(to_insert) >0):
+		update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+reserv+";")
 		insert_many_BD(aux_insert_month.retira_ruido(to_insert, monitoramento))
 		
 	time.sleep(4)
