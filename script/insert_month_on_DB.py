@@ -48,7 +48,7 @@ def update_BD(query):
 	cursor = conn.cursor()
 	try:
 		cursor.execute(query)
-		rows = cursor.fetchall()
+		conn.commit()
 	except MySQLdb.Error as e:
 		print "Error", e
 		conn.rollback()
