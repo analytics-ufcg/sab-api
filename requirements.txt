@@ -5,3 +5,4 @@ python-dateutil
 fuzzywuzzy
 scipy
 python-levenshtein
+bs4
