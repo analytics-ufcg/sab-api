@@ -6,3 +6,4 @@ fuzzywuzzy
 scipy
 python-levenshtein
 bs4
+requests

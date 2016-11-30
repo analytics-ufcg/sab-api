@@ -32,12 +32,6 @@ host=hostDoUsuario
 
 Para criar o Banco de dados e populá-lo inicialmente com os dados previamente baixados é necessário:
 
-- instalar:
-```
-pip install requests
-pip install bs4
-```
-
 - executar na pasta script:
 ```
 python inicial_script_DB.py
