@@ -243,8 +243,10 @@ pedra_cavalo_historico = []
 formato_data_1 = '%d/%m/%y'
 formato_data_2 = '%Y-%m-%d'
 for row in reader_pedra_cavalo_historico:
-	pedra_cavalo_historico.append((pedra_cavalo_id, row["Cota(m)"], row["VolumeAtual(hm3)"], round((float(row["VolumeAtual(hm3)"])*100/pedra_cavalo_capacidade),2),
-	datetime.strptime(row["DataMedicao"], formato_data_1).strftime(formato_data_2),1))
+	historico =  (pedra_cavalo_id, row["Cota(m)"], row["VolumeAtual(hm3)"], round((float(row["VolumeAtual(hm3)"])*100/pedra_cavalo_capacidade),2),
+	datetime.strptime(row["DataMedicao"], formato_data_1).strftime(formato_data_2),1)
+	if (historico not in pedra_cavalo_historico):
+		pedra_cavalo_historico.append(historico)
 
 execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao) VALUES (%s,%s,%s,%s,%s,%s)""", pedra_cavalo_historico)
 
