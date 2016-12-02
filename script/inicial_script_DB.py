@@ -5,6 +5,7 @@ import MySQLdb
 import csv
 import json
 from unicodedata import normalize
+from datetime import datetime
 
 try:
 	conn = MySQLdb.connect(read_default_group='INSA')
@@ -27,6 +28,11 @@ def execute_many_BD(insert,values):
 		conn.rollback()
 
 	conn.close()
+
+#INFOS PEDRA DO CAVALO A SER ADICIONADO NA MÃO
+pedra_cavalo_id = 795
+pedra_cavalo_capacidade = 0
+
 
 reader_cidades_br = csv.DictReader(open('../data/cidades_br.csv'))
 cidades_br = {}
@@ -81,6 +87,9 @@ for reservat in _reservatorios['features']:
 	elif (reservat_nome == "Açude Pompeu Sobrinho (Choró Lim?o)"):
 		reservat_nome = "Açude Pompeu Sobrinho (Choró Limão)"
 
+	#PEDRA DO CAVALO
+	if(int(reservat['properties']['GEOCODIGO']) == pedra_cavalo_id):
+		pedra_cavalo_capacidade = reservat['properties']['CAP_HM3']
 
 	tb_reservatorio.append((int(reservat['properties']['GEOCODIGO']),reservat['properties']['NOME'].encode('utf8'), reservat_nome,
 		bacia,reservat['properties']['TIPO_RESER'],reservat['properties']['AREA_M2'],reservat['properties']['PERIM'],
@@ -228,5 +237,15 @@ execute_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_mun
 reservatorios_municipios = [(12176,3124302),(12303,2606507)]
 execute_many_BD("""DELETE FROM tb_reservatorio_municipio WHERE id_reservatorio=%s and id_municipio=%s""", reservatorios_municipios)
 
+
+reader_pedra_cavalo_historico = csv.DictReader(open('../data/pedra_cavalo_historico.csv'))
+pedra_cavalo_historico = []
+formato_data_1 = '%d/%m/%y'
+formato_data_2 = '%Y-%m-%d'
+for row in reader_pedra_cavalo_historico:
+	pedra_cavalo_historico.append((pedra_cavalo_id, row["Cota(m)"], row["VolumeAtual(hm3)"], round((float(row["VolumeAtual(hm3)"])*100/pedra_cavalo_capacidade),2),
+	datetime.strptime(row["DataMedicao"], formato_data_1).strftime(formato_data_2),1))
+
+execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao) VALUES (%s,%s,%s,%s,%s,%s)""", pedra_cavalo_historico)
 
 import insert_month_on_DB
