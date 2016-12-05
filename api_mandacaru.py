@@ -13,7 +13,7 @@ def json_brazil():
 	return(IO.json_brazil())
 
 def reservoirs():
-	query = ("SELECT mon.id,mon.latitude,mon.longitude, mon.capacidade, mo.volume_percentual, mo.volume"
+	query = ("SELECT mon.id,mon.latitude,mon.longitude, mon.capacidade, ROUND(mo.volume_percentual,1), mo.volume"
 		" FROM tb_monitoramento mo RIGHT JOIN "
 		"(SELECT r.id,r.latitude,r.longitude, r.capacidade, max(m.data_informacao) AS maior_data "
 		"FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
@@ -47,7 +47,7 @@ def reservoirs_information(res_id=None):
 	if (res_id is None):
 		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
 				",r.tipo,r.area,r.capacidade"
-				",mo.volume, mo.volume_percentual, date_format(aux.data_info,'%d/%m/%Y')"
+				",mo.volume, ROUND(mo.volume_percentual,1), date_format(aux.data_info,'%d/%m/%Y')"
 				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
 				" FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
@@ -60,7 +60,7 @@ def reservoirs_information(res_id=None):
 	else:
 		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
 				",r.tipo,r.area,r.capacidade"
-				",mo.volume, mo.volume_percentual, date_format(aux.data_info,'%d/%m/%Y')"
+				",mo.volume, ROUND(mo.volume_percentual,1), date_format(aux.data_info,'%d/%m/%Y')"
 				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
 				" FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
@@ -80,10 +80,10 @@ def reservoirs_information(res_id=None):
 
 def reservoirs_monitoring(res_id,all_reservoirs=False):
 	if(all_reservoirs):
-		query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(res_id)+
+		query = ("SELECT ROUND(mo.volume_percentual,1), date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(res_id)+
 			" ORDER BY mo.data_informacao")
 	else:
-		query = ("SELECT mo.volume_percentual, date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(res_id)+
+		query = ("SELECT ROUND(mo.volume_percentual,1), date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(res_id)+
 			" ORDER BY mo.data_informacao")
 
 	select_answer = IO.select_DB(query)
@@ -118,10 +118,10 @@ def reservoirs_monitoring(res_id,all_reservoirs=False):
 
 def monitoring_6_meses(res_id,all_reservoirs=False):
 	if(all_reservoirs):
-		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
+		query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
 			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
 	else:
-		query_min_graph = ("select volume_percentual, date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
+		query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
 			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
 
 	select_answer = IO.select_DB(query_min_graph)
@@ -132,7 +132,7 @@ def monitoring_6_meses(res_id,all_reservoirs=False):
 
 
 def reservoirs_similar(name, threshold):
-	query = ("SELECT DISTINCT mon.id,mon.reservat,mon.nome, date_format(mon.maior_data,'%d/%m/%Y'), mo.volume_percentual, mo.volume, es.nome, es.sigla"
+	query = ("SELECT DISTINCT mon.id,mon.reservat,mon.nome, date_format(mon.maior_data,'%d/%m/%Y'), ROUND(mo.volume_percentual,1), mo.volume, es.nome, es.sigla"
 		" FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id,r.reservat,r.nome, max(m.data_informacao) AS maior_data"
 		" FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
 		" ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao LEFT JOIN tb_reservatorio_municipio re ON mon.id= re.id_reservatorio"
@@ -150,7 +150,7 @@ def reservoirs_similar(name, threshold):
 def reservoirs_equivalent_hydrographic_basin():
 
 	query = ("SELECT res.bacia AS bacia, ROUND(SUM(info.volume),2) AS volume_equivalente, ROUND(SUM(info.capacidade),2) AS capacidade_equivalente,"
-		" ROUND((SUM(info.volume)/SUM(info.capacidade)*100),2) AS porcentagem_equivalente,"
+		" ROUND((SUM(info.volume)/SUM(info.capacidade)*100),1) AS porcentagem_equivalente,"
 		" COUNT(DISTINCT info.id_reservatorio) AS quant_reservatorio_com_info,"
 		" (COUNT(DISTINCT res.id)-COUNT(DISTINCT info.id_reservatorio)) AS quant_reservatorio_sem_info ,COUNT(DISTINCT res.id) AS total_reservatorios,"
 		" COUNT(CASE WHEN info.volume_percentual <= 10 THEN 1 ELSE 0 END) AS intervalo_1,"
@@ -176,7 +176,7 @@ def reservoirs_equivalent_hydrographic_basin():
 
 def reservoirs_equivalent_states():
 	query = ("SELECT estado_reservatorio.estado_nome AS estado,estado_reservatorio.estado_sigla AS sigla, ROUND(SUM(info.volume),2) AS volume_equivalente,"
-		" ROUND(SUM(info.capacidade),2) AS capacidade_equivalente, ROUND((SUM(info.volume)/SUM(info.capacidade)*100),2) AS porcentagem_equivalente,"
+		" ROUND(SUM(info.capacidade),2) AS capacidade_equivalente, ROUND((SUM(info.volume)/SUM(info.capacidade)*100),1) AS porcentagem_equivalente,"
 		" COUNT(DISTINCT info.id_reservatorio) AS quant_reservatorio_com_info,"
 		" (COUNT(DISTINCT estado_reservatorio.id_reservatorio)-COUNT(DISTINCT info.id_reservatorio)) AS quant_reservatorio_sem_info,"
 		" COUNT(DISTINCT estado_reservatorio.id_reservatorio) AS total_reservatorios,"
@@ -246,7 +246,7 @@ def reservoirs_equivalent_states():
 
 
 	list_dictionarys.append({"estado":"Semiarido", "uf":"Semiarido","semiarido":"Semiárido Brasileiro", "volume_equivalente":round(volume_equivalente,2),
-		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,2), 
+		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,1), 
 		"quant_reservatorio_com_info":quant_reservatorio_com_info,"quant_reservatorio_sem_info":quant_reservatorio_sem_info,
 		"total_reservatorios":total_reservatorios, "quant_reserv_intervalo_1":quant_reserv_intervalo_1, "quant_reserv_intervalo_2":quant_reserv_intervalo_2,
 		 "quant_reserv_intervalo_3":quant_reserv_intervalo_3, "quant_reserv_intervalo_4":quant_reserv_intervalo_4, 
