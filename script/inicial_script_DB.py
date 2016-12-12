@@ -7,15 +7,15 @@ import json
 from unicodedata import normalize
 from datetime import datetime
 
-try:
-	conn = MySQLdb.connect(read_default_group='INSA')
-	cursor = conn.cursor()
-	for line in open("db_insa.sql").read().split(';\n'):
-		if(line != ""):
-			cursor.execute(line)
-finally:
-	cursor.close()
-	conn.close()
+# try:
+# 	conn = MySQLdb.connect(read_default_group='INSA')
+# 	cursor = conn.cursor()
+# 	for line in open("db_insa.sql").read().split(';\n'):
+# 		if(line != ""):
+# 			cursor.execute(line)
+# finally:
+# 	cursor.close()
+# 	conn.close()
 
 def execute_many_BD(insert,values):
 	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
@@ -28,11 +28,6 @@ def execute_many_BD(insert,values):
 		conn.rollback()
 
 	conn.close()
-
-#INFOS PEDRA DO CAVALO A SER ADICIONADO NA MÃO
-pedra_cavalo_id = 795
-pedra_cavalo_capacidade = 0
-
 
 reader_cidades_br = csv.DictReader(open('../data/cidades_br.csv'))
 cidades_br = {}
@@ -86,10 +81,6 @@ for reservat in _reservatorios['features']:
 		reservat_nome = "Açude Joaquim Távora (Feiticeiro)"
 	elif (reservat_nome == "Açude Pompeu Sobrinho (Choró Lim?o)"):
 		reservat_nome = "Açude Pompeu Sobrinho (Choró Limão)"
-
-	#PEDRA DO CAVALO
-	if(int(reservat['properties']['GEOCODIGO']) == pedra_cavalo_id):
-		pedra_cavalo_capacidade = reservat['properties']['CAP_HM3']
 
 	tb_reservatorio.append((int(reservat['properties']['GEOCODIGO']),reservat['properties']['NOME'].encode('utf8'), reservat_nome,
 		bacia,reservat['properties']['TIPO_RESER'],reservat['properties']['AREA_M2'],reservat['properties']['PERIM'],
@@ -226,28 +217,28 @@ for municipio_reservatorio in info_municipio_reservatorio:
 				if (municipio_uf == municipio_reservatorio_uf):
 					tb_reservatorio_municipio.append((municipio_reservatorio[0],municipio[0]))
 
-execute_many_BD("""INSERT INTO tb_estado (id,nome,nome_regiao,sigla) VALUES (%s,%s,%s,%s)""", tb_estado)
-execute_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,semiarido) VALUES (%s,%s,%s,%s,%s)""", tb_municipio)
-execute_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade,latitude,longitude) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
-execute_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_municipio) VALUES (%s,%s)""", tb_reservatorio_municipio)
+# execute_many_BD("""INSERT INTO tb_estado (id,nome,nome_regiao,sigla) VALUES (%s,%s,%s,%s)""", tb_estado)
+# execute_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,semiarido) VALUES (%s,%s,%s,%s,%s)""", tb_municipio)
+# execute_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade,latitude,longitude) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
+# execute_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_municipio) VALUES (%s,%s)""", tb_reservatorio_municipio)
 
 
 ########  REMOVENDO dos açudes (Estreito e Pai Mané) as cidades que não são contabilizadas no boletim informativo do INSA
 # (Estreito,Espinosa-MG) e (Pai Mané, Iati=AL)
-reservatorios_municipios = [(12176,3124302),(12303,2606507)]
-execute_many_BD("""DELETE FROM tb_reservatorio_municipio WHERE id_reservatorio=%s and id_municipio=%s""", reservatorios_municipios)
+# reservatorios_municipios = [(12176,3124302),(12303,2606507)]
+# execute_many_BD("""DELETE FROM tb_reservatorio_municipio WHERE id_reservatorio=%s and id_municipio=%s""", reservatorios_municipios)
 
 
-reader_pedra_cavalo_historico = csv.DictReader(open('../data/pedra_cavalo_historico.csv'))
-pedra_cavalo_historico = []
-formato_data_1 = '%d/%m/%y'
+reader_boletim = csv.DictReader(open('../data/dados_boletim.csv'))
+boletim_historico = []
+formato_data_1 = '%d/%m/%Y'
 formato_data_2 = '%Y-%m-%d'
-for row in reader_pedra_cavalo_historico:
-	historico =  (pedra_cavalo_id, row["Cota(m)"], row["VolumeAtual(hm3)"], round((float(row["VolumeAtual(hm3)"])*100/pedra_cavalo_capacidade),2),
-	datetime.strptime(row["DataMedicao"], formato_data_1).strftime(formato_data_2),1)
-	if (historico not in pedra_cavalo_historico):
-		pedra_cavalo_historico.append(historico)
+for row in reader_boletim:
+	historico =  (row["id"], None, row["volume"], round((float(row["volume"])*100/float(row["capacidade"])),2),
+	datetime.strptime(row["data_info"], formato_data_1).strftime(formato_data_2),1)
+	if (historico not in boletim_historico):
+		boletim_historico.append(historico)
 
-execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao) VALUES (%s,%s,%s,%s,%s,%s)""", pedra_cavalo_historico)
+execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao) VALUES (%s,%s,%s,%s,%s,%s)""", boletim_historico)
 
-import insert_month_on_DB
+# import insert_month_on_DB

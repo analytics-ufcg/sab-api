@@ -78,8 +78,8 @@ def reservoirs_information(res_id=None):
 
 	return funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
 
-def reservoirs_monitoring(res_id,all_reservoirs=False):
-	if(all_reservoirs):
+def reservoirs_monitoring(res_id,all_monitoring=False):
+	if(all_monitoring):
 		query = ("SELECT ROUND(mo.volume_percentual,1), date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(res_id)+
 			" ORDER BY mo.data_informacao")
 	else:
@@ -92,7 +92,7 @@ def reservoirs_monitoring(res_id,all_reservoirs=False):
 
 	volumes_list = []
 	dates_list = []
-	months_monitoring = monitoring_6_meses(res_id,all_reservoirs)
+	months_monitoring = monitoring_6_meses(res_id,all_monitoring)
 	date_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
 
 	for monitoring in months_monitoring:
@@ -116,8 +116,8 @@ def reservoirs_monitoring(res_id,all_reservoirs=False):
 		'coeficiente_regressao': regression_coefficient, 'data_final':date_final.strftime('%d/%m/%Y'), 'data_inicial':inicial_date.strftime('%d/%m/%Y')}}
 
 
-def monitoring_6_meses(res_id,all_reservoirs=False):
-	if(all_reservoirs):
+def monitoring_6_meses(res_id,all_monitoring=False):
+	if(all_monitoring):
 		query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
 			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
 	else:
