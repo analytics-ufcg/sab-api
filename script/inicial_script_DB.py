@@ -7,15 +7,15 @@ import json
 from unicodedata import normalize
 from datetime import datetime
 
-# try:
-# 	conn = MySQLdb.connect(read_default_group='INSA')
-# 	cursor = conn.cursor()
-# 	for line in open("db_insa.sql").read().split(';\n'):
-# 		if(line != ""):
-# 			cursor.execute(line)
-# finally:
-# 	cursor.close()
-# 	conn.close()
+try:
+	conn = MySQLdb.connect(read_default_group='INSA')
+	cursor = conn.cursor()
+	for line in open("db_insa.sql").read().split(';\n'):
+		if(line != ""):
+			cursor.execute(line)
+finally:
+	cursor.close()
+	conn.close()
 
 def execute_many_BD(insert,values):
 	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
@@ -217,16 +217,16 @@ for municipio_reservatorio in info_municipio_reservatorio:
 				if (municipio_uf == municipio_reservatorio_uf):
 					tb_reservatorio_municipio.append((municipio_reservatorio[0],municipio[0]))
 
-# execute_many_BD("""INSERT INTO tb_estado (id,nome,nome_regiao,sigla) VALUES (%s,%s,%s,%s)""", tb_estado)
-# execute_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,semiarido) VALUES (%s,%s,%s,%s,%s)""", tb_municipio)
-# execute_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade,latitude,longitude) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
-# execute_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_municipio) VALUES (%s,%s)""", tb_reservatorio_municipio)
+execute_many_BD("""INSERT INTO tb_estado (id,nome,nome_regiao,sigla) VALUES (%s,%s,%s,%s)""", tb_estado)
+execute_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,semiarido) VALUES (%s,%s,%s,%s,%s)""", tb_municipio)
+execute_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade,latitude,longitude) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
+execute_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_municipio) VALUES (%s,%s)""", tb_reservatorio_municipio)
 
 
 ########  REMOVENDO dos açudes (Estreito e Pai Mané) as cidades que não são contabilizadas no boletim informativo do INSA
 # (Estreito,Espinosa-MG) e (Pai Mané, Iati=AL)
-# reservatorios_municipios = [(12176,3124302),(12303,2606507)]
-# execute_many_BD("""DELETE FROM tb_reservatorio_municipio WHERE id_reservatorio=%s and id_municipio=%s""", reservatorios_municipios)
+reservatorios_municipios = [(12176,3124302),(12303,2606507)]
+execute_many_BD("""DELETE FROM tb_reservatorio_municipio WHERE id_reservatorio=%s and id_municipio=%s""", reservatorios_municipios)
 
 
 reader_boletim = csv.DictReader(open('../data/dados_boletim.csv'))
@@ -241,4 +241,4 @@ for row in reader_boletim:
 
 execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao) VALUES (%s,%s,%s,%s,%s,%s)""", boletim_historico)
 
-# import insert_month_on_DB
+import insert_month_on_DB
