@@ -3,6 +3,8 @@
 from datetime import datetime
 from dateutil import relativedelta
 import numpy
+import MySQLdb
+
 
 # ADICIONAR VALORES DA CONSULTA DO MONITORAMENTO PARA QUANDO FOR INSERIR VERIFICAR SE VAI COMPARAR COM O ANTERIOR OU COM ELE
 def retira_ruido(lista_reserv, ultimo_monitoramento):
@@ -62,3 +64,48 @@ def retira_ruido(lista_reserv, ultimo_monitoramento):
 		lista_reservatorios.pop(0)
 	
 	return lista_reservatorios
+
+
+def consulta_BD(query):
+	""" Connect to MySQL database """
+	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
+	cursor = conn.cursor()
+	try:
+		cursor.execute(query)
+		rows = cursor.fetchall()
+	except MySQLdb.Error as e:
+		print "Error", e
+		conn.rollback()
+
+	cursor.close()
+	conn.close()
+	
+	return rows
+
+def insert_many_BD(values):
+	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
+	cursor = conn.cursor()
+	try:
+		cursor.executemany("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao) VALUES (%s,%s,%s,%s,%s,%s)""", values)
+		conn.commit()
+	except MySQLdb.Error as e:
+		print "Error", e
+		conn.rollback()
+
+	cursor.close()
+	conn.close()
+
+def update_BD(query):
+	""" Connect to MySQL database """
+	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
+	cursor = conn.cursor()
+	try:
+		cursor.execute(query)
+		conn.commit()
+	except MySQLdb.Error as e:
+		print "Error", e
+		conn.rollback()
+
+	cursor.close()
+	conn.close()
+	
