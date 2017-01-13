@@ -57,7 +57,7 @@ for num_coluna in range(len(cabecalho),len(colunas)):
 			if ((similaridade_acude>=80 or similaridade_apelido>=80) and float(capacidade)==float(reserv[3])):
 				if (datetime.strptime(reserv[4], '%d-%m-%Y') < datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y')):
 					aux_insert_month.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+str(reserv[0])+";")
-					to_insert.append([reserv[0], None, round(float(json_reservatorio["Volume"])/1000000,2), float(json_reservatorio["VolumePercentual"]),
+					to_insert.append([reserv[0], '', round(float(json_reservatorio["Volume"])/1000000,2), float(json_reservatorio["VolumePercentual"]),
 						datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y').strftime('%Y-%m-%d'), 1])
 		json_reservatorio={}
 
