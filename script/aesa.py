@@ -36,7 +36,7 @@ soup = BeautifulSoup(r.text.decode('utf8'), 'html.parser')
 
 tabela = soup.find('table', { "class" : "tabelaInternaTituloForm" })
 
-cabecalho = ['Municipio','Acude','CapacidadeMaxima','Volume','VolumePercentual','DataInformacao']
+cabecalho = ['Municipio','Reservatorio','CapacidadeMaxima','Volume','VolumePercentual','DataInformacao']
 
 colunas = tabela.find_all('td')
 
@@ -46,19 +46,23 @@ for num_coluna in range(len(cabecalho),len(colunas)):
 	 	json_reservatorio[cabecalho[contador_coluna]] = colunas[num_coluna].get_text().strip()
 		contador_coluna +=1
 	if(contador_coluna == len(cabecalho)):
-		add = False
 	 	contador_coluna = 0
-	 	lista_reservatorios = []
 		for reserv in paraiba:
-			similaridade_acude = fuzz.token_set_ratio(remove_accents(reserv[1]),remove_accents(json_reservatorio["Acude"]))
+			similaridade_acude = fuzz.token_set_ratio(remove_accents(reserv[1]),remove_accents(json_reservatorio["Reservatorio"]))
 			apelido = re.sub(remove_accents(reserv[1])+'|acude|barragem|lagoa|[()-]| do | da | de ','',remove_accents(reserv[2]), flags=re.IGNORECASE).strip()
-			similaridade_apelido = fuzz.token_set_ratio(remove_accents(apelido),remove_accents(json_reservatorio["Acude"]))
+			similaridade_apelido = fuzz.token_set_ratio(remove_accents(apelido),remove_accents(json_reservatorio["Reservatorio"]))
 			capacidade = round(float(json_reservatorio["CapacidadeMaxima"])/1000000,2)
 			if ((similaridade_acude>=80 or similaridade_apelido>=80) and float(capacidade)==float(reserv[3])):
-				if (datetime.strptime(reserv[4], '%d-%m-%Y') < datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y')):
+				if ((reserv[4] is None) or (datetime.strptime(reserv[4], '%d-%m-%Y') < datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y'))):
+					
+					ultimo_monitoramento = [reserv[0],reserv[5], reserv[6], reserv[7], reserv[4]]
+					to_add = [[reserv[0],'',round(float(json_reservatorio["Volume"])/1000000,2), float(json_reservatorio["VolumePercentual"]),
+						datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y').strftime('%Y-%m-%d')]]
+					to_insert.extend(aux_insert_month.retira_ruido(to_add,ultimo_monitoramento))
+
+					# RESERVATORIOS ATUALIZADOS
 					aux_insert_month.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+str(reserv[0])+";")
-					to_insert.append([reserv[0], '', round(float(json_reservatorio["Volume"])/1000000,2), float(json_reservatorio["VolumePercentual"]),
-						datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y').strftime('%Y-%m-%d'), 1])
+		
 		json_reservatorio={}
 
 aux_insert_month.insert_many_BD(to_insert)
