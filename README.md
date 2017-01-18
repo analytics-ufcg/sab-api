@@ -40,7 +40,7 @@ python inicial_script_DB.py
 Caso queira colocar uma rotina no Ubuntu para todo dia atualizar o banco de dados as 3 da manhã:
 ```
 crontab -e
-0 3 * * *   /usr/bin/python /home/ubuntu/sab-api/script/insert_month_on_DB.py
+0 3 * * *   /usr/bin/python /home/ubuntu/sab-api/script/insert_collection_on_DB.py
 
 ```
 

@@ -4,7 +4,7 @@
 import unittest
 import sys
 sys.path.insert(0,'..')
-import aux_collect_insert
+import aux_collection_insert
 
 class TestStringMethods(unittest.TestCase):
 
@@ -37,17 +37,17 @@ class TestStringMethods(unittest.TestCase):
         RUIM7 = [[12,50,500,80,"2017-06-22"],[12,50,500,80,"2017-06-21"],[12,50,500,80,"2017-06-20"],[12,50,500,0,"2017-06-15"],[12,50,500,80,"2016-12-11"],[12,50,500,0,"2016-07-10"],[12,50,500,80,"2016-06-09"],[12,50,500,80,"2016-06-08"],[12,50,500,80,"2016-06-07"],[12,50,500,80,"2016-06-06"]]
         RUIM7_resp = [[12,50,500,80,"2016-06-06",1],[12,50,500,80,"2016-06-07",1],[12,50,500,80,"2016-06-08",1],[12,50,500,80,"2016-06-09",1],[12,50,500,0,"2016-07-10",0],[12,50,500,80,"2016-12-11",1],[12,50,500,0,"2017-06-15",0],[12,50,500,80,"2017-06-20",1],[12,50,500,80,"2017-06-21",1],[12,50,500,80,"2017-06-22",1]]
 
-        self.assertEqual(aux_collect_insert.retira_ruido(boa_sem_pulo_de_data, ultimo_monitoramento), boa_sem_pulo_de_data_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_sem_pulo_de_data, ultimo_monitoramento), boa_sem_pulo_de_data_resp)
 
-        self.assertEqual(aux_collect_insert.retira_ruido(boa_com_pulo_de_todas_data, ultimo_monitoramento), boa_com_pulo_de_todas_data_resp)
-        self.assertEqual(aux_collect_insert.retira_ruido(boa_com_pulo_de_data, ultimo_monitoramento), boa_com_pulo_de_data_resp)
-        self.assertEqual(aux_collect_insert.retira_ruido(boa_com_pulo_de_data_diferente, ultimo_monitoramento), boa_com_pulo_de_data_diferente_resp)
-        self.assertEqual(aux_collect_insert.retira_ruido(boa_com_pulo_de_distancia_data, ultimo_monitoramento), boa_com_pulo_de_distancia_data_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_todas_data, ultimo_monitoramento), boa_com_pulo_de_todas_data_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_data, ultimo_monitoramento), boa_com_pulo_de_data_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_data_diferente, ultimo_monitoramento), boa_com_pulo_de_data_diferente_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_distancia_data, ultimo_monitoramento), boa_com_pulo_de_distancia_data_resp)
 
         
-        self.assertEqual(aux_collect_insert.retira_ruido(RUIM2, ultimo_monitoramento), RUIM2_resp)
-        self.assertEqual(aux_collect_insert.retira_ruido(RUIM3, ultimo_monitoramento), RUIM3_resp)
-        self.assertEqual(aux_collect_insert.retira_ruido(RUIM7, ultimo_monitoramento), RUIM7_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(RUIM2, ultimo_monitoramento), RUIM2_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(RUIM3, ultimo_monitoramento), RUIM3_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(RUIM7, ultimo_monitoramento), RUIM7_resp)
 
 if __name__ == '__main__':
     unittest.main()
