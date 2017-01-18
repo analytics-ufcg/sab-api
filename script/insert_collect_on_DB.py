@@ -5,13 +5,13 @@ from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
 import time
-import aux_insert_month
+import aux_collect_insert
 
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-ultimos_monitoramentos = aux_insert_month.consulta_BD("SELECT mon.id, mo.cota, mo.volume, mo.volume_percentual, date_format(mo.data_informacao,'%d-%m-%Y') FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id, max(m.data_informacao) AS maior_data FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao;")
+ultimos_monitoramentos = aux_collect_insert.consulta_BD("SELECT mon.id, mo.cota, mo.volume, mo.volume_percentual, date_format(mo.data_informacao,'%d-%m-%Y') FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id, max(m.data_informacao) AS maior_data FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao;")
 
 formato_data_1 = '%d/%m/%Y'
 formato_data_2 = '%d-%m-%Y'
@@ -21,7 +21,7 @@ data_final = str(datetime.now().strftime(formato_data_2))
 
 cabecalho = ['Codigo','Reservatorio','Cota','Capacidade','Volume','VolumePercentual','DataInformacao']
 
-aux_insert_month.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 0;")
+aux_collect_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 0;")
 
 for monitoramento in ultimos_monitoramentos:
 	to_insert = []
@@ -56,8 +56,8 @@ for monitoramento in ultimos_monitoramentos:
 			json_insert={}
 
 	if(len(to_insert) >0):
-		aux_insert_month.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+reserv+";")
-		aux_insert_month.insert_many_BD(aux_insert_month.retira_ruido(to_insert, monitoramento))
+		aux_collect_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+reserv+";")
+		aux_collect_insert.insert_many_BD(aux_collect_insert.retira_ruido(to_insert, monitoramento))
 		
 	time.sleep(4)
 

@@ -7,7 +7,7 @@ from unicodedata import normalize
 from fuzzywuzzy import fuzz
 import re
 from datetime import datetime
-import aux_insert_month
+import aux_collect_insert
 
 
 reload(sys)
@@ -18,7 +18,7 @@ def remove_accents(txt):
 		txt= unicode(txt, "utf-8")
 	return normalize('NFKD', txt).encode('ASCII','ignore').decode('ASCII')
 
-paraiba = aux_insert_month.consulta_BD("SELECT DISTINCT r.id id_reservatorio, r.nome nome_reservatorio, r.reservat reservat, r.capacidade capacidade,"
+paraiba = aux_collect_insert.consulta_BD("SELECT DISTINCT r.id id_reservatorio, r.nome nome_reservatorio, r.reservat reservat, r.capacidade capacidade,"
 				" mo2.data_info data_info, mo2.cota cota, mo2.volume volume, mo2.volume_percentual volumePercentual "
 				"FROM tb_estado e, tb_municipio mu, tb_reservatorio_municipio rm, tb_reservatorio r, "
 				"(SELECT mon.id id_reservatorio, mo.cota, mo.volume, mo.volume_percentual, date_format(mo.data_informacao,'%d-%m-%Y') data_info "
@@ -58,11 +58,11 @@ for num_coluna in range(len(cabecalho),len(colunas)):
 					ultimo_monitoramento = [reserv[0],reserv[5], reserv[6], reserv[7], reserv[4]]
 					to_add = [[reserv[0],'',round(float(json_reservatorio["Volume"])/1000000,2), float(json_reservatorio["VolumePercentual"]),
 						datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y').strftime('%Y-%m-%d')]]
-					to_insert.extend(aux_insert_month.retira_ruido(to_add,ultimo_monitoramento))
+					to_insert.extend(aux_collect_insert.retira_ruido(to_add,ultimo_monitoramento))
 
 					# RESERVATORIOS ATUALIZADOS
-					aux_insert_month.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+str(reserv[0])+";")
+					aux_collect_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+str(reserv[0])+";")
 		
 		json_reservatorio={}
 
-aux_insert_month.insert_many_BD(to_insert)
+aux_collect_insert.insert_many_BD(to_insert)

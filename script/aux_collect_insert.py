@@ -54,7 +54,7 @@ def retira_ruido(lista_reserv, ultimo_monitoramento):
 			else:	
 				intervalo = desvioPadrao+10
 			media = numpy.mean(valores)
-			if((porcentagemAtual <= media+intervalo) and (porcentagemAtual >= media-intervalo)):
+			if((porcentagemAtual <= media+intervalo) and (porcentagemAtual >= media-intervalo) and porcentagemAtual <= 150):
 				lista_reservatorios[m].append(1)
 			else:
 				lista_reservatorios[m].append(0)
