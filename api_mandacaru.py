@@ -50,6 +50,7 @@ def reservoirs_information(res_id=None):
 				",mo.volume, ROUND(mo.volume_percentual,1), date_format(aux.data_info,'%d/%m/%Y')"
 				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
+				",GROUP_CONCAT(DISTINCT e.sigla SEPARATOR ' / ') uf"
 				" FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
 				" JOIN tb_municipio m ON rm.id_municipio=m.id"
 				" JOIN tb_estado e ON m.id_estado=e.id"
@@ -74,7 +75,7 @@ def reservoirs_information(res_id=None):
 
 	select_answer = IO.select_DB(query)
 
-	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado"]
+	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado", "uf"]
 
 	return funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
 
