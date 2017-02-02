@@ -81,15 +81,15 @@ def reservoirs_information(res_id=None):
 
 def reservoirs_monitoring(res_id,all_monitoring=False):
 	if(all_monitoring):
-		query = ("SELECT ROUND(mo.volume_percentual,1), date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(res_id)+
+		query = ("SELECT ROUND(mo.volume_percentual,1), date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume, mo.fonte FROM tb_monitoramento mo WHERE mo.id_reservatorio="+str(res_id)+
 			" ORDER BY mo.data_informacao")
 	else:
-		query = ("SELECT ROUND(mo.volume_percentual,1), date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(res_id)+
+		query = ("SELECT ROUND(mo.volume_percentual,1), date_format(mo.data_informacao,'%d/%m/%Y'), mo.volume, mo.fonte FROM tb_monitoramento mo WHERE mo.visualizacao=1 and mo.id_reservatorio="+str(res_id)+
 			" ORDER BY mo.data_informacao")
 
 	select_answer = IO.select_DB(query)
 
-	keys = ["VolumePercentual","DataInformacao", "Volume"]
+	keys = ["VolumePercentual","DataInformacao", "Volume","Fonte"]
 
 	volumes_list = []
 	dates_list = []
@@ -113,7 +113,7 @@ def reservoirs_monitoring(res_id,all_monitoring=False):
 
 	data_monitoring = funcoes_aux.fix_data_interval_limit(select_answer)
 
-	return {'volumes': funcoes_aux.list_of_dictionarys(data_monitoring, keys), 'volumes_recentes':{'volumes':months_monitoring, 
+	return {'volumes': funcoes_aux.list_of_dictionarys(data_monitoring, keys), 'volumes_recentes':{'volumes':months_monitoring,
 		'coeficiente_regressao': regression_coefficient, 'data_final':date_final.strftime('%d/%m/%Y'), 'data_inicial':inicial_date.strftime('%d/%m/%Y')}}
 
 
@@ -247,10 +247,10 @@ def reservoirs_equivalent_states():
 
 
 	list_dictionarys.append({"estado":"Semiarido", "uf":"Semiarido","semiarido":"Semiárido Brasileiro", "volume_equivalente":round(volume_equivalente,2),
-		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,1), 
+		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,1),
 		"quant_reservatorio_com_info":quant_reservatorio_com_info,"quant_reservatorio_sem_info":quant_reservatorio_sem_info,
 		"total_reservatorios":total_reservatorios, "quant_reserv_intervalo_1":quant_reserv_intervalo_1, "quant_reserv_intervalo_2":quant_reserv_intervalo_2,
-		 "quant_reserv_intervalo_3":quant_reserv_intervalo_3, "quant_reserv_intervalo_4":quant_reserv_intervalo_4, 
+		 "quant_reserv_intervalo_3":quant_reserv_intervalo_3, "quant_reserv_intervalo_4":quant_reserv_intervalo_4,
 		 "quant_reserv_intervalo_5":quant_reserv_intervalo_5})
 
 	return list_dictionarys
