@@ -235,10 +235,10 @@ formato_data_1 = '%d/%m/%Y'
 formato_data_2 = '%Y-%m-%d'
 for row in reader_boletim:
 	historico =  (row["id"], None, row["volume"], round((float(row["volume"])*100/float(row["capacidade"])),2),
-	datetime.strptime(row["data_info"], formato_data_1).strftime(formato_data_2),1)
+	datetime.strptime(row["data_info"], formato_data_1).strftime(formato_data_2),1, row["fonte"])
 	if (historico not in boletim_historico):
 		boletim_historico.append(historico)
 
-execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao) VALUES (%s,%s,%s,%s,%s,%s)""", boletim_historico)
+execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte) VALUES (%s,%s,%s,%s,%s,%s,%s)""", boletim_historico)
 
 import insert_collection_on_DB

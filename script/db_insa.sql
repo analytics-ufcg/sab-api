@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `INSA`.`tb_monitoramento` (
   `volume_percentual` MEDIUMTEXT NOT NULL,
   `data_informacao` DATE NOT NULL,
   `visualizacao` INT(11) NULL,
+  `fonte` VARCHAR(50) NULL,
   INDEX `fk_tb_reservatorio_idx` (`id_reservatorio` ASC),
   CONSTRAINT `fk_tb_reservatorio`
     FOREIGN KEY (`id_reservatorio`)

@@ -58,7 +58,7 @@ for num_coluna in range(len(cabecalho),len(colunas)):
 					ultimo_monitoramento = [reserv[0],reserv[5], reserv[6], reserv[7], reserv[4]]
 					to_add = [[reserv[0],'',round(float(json_reservatorio["Volume"])/1000000,2), float(json_reservatorio["VolumePercentual"]),
 						datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y').strftime('%Y-%m-%d')]]
-					to_insert.extend(aux_collection_insert.retira_ruido(to_add,ultimo_monitoramento))
+					to_insert.extend(aux_collection_insert.retira_ruido(to_add,ultimo_monitoramento, "AESA"))
 
 					# RESERVATORIOS ATUALIZADOS
 					aux_collection_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+str(reserv[0])+";")

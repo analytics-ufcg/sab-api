@@ -7,7 +7,7 @@ import MySQLdb
 
 
 # ADICIONAR VALORES DA CONSULTA DO MONITORAMENTO PARA QUANDO FOR INSERIR VERIFICAR SE VAI COMPARAR COM O ANTERIOR OU COM ELE
-def retira_ruido(lista_reserv, ultimo_monitoramento):
+def retira_ruido(lista_reserv, ultimo_monitoramento, fonte):
 	diasRange = relativedelta.relativedelta(days=60)
 	if(not ultimo_monitoramento[3] is None):
 		ultimo_monitamento_lista = list(ultimo_monitoramento)
@@ -60,6 +60,7 @@ def retira_ruido(lista_reserv, ultimo_monitoramento):
 				lista_reservatorios[m].append(0)
 		else:
 			lista_reservatorios[m].append(1)
+		lista_reservatorios[m].append(fonte)
 	if(not ultimo_monitoramento[3] is None):
 		lista_reservatorios.pop(0)
 	
@@ -86,7 +87,7 @@ def insert_many_BD(values):
 	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
 	cursor = conn.cursor()
 	try:
-		cursor.executemany("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao) VALUES (%s,%s,%s,%s,%s,%s)""", values)
+		cursor.executemany("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte) VALUES (%s,%s,%s,%s,%s,%s,%s)""", values)
 		conn.commit()
 	except MySQLdb.Error as e:
 		print "Error", e

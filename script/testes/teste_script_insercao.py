@@ -11,43 +11,43 @@ class TestStringMethods(unittest.TestCase):
     def test_retira_ruido(self):
         ultimo_monitoramento = [12,50,500,40,"20-06-2016"]
         boa_sem_pulo_de_data = [[12,50,500,40,"2016-06-20"],[12,50,500,60,"2016-06-15"],[12,50,540,50,"2016-06-11"],[12,50,500,40,"2016-06-10"],[12,50,500,40,"2016-06-09"]]
-        boa_sem_pulo_de_data_resp = [[12,50,500,40,"2016-06-09",1],[12,50,500,40,"2016-06-10",1],[12,50,540,50,"2016-06-11",1],[12,50,500,60,"2016-06-15",1],[12,50,500,40,"2016-06-20",1]]
+        boa_sem_pulo_de_data_resp = [[12,50,500,40,"2016-06-09",1, "ANA"],[12,50,500,40,"2016-06-10",1, "ANA"],[12,50,540,50,"2016-06-11",1, "ANA"],[12,50,500,60,"2016-06-15",1, "ANA"],[12,50,500,40,"2016-06-20",1, "ANA"]]
 
         #tipo Alagoas
         boa_com_pulo_de_todas_data = [[12,50,500,40,"2019-06-20"],[12,50,500,60,"2017-06-15"],[12,50,540,50,"2016-12-11"],[12,50,500,40,"2016-09-10"],[12,50,500,40,"2016-06-09"]]
-        boa_com_pulo_de_todas_data_resp = [[12,50,500,40,"2016-06-09",1],[12,50,500,40,"2016-09-10",1],[12,50,540,50,"2016-12-11",1],[12,50,500,60,"2017-06-15",1],[12,50,500,40,"2019-06-20",1]]
+        boa_com_pulo_de_todas_data_resp = [[12,50,500,40,"2016-06-09",1, "ANA"],[12,50,500,40,"2016-09-10",1, "ANA"],[12,50,540,50,"2016-12-11",1, "ANA"],[12,50,500,60,"2017-06-15",1, "ANA"],[12,50,500,40,"2019-06-20",1, "ANA"]]
 
         #Tipo 4
         boa_com_pulo_de_data = [[12,50,500,80,"2017-06-20"],[12,50,500,100,"2017-06-15"],[12,50,500,40,"2016-07-11"],[12,50,500,40,"2016-07-10"],[12,50,500,40,"2016-06-09"]]
-        boa_com_pulo_de_data_resp = [[12,50,500,40,"2016-06-09",1],[12,50,500,40,"2016-07-10",1],[12,50,500,40,"2016-07-11",1],[12,50,500,100,"2017-06-15",1],[12,50,500,80,"2017-06-20",1]]
+        boa_com_pulo_de_data_resp = [[12,50,500,40,"2016-06-09",1, "ANA"],[12,50,500,40,"2016-07-10",1, "ANA"],[12,50,500,40,"2016-07-11",1, "ANA"],[12,50,500,100,"2017-06-15",1, "ANA"],[12,50,500,80,"2017-06-20",1, "ANA"]]
         #Tipo 5
         boa_com_pulo_de_data_diferente = [ [12,50,500,60,"2017-06-20"],[12,50,500,40,"2017-06-15"],[12,50,500,40,"2016-07-11"],[12,50,500,40,"2016-07-10"],[12,50,500,40,"2016-06-09"]]
-        boa_com_pulo_de_data_diferente_resp = [[12,50,500,40,"2016-06-09",1],[12,50,500,40,"2016-07-10",1],[12,50,500,40,"2016-07-11",1],[12,50,500,40,"2017-06-15",1],[12,50,500,60,"2017-06-20",1]]
+        boa_com_pulo_de_data_diferente_resp = [[12,50,500,40,"2016-06-09",1, "ANA"],[12,50,500,40,"2016-07-10",1, "ANA"],[12,50,500,40,"2016-07-11",1, "ANA"],[12,50,500,40,"2017-06-15",1, "ANA"],[12,50,500,60,"2017-06-20",1, "ANA"]]
         #Tipo 6
         boa_com_pulo_de_distancia_data = [[12,50,500,40,"2017-06-20"],[12,50,500,60,"2017-06-15"],[12,50,0,0,"2016-12-11"],[12,50,500,40,"2016-07-10"],[12,50,500,40,"2016-06-09"]]
-        boa_com_pulo_de_distancia_data_resp = [[12,50,500,40,"2016-06-09",1],[12,50,500,40,"2016-07-10",1],[12,50,0,0,"2016-12-11",1],[12,50,500,60,"2017-06-15",1],[12,50,500,40,"2017-06-20",1]]
+        boa_com_pulo_de_distancia_data_resp = [[12,50,500,40,"2016-06-09",1, "ANA"],[12,50,500,40,"2016-07-10",1, "ANA"],[12,50,0,0,"2016-12-11",1, "ANA"],[12,50,500,60,"2017-06-15",1, "ANA"],[12,50,500,40,"2017-06-20",1, "ANA"]]
         #Tipo 2
         RUIM2 = [[12,50,500,60,"2016-06-20"],[12,50,500,60,"2016-06-15"],[12,50,540,0,"2016-06-11"],[12,50,500,40,"2016-06-10"],[12,50,500,40,"2016-06-09"]]
-        RUIM2_resp = [[12,50,500,40,"2016-06-09",1],[12,50,500,40,"2016-06-10",1],[12,50,540,0,"2016-06-11",0],[12,50,500,60,"2016-06-15",1],[12,50,500,60,"2016-06-20",1]]
+        RUIM2_resp = [[12,50,500,40,"2016-06-09",1, "ANA"],[12,50,500,40,"2016-06-10",1, "ANA"],[12,50,540,0,"2016-06-11",0, "ANA"],[12,50,500,60,"2016-06-15",1, "ANA"],[12,50,500,60,"2016-06-20",1, "ANA"]]
 
         #Tipo 3
         RUIM3 = [[12,50,500,100,"2017-06-20"],[12,50,500,100,"2017-06-15"],[12,50,500,100,"2016-07-13"],[12,50,0,0,"2016-07-12"],[12,50,0,0,"2016-07-11"],[12,50,500,100,"2016-07-10"],[12,50,500,100,"2016-06-09"],[12,50,500,100,"2016-06-08"],[12,50,500,100,"2016-06-07"]]
-        RUIM3_resp = [[12,50,500,100,"2016-06-07",1],[12,50,500,100,"2016-06-08",1],[12,50,500,100,"2016-06-09",1],[12,50,500,100,"2016-07-10",1],[12,50,0,0,"2016-07-11",0],[12,50,0,0,"2016-07-12",0],[12,50,500,100,"2016-07-13",1],[12,50,500,100,"2017-06-15",1],[12,50,500,100,"2017-06-20",1]]
+        RUIM3_resp = [[12,50,500,100,"2016-06-07",1, "ANA"],[12,50,500,100,"2016-06-08",1, "ANA"],[12,50,500,100,"2016-06-09",1, "ANA"],[12,50,500,100,"2016-07-10",1, "ANA"],[12,50,0,0,"2016-07-11",0, "ANA"],[12,50,0,0,"2016-07-12",0, "ANA"],[12,50,500,100,"2016-07-13",1, "ANA"],[12,50,500,100,"2017-06-15",1, "ANA"],[12,50,500,100,"2017-06-20",1, "ANA"]]
         #Tipo 7
         RUIM7 = [[12,50,500,80,"2017-06-22"],[12,50,500,80,"2017-06-21"],[12,50,500,80,"2017-06-20"],[12,50,500,0,"2017-06-15"],[12,50,500,80,"2016-12-11"],[12,50,500,0,"2016-07-10"],[12,50,500,80,"2016-06-09"],[12,50,500,80,"2016-06-08"],[12,50,500,80,"2016-06-07"],[12,50,500,80,"2016-06-06"]]
-        RUIM7_resp = [[12,50,500,80,"2016-06-06",1],[12,50,500,80,"2016-06-07",1],[12,50,500,80,"2016-06-08",1],[12,50,500,80,"2016-06-09",1],[12,50,500,0,"2016-07-10",0],[12,50,500,80,"2016-12-11",1],[12,50,500,0,"2017-06-15",0],[12,50,500,80,"2017-06-20",1],[12,50,500,80,"2017-06-21",1],[12,50,500,80,"2017-06-22",1]]
+        RUIM7_resp = [[12,50,500,80,"2016-06-06",1, "ANA"],[12,50,500,80,"2016-06-07",1, "ANA"],[12,50,500,80,"2016-06-08",1, "ANA"],[12,50,500,80,"2016-06-09",1, "ANA"],[12,50,500,0,"2016-07-10",0, "ANA"],[12,50,500,80,"2016-12-11",1, "ANA"],[12,50,500,0,"2017-06-15",0, "ANA"],[12,50,500,80,"2017-06-20",1, "ANA"],[12,50,500,80,"2017-06-21",1, "ANA"],[12,50,500,80,"2017-06-22",1, "ANA"]]
 
-        self.assertEqual(aux_collection_insert.retira_ruido(boa_sem_pulo_de_data, ultimo_monitoramento), boa_sem_pulo_de_data_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_sem_pulo_de_data, ultimo_monitoramento, "ANA"), boa_sem_pulo_de_data_resp)
 
-        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_todas_data, ultimo_monitoramento), boa_com_pulo_de_todas_data_resp)
-        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_data, ultimo_monitoramento), boa_com_pulo_de_data_resp)
-        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_data_diferente, ultimo_monitoramento), boa_com_pulo_de_data_diferente_resp)
-        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_distancia_data, ultimo_monitoramento), boa_com_pulo_de_distancia_data_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_todas_data, ultimo_monitoramento, "ANA"), boa_com_pulo_de_todas_data_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_data, ultimo_monitoramento, "ANA"), boa_com_pulo_de_data_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_data_diferente, ultimo_monitoramento, "ANA"), boa_com_pulo_de_data_diferente_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(boa_com_pulo_de_distancia_data, ultimo_monitoramento, "ANA"), boa_com_pulo_de_distancia_data_resp)
 
         
-        self.assertEqual(aux_collection_insert.retira_ruido(RUIM2, ultimo_monitoramento), RUIM2_resp)
-        self.assertEqual(aux_collection_insert.retira_ruido(RUIM3, ultimo_monitoramento), RUIM3_resp)
-        self.assertEqual(aux_collection_insert.retira_ruido(RUIM7, ultimo_monitoramento), RUIM7_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(RUIM2, ultimo_monitoramento, "ANA"), RUIM2_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(RUIM3, ultimo_monitoramento, "ANA"), RUIM3_resp)
+        self.assertEqual(aux_collection_insert.retira_ruido(RUIM7, ultimo_monitoramento, "ANA"), RUIM7_resp)
 
 if __name__ == '__main__':
     unittest.main()

@@ -64,7 +64,7 @@ for colunas in tabela:
 						if ((reserv[4] is None) or (datetime.strptime(reserv[4], '%d-%m-%Y') < datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y'))):
 							ultimo_monitoramento = (reserv[0],reserv[5], reserv[6], reserv[7], reserv[4])
 							to_add = [[reserv[0],'',volume, volume_percentual, data_informacao]]
-							informacao = aux_collection_insert.retira_ruido(to_add,ultimo_monitoramento)
+							informacao = aux_collection_insert.retira_ruido(to_add,ultimo_monitoramento,"GOVERNO RN")
 							to_insert.extend(informacao)
 							# RESERVATORIOS ATUALIZADOS
 							aux_collection_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+str(reserv[0])+";")
