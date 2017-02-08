@@ -13,7 +13,7 @@ def json_brazil():
 	return(IO.json_brazil())
 
 def reservoirs():
-	query = ("SELECT mon.id,mon.latitude,mon.longitude, mon.capacidade, ROUND(mo.volume_percentual,1), mo.volume"
+	query = ("SELECT DISTINCT mon.id,mon.latitude,mon.longitude, mon.capacidade, ROUND(mo.volume_percentual,1), mo.volume"
 		" FROM tb_monitoramento mo RIGHT JOIN "
 		"(SELECT r.id,r.latitude,r.longitude, r.capacidade, max(m.data_informacao) AS maior_data "
 		"FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon"
