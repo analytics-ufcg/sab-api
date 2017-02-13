@@ -74,7 +74,7 @@ for reservat in _reservatorios['features']:
 		bacia = "Coreaú"
 	elif ("São Francisco" in bacia):
 		bacia = "São Francisco"
-		
+
 	if (reservat_nome == "Açude Riacho de Santo Ant?nio"):
 		reservat_nome = "Açude Riacho de Santo Antônio"
 	elif (reservat_nome == "Açude Joaquim T?vora (Feiticeiro)"):
@@ -241,4 +241,4 @@ for row in reader_boletim:
 
 execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte) VALUES (%s,%s,%s,%s,%s,%s,%s)""", boletim_historico)
 
-import insert_collection_on_DB
+import atualizacao_diaria

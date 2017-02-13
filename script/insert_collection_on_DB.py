@@ -29,7 +29,7 @@ for monitoramento in ultimos_monitoramentos:
 	reserv = str(monitoramento[0])
 	if (monitoramento[4] is None):
 		data_inicial = "31-12-1969"
-	else: 
+	else:
 		data_inicial = str(monitoramento[4])
 
 	r = requests.get('http://sar.ana.gov.br/Medicao/GridMedicoes?DropDownListReservatorios='+reserv+'&dataInicialInformada='+data_inicial+'&dataFinalInformada='+data_final+'&cliqueiEmPesquisar=true')
@@ -58,9 +58,5 @@ for monitoramento in ultimos_monitoramentos:
 	if(len(to_insert) >0):
 		aux_collection_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+reserv+";")
 		aux_collection_insert.insert_many_BD(aux_collection_insert.retira_ruido(to_insert, monitoramento, "ANA"))
-		
+
 	time.sleep(10)
-
-
-import aesa
-import governo_rn
