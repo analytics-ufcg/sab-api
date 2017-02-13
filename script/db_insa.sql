@@ -145,23 +145,18 @@ CREATE TABLE IF NOT EXISTS `INSA`.`mv_monitoramento` (
 
 DROP PROCEDURE IF EXISTS `INSA`.`refresh_mv_monitoramento`;
 
-DELIMITER $$
+CREATE PROCEDURE `INSA`.`refresh_mv_monitoramento`() 
+BEGIN 
+TRUNCATE TABLE `INSA`.`mv_monitoramento`; 
 
-CREATE PROCEDURE `INSA`.`refresh_mv_monitoramento` ()
-BEGIN
-
-  TRUNCATE TABLE `INSA`.`mv_monitoramento`;
-
-  INSERT INTO `INSA`.`mv_monitoramento`
+INSERT INTO `INSA`.`mv_monitoramento`
 SELECT DISTINCT mon.id,mon.latitude,mon.longitude, mon.capacidade, ROUND(mo.volume_percentual,1), mo.volume 
 FROM tb_monitoramento mo 
 RIGHT JOIN (SELECT r.id,r.latitude,r.longitude, r.capacidade, max(m.data_informacao) AS maior_data FROM tb_reservatorio r 
 LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon ON mo.id_reservatorio=mon.id 
-AND mon.maior_data=mo.data_informacao AND mon.maior_data >= (CURDATE() - INTERVAL 90 DAY);
-END;
-$$
+AND mon.maior_data=mo.data_informacao AND mon.maior_data >= (CURDATE() - INTERVAL 90 DAY); 
 
-DELIMITER ;
+END;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
