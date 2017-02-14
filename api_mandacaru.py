@@ -13,7 +13,7 @@ def json_brazil():
 	return(IO.json_brazil())
 
 def reservoirs():
-	query = ("SELECT * from mv_monitoramento;")
+	query = ("SELECT id_reservatorio, latitude, longitude, capacidade, volume_percentual, volume, data_informacao, fonte from mv_monitoramento;")
 	select_answer = IO.select_DB(query)
 
 	keys = ["id", "latitude", "longitude", "capacidade","volume_percentual","volume", "data_informacao", "fonte"]
