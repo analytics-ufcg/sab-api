@@ -42,7 +42,7 @@ def reservoirs():
 def reservoirs_information(res_id=None):
 	if (res_id is None):
 		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
-				",r.tipo,r.area,r.capacidade"
+				",r.tipo,r.area,r.capacidade,mv_mo.fonte"
 				",mv_mo.volume, ROUND(mv_mo.volume_percentual,1), date_format(mv_mo.data_informacao,'%d/%m/%Y')"
 				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
@@ -55,7 +55,7 @@ def reservoirs_information(res_id=None):
 				" GROUP BY r.id,mv_mo.volume, mv_mo.volume_percentual,mv_mo.data_informacao")
 	else:
 		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
-				",r.tipo,r.area,r.capacidade"
+				",r.tipo,r.area,r.capacidade,mv_mo.fonte"
 				",mv_mo.volume, ROUND(mv_mo.volume_percentual,1), date_format(mv_mo.data_informacao,'%d/%m/%Y')"
 				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
@@ -69,7 +69,7 @@ def reservoirs_information(res_id=None):
 
 	select_answer = IO.select_DB(query)
 
-	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","volume","volume_percentual","data_informacao","municipio","estado", "uf"]
+	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","fonte","volume","volume_percentual","data_informacao","municipio","estado", "uf"]
 
 	return funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
 

@@ -24,7 +24,6 @@ cabecalho = ['Codigo','Reservatorio','Cota','Capacidade','Volume','VolumePercent
 aux_collection_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 0;")
 
 for monitoramento in ultimos_monitoramentos:
-	print monitoramento[0]
 	to_insert = []
 
 	reserv = str(monitoramento[0])
