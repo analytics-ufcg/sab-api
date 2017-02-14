@@ -13,7 +13,11 @@ def json_brazil():
 	return(IO.json_brazil())
 
 def reservoirs():
-	query = ("SELECT id_reservatorio, latitude, longitude, capacidade, volume_percentual, volume, date_format(data_informacao,'%d/%m/%Y'), fonte from mv_monitoramento;")
+	query = ("SELECT id_reservatorio, latitude, longitude, capacidade, "
+		"IF(data_informacao  >= (CURDATE() - INTERVAL 90 DAY), volume_percentual, null) as volume_percentual,"
+		"IF(data_informacao  >= (CURDATE() - INTERVAL 90 DAY), volume, null) as volume,"
+		"IF(data_informacao  >= (CURDATE() - INTERVAL 90 DAY), date_format(data_informacao,'%d/%m/%Y'), null) as data_informacao, fonte"
+		" from mv_monitoramento;")
 	select_answer = IO.select_DB(query)
 
 	keys = ["id", "latitude", "longitude", "capacidade","volume_percentual","volume", "data_informacao", "fonte"]
