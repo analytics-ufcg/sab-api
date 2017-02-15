@@ -59,4 +59,4 @@ for monitoramento in ultimos_monitoramentos:
 		aux_collection_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+reserv+";")
 		aux_collection_insert.insert_many_BD(aux_collection_insert.retira_ruido(to_insert, monitoramento, "ANA"))
 
-	time.sleep(10)
+	time.sleep(5)
