@@ -4,6 +4,10 @@
 ### **Estados**
 *GET*           /api/estados/sab
 
+### **Municípios**
+*GET*           /api/municipios
+*GET*           /api/municipios/sab
+
 ### **Brasil**
 *GET*           /api/pais
 

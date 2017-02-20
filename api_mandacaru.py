@@ -243,3 +243,12 @@ def reservoirs_equivalent_states():
 		 "quant_reserv_intervalo_5":quant_reserv_intervalo_5})
 
 	return list_dictionarys
+
+
+def city_info(sab=0):
+	query = ("SELECT mu.id, mu.nome, mu.latitude,mu.longitude, es.sigla, es.nome from tb_municipio mu, tb_estado es where es.id=mu.id_estado and semiarido="+str(sab)+";")
+	select_answer = IO.select_DB(query)
+
+	keys = ["id_municipio","nome_municipio","latitude","longitude","UF","estado"]
+
+	return funcoes_aux.list_of_dictionarys(select_answer, keys)

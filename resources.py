@@ -79,3 +79,17 @@ def reservoirs_equivalent_states():
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
+
+@app.route('/api/municipios/sab')
+def city_info():
+	response = json.dumps(api_mandacaru.city_info(1))
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
+@app.route('/api/municipios')
+def city_info_brazil():
+	response = json.dumps(api_mandacaru.city_info(0))
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
