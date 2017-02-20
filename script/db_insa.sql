@@ -82,6 +82,8 @@ CREATE TABLE IF NOT EXISTS `INSA`.`tb_municipio` (
   `nome` VARCHAR(50) NOT NULL,
   `id_estado` INT(11) NOT NULL,
   `area` MEDIUMTEXT NULL,
+  `latitude` MEDIUMTEXT NULL,
+  `longitude` MEDIUMTEXT NULL,
   `semiarido` INT(11) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tb_estado_idx` (`id_estado` ASC),

@@ -92,15 +92,15 @@ tb_estado = zip(estados_br["CD_GEOCODU"], estados_br["NM_ESTADO"], estados_br["N
 
 #tabela tb_municipio
 tb_municipio = []
-municipios_br = zip(cidades_br["ibge_id"],cidades_br["name"],cidades_br["uf"])
+municipios_br = zip(cidades_br["ibge_id"],cidades_br["name"],cidades_br["uf"],cidades_br["lat"],cidades_br["lon"])
 
 for municipio in municipios_br:
 	id_uf = estados_br["CD_GEOCODU"][estados_br["SIGLA"].index(municipio[2])]
 	if (municipio[0] in municipios_sab["GEOCODIGO"]):
 		area = municipios_sab["AREA_KM2"][municipios_sab["GEOCODIGO"].index(municipio[0])]
-		tb_municipio.append((municipio[0],municipio[1],id_uf,area,1))
+		tb_municipio.append((municipio[0],municipio[1],id_uf,area,municipio[3],municipio[4],1))
 	else:
-		tb_municipio.append((municipio[0],municipio[1],id_uf,"",0))
+		tb_municipio.append((municipio[0],municipio[1],id_uf,"",municipio[3],municipio[4],0))
 
 
 #tabela tb_reservatorio_municipio
@@ -218,7 +218,7 @@ for municipio_reservatorio in info_municipio_reservatorio:
 					tb_reservatorio_municipio.append((municipio_reservatorio[0],municipio[0]))
 
 execute_many_BD("""INSERT INTO tb_estado (id,nome,nome_regiao,sigla) VALUES (%s,%s,%s,%s)""", tb_estado)
-execute_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,semiarido) VALUES (%s,%s,%s,%s,%s)""", tb_municipio)
+execute_many_BD("""INSERT INTO tb_municipio (id,nome,id_estado,area,latitude,longitude,semiarido) VALUES (%s,%s,%s,%s,%s,%s,%s)""", tb_municipio)
 execute_many_BD("""INSERT INTO tb_reservatorio (id,nome,reservat,bacia,tipo,area,perimetro,hectares,capacidade,latitude,longitude) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", tb_reservatorio)
 execute_many_BD("""INSERT INTO tb_reservatorio_municipio (id_reservatorio,id_municipio) VALUES (%s,%s)""", tb_reservatorio_municipio)
 
