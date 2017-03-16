@@ -18,7 +18,8 @@
 ### **Reservatórios**
 *GET*           /api/reservatorios/info
 *GET*           /api/reservatorios/:id/info
-
+### **Reservatórios e municípios**
+*GET*           /api/pesquisa/municipio_reservatorio
 
 ## Monitoramento
 ### **Reservatórios**

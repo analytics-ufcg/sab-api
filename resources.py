@@ -93,3 +93,10 @@ def city_info_brazil():
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
+
+@app.route('/api/pesquisa/municipio_reservatorio')
+def search_information():
+	response = json.dumps(api_mandacaru.search_information())
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response

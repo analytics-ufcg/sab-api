@@ -252,3 +252,27 @@ def city_info(sab=0):
 	keys = ["id_municipio","nome_municipio","latitude","longitude","UF","estado"]
 
 	return funcoes_aux.list_of_dictionarys(select_answer, keys)
+
+def search_information():
+	query = ("SELECT r.id,r.nome,r.reservat as nome_exibicao,r.bacia,r.reservat"
+		",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
+		" FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
+		" JOIN tb_municipio m ON rm.id_municipio=m.id"
+		" GROUP BY r.id;")
+
+	select_answer = IO.select_DB(query)
+
+	keys = ["id","nome", "nome_exibicao", "bacia","reservat","municipio"]
+
+	answer = funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
+
+	query_2 = ("SELECT m.id,m.nome, CONCAT_WS(' - ', m.nome, e.sigla) nome_exibicao"
+		" FROM tb_municipio m JOIN tb_estado e ON m.id_estado=e.id")
+
+	select_answer_2 = IO.select_DB(query_2)
+
+	keys_2 = ["id","nome","nome_exibicao"]
+
+	answer.extend(funcoes_aux.list_of_dictionarys(select_answer_2, keys_2, "mun"))
+
+	return answer

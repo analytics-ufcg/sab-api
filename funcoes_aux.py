@@ -25,6 +25,10 @@ def list_of_dictionarys(list_of_values, keys, especial=None):
 		if (especial == "info"):
 			dictionary["nome_sem_acento"] = remove_accents(dictionary["nome"])
 			dictionary["reservat_sem_acento"] = remove_accents(dictionary["reservat"])
+			dictionary["tipo"] = "reservatorio"
+		if (especial == "mun"):
+			dictionary["nome_sem_acento"] = remove_accents(dictionary["nome"])
+			dictionary["tipo"] = "municipio"
 		answer_list.append(dictionary)
 	return answer_list
 
