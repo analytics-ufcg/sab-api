@@ -267,7 +267,7 @@ def search_information():
 	answer = funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
 
 	query_2 = ("SELECT m.id,m.nome, CONCAT_WS(' - ', m.nome, e.sigla) nome_exibicao"
-		" FROM tb_municipio m JOIN tb_estado e ON m.id_estado=e.id")
+		" FROM tb_municipio m JOIN tb_estado e ON m.id_estado=e.id and m.semiarido=1")
 
 	select_answer_2 = IO.select_DB(query_2)
 
