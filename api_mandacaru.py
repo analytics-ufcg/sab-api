@@ -91,7 +91,7 @@ def reservoirs_monitoring(res_id,all_monitoring=False):
 
 	volumes_list = []
 	dates_list = []
-	months_monitoring = monitoring_6_meses(res_id,all_monitoring)
+	months_monitoring = monitoring_6_months(res_id,all_monitoring)
 	date_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
 
 	for monitoring in months_monitoring:
@@ -115,13 +115,13 @@ def reservoirs_monitoring(res_id,all_monitoring=False):
 		'coeficiente_regressao': regression_coefficient, 'data_final':date_final.strftime('%d/%m/%Y'), 'data_inicial':inicial_date.strftime('%d/%m/%Y')}}
 
 
-def monitoring_6_meses(res_id,all_monitoring=False):
+def monitoring_6_months(res_id,all_monitoring=False):
 	if(all_monitoring):
 		query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
 			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
 	else:
 		query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
-			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
+			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) and visualizacao=1 order by data_informacao;")
 
 	select_answer = IO.select_DB(query_min_graph)
 
@@ -223,6 +223,8 @@ def reservoirs_equivalent_states():
 			list_dictionarys[i]["semiarido"] = "Semiárido Sergipano"
 		elif(list_dictionarys[i]["uf"] == "RN"):
 			list_dictionarys[i]["semiarido"] = "Semiárido Potiguar"
+
+		list_dictionarys[i]["volumes"] = monitoring_6_months_sab(list_dictionarys[i]["uf"])
 		volume_equivalente = volume_equivalente + (list_dictionarys[i]["volume_equivalente"] if list_dictionarys[i]["volume_equivalente"] is not None else 0)
 		capacidade_equivalente = capacidade_equivalente + (list_dictionarys[i]["capacidade_equivalente"] if list_dictionarys[i]["capacidade_equivalente"] is not None else 0)
 		quant_reservatorio_com_info = quant_reservatorio_com_info + list_dictionarys[i]["quant_reservatorio_com_info"]
@@ -240,7 +242,7 @@ def reservoirs_equivalent_states():
 		"quant_reservatorio_com_info":quant_reservatorio_com_info,"quant_reservatorio_sem_info":quant_reservatorio_sem_info,
 		"total_reservatorios":total_reservatorios, "quant_reserv_intervalo_1":quant_reserv_intervalo_1, "quant_reserv_intervalo_2":quant_reserv_intervalo_2,
 		 "quant_reserv_intervalo_3":quant_reserv_intervalo_3, "quant_reserv_intervalo_4":quant_reserv_intervalo_4,
-		 "quant_reserv_intervalo_5":quant_reserv_intervalo_5})
+		 "quant_reserv_intervalo_5":quant_reserv_intervalo_5, "volumes": monitoring_6_months_sab()})
 
 	return list_dictionarys
 
@@ -276,3 +278,27 @@ def search_information():
 	answer.extend(funcoes_aux.list_of_dictionarys(select_answer_2, keys_2, "mun"))
 
 	return answer
+
+def monitoring_6_months_sab(estado=None):
+	if (estado is None):
+		query_month_1 = ("select ROUND(SUM(mo.volume),1), date_format(CURDATE(),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= CURDATE() and data_informacao >=(CURDATE()-INTERVAL 90 DAY) group by id_reservatorio) aux where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio;")
+		query_month_2 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 1 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 1 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 1 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio;")
+		query_month_3 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 2 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 2 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 2 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio;")
+		query_month_4 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 3 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 3 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 3 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio;")
+		query_month_5 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 4 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 4 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 4 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio;")
+		query_month_6 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 5 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 5 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 5 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio;")
+	else:
+	 	query_month_1 = ("select ROUND(SUM(mo.volume),1), date_format(CURDATE(),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= CURDATE() and data_informacao >=(CURDATE()-INTERVAL 90 DAY) group by id_reservatorio) aux, (select distinct r.id as id_reservatorio, e.sigla as sigla from tb_reservatorio r, tb_reservatorio_municipio rm, tb_municipio m, tb_estado e where r.id=rm.id_reservatorio and rm.id_municipio=m.id and m.id_estado=e.id) reserv_estado where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio and reserv_estado.id_reservatorio=mo.id_reservatorio and reserv_estado.sigla='"+str(estado)+"';")
+	 	query_month_2 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 1 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 1 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 1 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux, (select distinct r.id as id_reservatorio, e.sigla as sigla from tb_reservatorio r, tb_reservatorio_municipio rm, tb_municipio m, tb_estado e where r.id=rm.id_reservatorio and rm.id_municipio=m.id and m.id_estado=e.id) reserv_estado where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio and reserv_estado.id_reservatorio=mo.id_reservatorio and reserv_estado.sigla='"+str(estado)+"';")
+	 	query_month_3 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 2 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 2 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 2 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux, (select distinct r.id as id_reservatorio, e.sigla as sigla from tb_reservatorio r, tb_reservatorio_municipio rm, tb_municipio m, tb_estado e where r.id=rm.id_reservatorio and rm.id_municipio=m.id and m.id_estado=e.id) reserv_estado where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio and reserv_estado.id_reservatorio=mo.id_reservatorio and reserv_estado.sigla='"+str(estado)+"';")
+	 	query_month_4 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 3 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 3 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 3 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux, (select distinct r.id as id_reservatorio, e.sigla as sigla from tb_reservatorio r, tb_reservatorio_municipio rm, tb_municipio m, tb_estado e where r.id=rm.id_reservatorio and rm.id_municipio=m.id and m.id_estado=e.id) reserv_estado where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio and reserv_estado.id_reservatorio=mo.id_reservatorio and reserv_estado.sigla='"+str(estado)+"';")
+	 	query_month_5 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 4 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 4 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 4 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux, (select distinct r.id as id_reservatorio, e.sigla as sigla from tb_reservatorio r, tb_reservatorio_municipio rm, tb_municipio m, tb_estado e where r.id=rm.id_reservatorio and rm.id_municipio=m.id and m.id_estado=e.id) reserv_estado where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio and reserv_estado.id_reservatorio=mo.id_reservatorio and reserv_estado.sigla='"+str(estado)+"';")
+	 	query_month_6 = ("select ROUND(SUM(mo.volume),1), date_format(LAST_DAY(CURDATE()- INTERVAL 5 MONTH),'%d/%m/%Y') from tb_monitoramento mo, (select max(data_informacao) as data, id_reservatorio from tb_monitoramento where data_informacao<= LAST_DAY(CURDATE()- INTERVAL 5 MONTH) and data_informacao >=(LAST_DAY(CURDATE()- INTERVAL 5 MONTH)-INTERVAL 90 DAY) group by id_reservatorio) aux, (select distinct r.id as id_reservatorio, e.sigla as sigla from tb_reservatorio r, tb_reservatorio_municipio rm, tb_municipio m, tb_estado e where r.id=rm.id_reservatorio and rm.id_municipio=m.id and m.id_estado=e.id) reserv_estado where mo.data_informacao = aux.data and mo.id_reservatorio=aux.id_reservatorio and reserv_estado.id_reservatorio=mo.id_reservatorio and reserv_estado.sigla='"+str(estado)+"';")
+
+	#(select distinct r.id as id_reservatorio, e.sigla as sigla from tb_reservatorio r, tb_reservatorio_municipio rm, tb_municipio m, tb_estado e where r.id=rm.id_reservatorio and rm.id_municipio=m.id and m.id_estado=e.id)
+	select_answer = [IO.select_DB(query_month_1)[0],IO.select_DB(query_month_2)[0],IO.select_DB(query_month_3)[0],IO.select_DB(query_month_4)[0],IO.select_DB(query_month_5)[0], IO.select_DB(query_month_6)[0]]
+	# select_answer = []
+	keys = ["Volume","DataInformacao"]
+	# select_answer.append(funcoes_aux.create_dictionary(IO.select_DB(query_month_1),keys))
+
+	return funcoes_aux.list_of_dictionarys(select_answer,keys)
