@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 
 from flask import Flask, make_response, request, Response, json
 import api_mandacaru
+import StringIO
+import csv
 
 app = Flask(__name__)
 
@@ -48,6 +50,19 @@ def reservoirs_monitoring(id):
 	response = json.dumps(api_mandacaru.reservoirs_monitoring(int(id),False))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
+@app.route('/api/reservatorios/<id>/monitoramento/csv')
+def reservoirs_monitoring_csv(id):
+	#response = json.dumps(api_mandacaru.reservoirs_monitoring_csv(int(id)))
+	csvList = api_mandacaru.reservoirs_monitoring_csv(int(id))
+	si = StringIO.StringIO()
+	cw = csv.writer(si)
+	cw.writerows(csvList)
+	response = make_response(si.getvalue())
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	response.headers["Content-Disposition"] = "attachment; filename=monitoramento_" + id + ".csv"
+	response.headers["Content-type"] = "text/csv"
 	return response
 
 @app.route('/api/reservatorios/<id>/monitoramento/completo')

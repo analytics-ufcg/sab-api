@@ -5,6 +5,8 @@ import funcoes_aux
 from dateutil import relativedelta
 from datetime import datetime
 import math
+import StringIO
+import csv
 
 def states_sab():
 	return(IO.states_sab())
@@ -113,6 +115,15 @@ def reservoirs_monitoring(res_id,all_monitoring=False):
 
 	return {'volumes': funcoes_aux.list_of_dictionarys(data_monitoring, keys), 'volumes_recentes':{'volumes':months_monitoring,
 		'coeficiente_regressao': regression_coefficient, 'data_final':date_final.strftime('%d/%m/%Y'), 'data_inicial':inicial_date.strftime('%d/%m/%Y')}}
+
+def reservoirs_monitoring_csv(res_id):
+	monitoring_json = reservoirs_monitoring(res_id,True)
+	volumes = monitoring_json["volumes"]
+	saida = [['Volume','VolumePercentual','Fonte','DataInformacao']]
+	for volume in volumes:
+		if 'Fonte' in volume:
+			saida.append(volume.values())
+	return saida
 
 
 def monitoring_6_meses(res_id,all_monitoring=False):
