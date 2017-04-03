@@ -93,17 +93,18 @@ def reservoirs_monitoring(res_id,all_monitoring=False):
 
 	volumes_list = []
 	dates_list = []
-	months_monitoring = monitoring_6_meses(res_id,all_monitoring)
+	months_monitoring = monitoring_months(res_id,6)
+	last_month_monitoring = monitoring_months(res_id,1)
 	date_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
 
-	for monitoring in months_monitoring:
+	for monitoring in last_month_monitoring:
 		volumes_list.append(float(monitoring["Volume"]))
 		date = datetime.strptime(monitoring["DataInformacao"], '%d/%m/%Y')
 		if (date > date_final):
 			date_final = date
 		dates_list.append(float(date.strftime('%s')))
 
-	inicial_date = date_final- relativedelta.relativedelta(months=6)
+	inicial_date = date_final - relativedelta.relativedelta(months=6)
 
 	regression_coefficient=0
 	if(len(volumes_list)>0):
@@ -126,13 +127,9 @@ def reservoirs_monitoring_csv(res_id):
 	return saida
 
 
-def monitoring_6_meses(res_id,all_monitoring=False):
-	if(all_monitoring):
-		query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
-			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
-	else:
-		query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
-			" and data_informacao >= (CURDATE() - INTERVAL 6 MONTH) order by data_informacao;")
+def monitoring_months(res_id,months):
+	query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
+			" and data_informacao >= (CURDATE() - INTERVAL " + str(months) + " MONTH) order by data_informacao;")
 
 	select_answer = IO.select_DB(query_min_graph)
 
