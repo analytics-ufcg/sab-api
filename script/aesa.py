@@ -55,7 +55,7 @@ for num_coluna in range(len(cabecalho),len(colunas)):
 			if ((similaridade_acude>=80 or similaridade_apelido>=80) and float(capacidade)==float(reserv[3])):
 				if ((reserv[4] is None) or (datetime.strptime(reserv[4], '%d-%m-%Y') < datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y'))):
 					ultimo_monitoramento = [reserv[0],reserv[5], reserv[6], reserv[7], reserv[4]]
-					to_add = [[reserv[0],'',round(float(json_reservatorio["Volume"])/1000000,2), float(json_reservatorio["Volume"])/float(json_reservatorio["CapacidadeMaxima"]),
+					to_add = [[reserv[0],'',round(float(json_reservatorio["Volume"])/1000000,2), (float(json_reservatorio["Volume"])/float(json_reservatorio["CapacidadeMaxima"]))*100,
 						datetime.strptime(json_reservatorio["DataInformacao"], '%d/%m/%Y').strftime('%Y-%m-%d')]]
 					to_insert.extend(aux_collection_insert.retira_ruido(to_add,ultimo_monitoramento, "AESA"))
 
