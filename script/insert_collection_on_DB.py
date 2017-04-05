@@ -32,7 +32,7 @@ for monitoramento in ultimos_monitoramentos:
 	else:
 		data_inicial = str(monitoramento[4])
 
-	r = requests.get('http://sar.ana.gov.br/Medicao/GridMedicoes?DropDownListReservatorios='+reserv+'&dataInicialInformada='+data_inicial+'&dataFinalInformada='+data_final+'&cliqueiEmPesquisar=true')
+	r = requests.get('http://sar.ana.gov.br/Medicao?dropDownListReservatorios='+reserv+'&dataInicial='+data_inicial+'&dataFinal='+data_final+'&button=Buscar')
 
 	json_insert = {}
 	contador_coluna = 0
