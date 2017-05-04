@@ -21,7 +21,7 @@ data_final = str(datetime.now().strftime(formato_data_2))
 
 cabecalho = ['Codigo','Reservatorio','Cota','Capacidade','Volume','VolumePercentual','DataInformacao']
 
-aux_collection_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 0;")
+# aux_collection_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 0;")
 
 for monitoramento in ultimos_monitoramentos:
 	to_insert = []
