@@ -37,10 +37,11 @@ def upload_file():
             monitoramento = file.read()
             isValido = True
             regex = re.compile(r"^\d+(.\d+)?,\d+(.\d+)?,[A-Z ]*,\d\d\/\d\d\/\d\d\d\d")
-            monitoramentoList = monitoramento.split('\n')
+            monitoramentoList = monitoramento.split('\r\n')
             for i in range(1,len(monitoramentoList) -1):
                 if regex.search(monitoramentoList[i]) == None:
                     isValido = False
+            monitoramentoList = filter(lambda a: a != '', monitoramentoList)
             saida = {"valido": isValido, "arquivo": file.filename, "linhas":len(monitoramentoList)}
             response = json.dumps(saida)
             response = make_response(response)

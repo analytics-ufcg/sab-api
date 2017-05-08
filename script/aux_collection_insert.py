@@ -51,7 +51,7 @@ def retira_ruido(lista_reserv, ultimo_monitoramento, fonte):
 			desvioPadrao = numpy.std(valores)
 			if (desvioPadrao>30):
 				intervalo = desvioPadrao
-			else:	
+			else:
 				intervalo = desvioPadrao+10
 			media = numpy.mean(valores)
 			if((porcentagemAtual <= media+intervalo) and (porcentagemAtual >= media-intervalo) and porcentagemAtual <= 150):
@@ -63,7 +63,7 @@ def retira_ruido(lista_reserv, ultimo_monitoramento, fonte):
 		lista_reservatorios[m].append(fonte)
 	if(not ultimo_monitoramento[3] is None):
 		lista_reservatorios.pop(0)
-	
+
 	return lista_reservatorios
 
 
@@ -80,10 +80,11 @@ def consulta_BD(query):
 
 	cursor.close()
 	conn.close()
-	
+
 	return rows
 
 def insert_many_BD(values):
+	print [str(item[0]) for item in values]
 	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
 	cursor = conn.cursor()
 	try:
@@ -109,4 +110,3 @@ def update_BD(query):
 
 	cursor.close()
 	conn.close()
-	
