@@ -4,9 +4,14 @@ import IO
 import funcoes_aux
 from dateutil import relativedelta
 from datetime import datetime
+from werkzeug.utils import secure_filename
+from flask import abort
 import math
 import StringIO
 import csv
+import re
+
+ALLOWED_EXTENSIONS = set(['csv'])
 
 def states_sab():
 	return(IO.states_sab())
@@ -252,6 +257,28 @@ def reservoirs_equivalent_states():
 
 	return list_dictionarys
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def verify_csv(req):
+	if 'file' not in req.files:
+	    abort (404)
+	file = req.files['file']
+	if file.filename == '':
+	    abort (404)
+	if file and allowed_file(file.filename):
+	    filename = secure_filename(file.filename)
+	    monitoramento = file.read()
+	    isValido = True
+	    regex = re.compile(r"^\d+(.\d+)?,\d+(.\d+)?,[A-Z ]*,\d\d\/\d\d\/\d\d\d\d")
+	    monitoramentoList = monitoramento.split('\r\n')
+	    for i in range(1,len(monitoramentoList) -1):
+	        if regex.search(monitoramentoList[i]) == None:
+	            isValido = False
+	    monitoramentoList = filter(lambda a: a != '', monitoramentoList)
+	    saida = {"valido": isValido, "arquivo": file.filename, "linhas":len(monitoramentoList)}
+	return saida
 
 def city_info(sab=0):
 	query = ("SELECT mu.id, mu.nome, mu.latitude,mu.longitude, es.sigla, es.nome from tb_municipio mu, tb_estado es where es.id=mu.id_estado and semiarido="+str(sab)+";")

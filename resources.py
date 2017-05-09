@@ -2,60 +2,20 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, make_response, request, Response, json, redirect, url_for
-from werkzeug.utils import secure_filename
 import api_mandacaru
 import StringIO
 import csv
-import re
 import os
 
 app = Flask(__name__)
-ALLOWED_EXTENSIONS = set(['csv'])
-UPLOAD_FOLDER = '/home/diegoc/'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/',methods=['POST'])
 def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            monitoramento = file.read()
-            isValido = True
-            regex = re.compile(r"^\d+(.\d+)?,\d+(.\d+)?,[A-Z ]*,\d\d\/\d\d\/\d\d\d\d")
-            monitoramentoList = monitoramento.split('\r\n')
-            for i in range(1,len(monitoramentoList) -1):
-                if regex.search(monitoramentoList[i]) == None:
-                    isValido = False
-            monitoramentoList = filter(lambda a: a != '', monitoramentoList)
-            saida = {"valido": isValido, "arquivo": file.filename, "linhas":len(monitoramentoList)}
-            response = json.dumps(saida)
-            response = make_response(response)
-            response.headers['Access-Control-Allow-Origin'] = "*"
-	return response
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-    '''
+    response = json.dumps(api_mandacaru.verify_csv(request))
+    response = make_response(response)
+    response.headers['Access-Control-Allow-Origin'] = "*"
+    return response
 
 @app.route('/api')
 def api():
@@ -102,7 +62,6 @@ def reservoirs_monitoring(id):
 
 @app.route('/api/reservatorios/<id>/monitoramento/csv')
 def reservoirs_monitoring_csv(id):
-	#response = json.dumps(api_mandacaru.reservoirs_monitoring_csv(int(id)))
 	csvList = api_mandacaru.reservoirs_monitoring_csv(int(id))
 	si = StringIO.StringIO()
 	cw = csv.writer(si)
