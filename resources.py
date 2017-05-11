@@ -9,14 +9,6 @@ import os
 
 app = Flask(__name__)
 
-
-@app.route('/',methods=['POST'])
-def upload_file():
-    response = json.dumps(api_mandacaru.verify_csv(request))
-    response = make_response(response)
-    response.headers['Access-Control-Allow-Origin'] = "*"
-    return response
-
 @app.route('/api')
 def api():
 	return "Api do monitoramento dos reservatórios da região Semi-árida brasileira"
@@ -122,3 +114,10 @@ def search_information():
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
+
+@app.route('/upload/verificacao',methods=['POST'])
+def upload_file():
+    response = json.dumps(api_mandacaru.verify_csv(request))
+    response = make_response(response)
+    response.headers['Access-Control-Allow-Origin'] = "*"
+    return response
