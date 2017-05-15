@@ -115,7 +115,7 @@ def search_information():
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/upload/verificacao',methods=['POST'])
+@app.route('/api/upload/verificacao',methods=['POST'])
 def upload_file():
     response = json.dumps(api_mandacaru.verify_csv(request))
     response = make_response(response)
