@@ -129,7 +129,7 @@ def reservoirs_monitoring_csv(res_id):
 
 def monitoring_months(res_id,months):
 	query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
-			" and data_informacao >= (CURDATE() - INTERVAL " + str(months) + " MONTH) order by data_informacao;")
+			" and visualizacao = 1 and data_informacao >= (CURDATE() - INTERVAL " + str(months) + " MONTH) order by data_informacao;")
 
 	select_answer = IO.select_DB(query_min_graph)
 
