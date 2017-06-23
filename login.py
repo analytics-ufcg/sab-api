@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, request, session, Response, json, make_response
 import sys
 sys.path.append('../sab-api/script')
 sys.path.append('../sab-api/authentication')
@@ -11,35 +11,55 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(12)
 
 auth = Authorize("INSA")
+completion = False
 
+def get_response(status):
+	data = {'Authorized' : status}
+	response = json.dumps(data)
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+	
+	
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if session.get('logged_in') == auth.check_session() and session['logged_in'] != False:
-		return redirect('../restrict')
+		resp = get_response(completion)
+		return resp
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        
+        global completion
         completion = auth.authenticate(username, password)
+        
         if completion == False:
-			error = 'Invalid Credentials. Please try again.'
+			resp = get_response(completion)
+			return resp
         else:
 			session['logged_in'] = auth.gen_session(username)
-			return redirect('../restrict')
+			resp = get_response(completion)
+			return resp
 
     return render_template('login.html', error=error)
     
 @app.route('/logout')
 def logout():
 	session['logged_in'] = False
-	return redirect('../login')
+	
+	global completion
+	completion = session['logged_in']
+	
+	resp = get_response(completion)
+	return resp
 
 @app.route('/restrict')
 def restrict():
 	if not session.get('logged_in'):
-		return redirect('../login')
+		resp = get_response(completion)
+		return resp
 	else:
-		return "<a href='/logout'>Logout</a>"
+		resp = get_response(completion)
+		return resp
 
-#if __name__ == '__main__':
-#    app.run(debug=True)
