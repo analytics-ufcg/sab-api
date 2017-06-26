@@ -41,8 +41,6 @@ def login():
 			session['logged_in'] = auth.gen_session(username)
 			resp = get_response(completion)
 			return resp
-
-    return render_template('login.html', error=error)
     
 @app.route('/logout')
 def logout():
