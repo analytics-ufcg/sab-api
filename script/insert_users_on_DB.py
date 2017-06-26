@@ -27,8 +27,3 @@ def insert_user(username, password):
 	query = '''INSERT INTO tb_user (username, password) 
 	VALUES ("''' + username + '''","''' + hashed_pass + '''")'''
 	aux_collection_insert.update_BD(query)
-
-drop_table()	
-create_table()
-insert_user('insa', 'volup14')
-insert_user('igor', '12345')
