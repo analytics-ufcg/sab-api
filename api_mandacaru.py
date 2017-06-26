@@ -262,6 +262,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def verify_csv(req):
+	reservatId = req.values["reservatId"]
 	if 'file' not in req.files:
 	    abort (404)
 	file = req.files['file']
@@ -278,7 +279,18 @@ def verify_csv(req):
 	            isValido = False
 	    monitoramentoList = filter(lambda a: a != '', monitoramentoList)
 	    saida = {"valido": isValido, "arquivo": file.filename, "linhas":len(monitoramentoList)}
+	if isValido:
+		temporary_upload(reservatId, monitoramentoList)
 	return saida
+
+def temporary_upload(reservatId, lines):
+	IO.delete_DB_upload()
+	values = []
+	#id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte
+	for value in lines[1:]:
+		aux = [reservatId] + value.split(',')
+		values.append([int(reservatId),'',float(aux[1]),float(aux[2]),datetime.strptime(aux[4], '%d/%m/%Y').strftime('%Y-%m-%d'),1,aux[3]])
+	IO.insert_many_BD_upload(values)
 
 def city_info(sab=0):
 	query = ("SELECT mu.id, mu.nome, mu.latitude,mu.longitude, es.sigla, es.nome from tb_municipio mu, tb_estado es where es.id=mu.id_estado and semiarido="+str(sab)+";")
