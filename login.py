@@ -18,6 +18,8 @@ def get_response(status):
 	response = json.dumps(data)
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
+	response.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
+	response.headers['Access-Control-Allow-Headers'] = "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
 	return response	
 	
 @app.route('/login', methods=['GET', 'POST', 'OPTIONS'])
