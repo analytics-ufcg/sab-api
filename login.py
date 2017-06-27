@@ -5,7 +5,7 @@ sys.path.append('../sab-api/authentication')
 import aux_collection_insert
 from hasher import digest, hash_all
 from authorize import Authorize
-import os
+import os, httplib
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(12)
@@ -21,13 +21,15 @@ def get_response(status):
 	return response
 	
 	
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['OPTIONS', 'GET', 'POST'])
 def login():
     error = None
     if session.get('logged_in') == auth.check_session() and session['logged_in'] != False:
 		resp = get_response(completion)
 		return resp
-    if request.method == 'POST':
+    if request.method == 'OPTIONS':
+		return httplib.OK	
+    elif request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         
