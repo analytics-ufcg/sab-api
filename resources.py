@@ -126,13 +126,13 @@ def upload_file():
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
-@app.route('/api/upload/confirmacao',methods=['POST','OPTIONS'])
-def confirm_upload():
+@app.route('/api/upload/confirmacao/<id>',methods=['GET','POST','OPTIONS'])
+def confirm_upload(id=None):
 	if(request.method == 'OPTIONS'):
 		response = make_response(json.dumps({}))
 		response.headers['Access-Control-Allow-Origin'] = "*"
 		return response
-	response = json.dumps(api_mandacaru.confirm_upload(request))
+	response = json.dumps(api_mandacaru.confirm_upload(request,id))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response

@@ -292,8 +292,8 @@ def temporary_upload(reservatId, lines):
 		values.append([int(reservatId),'',float(aux[1]),float(aux[2]),datetime.strptime(aux[4], '%d/%m/%Y').strftime('%Y-%m-%d'),1,aux[3]])
 	IO.insert_many_BD_upload(values)
 
-def confirm_upload(req):
-	reservatId = req.values["reservatId"]
+def confirm_upload(req,reservatId):
+	# reservatId = req.values["reservatId"]
 	return {'replaced' : IO.replace_reservat_history(reservatId)}
 
 def city_info(sab=0):
