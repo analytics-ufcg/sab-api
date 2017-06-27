@@ -183,10 +183,10 @@ AND mon.maior_data=mo.data_informacao;
 
 END;
 
-DROP procedure IF EXISTS `replace_reservat_history`;
+DROP procedure IF EXISTS `INSA`.`replace_reservat_history`;
 
 DELIMITER $$
-CREATE PROCEDURE `replace_reservat_history`(IN reservat INT)
+CREATE PROCEDURE `INSA`.`replace_reservat_history`(IN reservat INT)
 BEGIN
 
 DECLARE exit handler for sqlexception
@@ -202,9 +202,9 @@ DECLARE exit handler for sqlwarning
 END;
 
 START TRANSACTION;
-	DELETE FROM tb_monitoramento where id_reservatorio = reservat;
-    INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte)
-    SELECT id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte FROM tb_monitoramento_upload where id_reservatorio = reservat;
+	DELETE FROM `INSA`.`tb_monitoramento` where id_reservatorio = reservat;
+    INSERT INTO `INSA`.`tb_monitoramento` (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte)
+    SELECT id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte FROM `INSA`.`tb_monitoramento_upload` where id_reservatorio = reservat;
 COMMIT;
 END$$
 
