@@ -1,14 +1,75 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Flask, make_response, request, Response, json
+from flask import Flask, request, session, Response, json, make_response
 import api_mandacaru
 import StringIO
 import csv
+import sys, os
+sys.path.append('../sab-api/script')
+sys.path.append('../sab-api/authentication')
+import aux_collection_insert
+from hasher import digest, hash_all
+from authorize import Authorize
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.urandom(12)
 
+auth = Authorize("INSA")
+completion = False
 
+#Login
+def get_response(status):
+	data = {'Authorized' : status}
+	response = json.dumps(data)
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	response.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
+	response.headers['Access-Control-Allow-Headers'] = "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+	return response	
+	
+@app.route('/login', methods=['GET', 'POST', 'OPTIONS'])
+def login():
+	resp = get_response(completion)
+	
+	if session.get('logged_in') == auth.check_session() and session['logged_in'] != False:
+		resp = get_response(completion)
+		return resp
+		
+	if request.method == 'POST':
+		json = request.json
+		username = json.get("email")
+		password = json.get("password")
+        
+		global completion
+		completion = auth.authenticate(username, password)
+        
+		if completion == False:
+			return resp
+		else:
+			session['logged_in'] = auth.gen_session(username)
+			resp = get_response(completion)
+			return resp
+	
+	elif request.method == 'OPTIONS':
+		return resp 
+	
+	return resp
+    
+@app.route('/logout', methods=['GET', 'POST', 'OPTIONS'])
+def logout():
+    resp = get_response(completion)
+
+    if request.method == 'POST':
+        session['logged_in'] = False
+        global completion
+        completion = session['logged_in']
+        resp = get_response(completion)
+        return resp
+
+    return resp
+
+#Resources
 @app.route('/api')
 def api():
 	return "Api do monitoramento dos reservatórios da região Semi-árida brasileira"
