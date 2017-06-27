@@ -23,25 +23,29 @@ def get_response(status):
 @app.route('/login', methods=['GET', 'POST', 'OPTIONS'])
 def login():
 	resp = get_response(completion)
+	
 	if session.get('logged_in') == auth.check_session() and session['logged_in'] != False:
 		resp = get_response(completion)
 		return resp
+		
 	if request.method == 'POST':
-		username = request.form['username']
-		password = request.form['password']
+		json = request.json
+		username = json.get("email")
+		password = json.get("password")
         
 		global completion
 		completion = auth.authenticate(username, password)
         
 		if completion == False:
-			resp = get_response(completion)
 			return resp
 		else:
 			session['logged_in'] = auth.gen_session(username)
 			resp = get_response(completion)
 			return resp
+	
 	elif request.method == 'OPTIONS':
 		return resp 
+	
 	return resp
     
 @app.route('/logout')
