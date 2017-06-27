@@ -292,6 +292,10 @@ def temporary_upload(reservatId, lines):
 		values.append([int(reservatId),'',float(aux[1]),float(aux[2]),datetime.strptime(aux[4], '%d/%m/%Y').strftime('%Y-%m-%d'),1,aux[3]])
 	IO.insert_many_BD_upload(values)
 
+def confirm_upload(req):
+	reservatId = req.values["reservatId"]
+	return {'replaced' : IO.replace_reservat_history(reservatId)}
+
 def city_info(sab=0):
 	query = ("SELECT mu.id, mu.nome, mu.latitude,mu.longitude, es.sigla, es.nome from tb_municipio mu, tb_estado es where es.id=mu.id_estado and semiarido="+str(sab)+";")
 	select_answer = IO.select_DB(query)

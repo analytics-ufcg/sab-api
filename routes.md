@@ -42,4 +42,7 @@
 
 ## Upload manual
 ### **Verificação**
-*GET*           /api/upload/verificacao
+*POST*           /api/upload/verificacao
+*OPTIONS*        /api/upload/verificacao
+*POST*           /api/upload/confirmacao
+*OPTIONS*        /api/upload/confirmacao

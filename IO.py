@@ -35,8 +35,20 @@ def delete_DB_upload():
 		cursor.close()
 		conn.close()
 
+def replace_reservat_history(reservatId):
+	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
+	cursor = conn.cursor()
+	ret = False
+	try:
+		cursor.execute("call replace_reservat_history(" + reservatId + ");")
+		conn.commit()
+		ret = True
+	finally:
+		cursor.close()
+		conn.close()
+		return ret
+
 def insert_many_BD_upload(values):
-	print [str(item[0]) for item in values]
 	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
 	cursor = conn.cursor()
 	try:

@@ -183,6 +183,33 @@ AND mon.maior_data=mo.data_informacao;
 
 END;
 
+DROP procedure IF EXISTS `replace_reservat_history`;
+
+DELIMITER $$
+CREATE PROCEDURE `replace_reservat_history`(IN reservat INT)
+BEGIN
+
+DECLARE exit handler for sqlexception
+  BEGIN
+    -- ERROR
+  ROLLBACK;
+END;
+
+DECLARE exit handler for sqlwarning
+ BEGIN
+    -- WARNING
+ ROLLBACK;
+END;
+
+START TRANSACTION;
+	DELETE FROM tb_monitoramento where id_reservatorio = reservat;
+    INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte)
+    SELECT id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte FROM tb_monitoramento_upload where id_reservatorio = reservat;
+COMMIT;
+END$$
+
+DELIMITER ;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
