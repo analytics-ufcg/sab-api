@@ -73,6 +73,27 @@ CREATE TABLE IF NOT EXISTS `INSA`.`tb_monitoramento` (
 
 
 -- -----------------------------------------------------
+-- Table `INSA`.`tb_monitoramento_upload`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `INSA`.`tb_monitoramento_upload` ;
+
+CREATE TABLE IF NOT EXISTS `INSA`.`tb_monitoramento_upload` (
+  `id_reservatorio` INT(11) NOT NULL,
+  `cota` MEDIUMTEXT NULL,
+  `volume` MEDIUMTEXT NOT NULL,
+  `volume_percentual` MEDIUMTEXT NOT NULL,
+  `data_informacao` DATE NOT NULL,
+  `visualizacao` INT(11) NULL,
+  `fonte` VARCHAR(50) NULL,
+  INDEX `fk_tb_reservatorio_upload_idx` (`id_reservatorio` ASC),
+  CONSTRAINT `fk_tb_reservatorio_upload`
+    FOREIGN KEY (`id_reservatorio`)
+    REFERENCES `INSA`.`tb_reservatorio` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+-- -----------------------------------------------------
 -- Table `INSA`.`tb_municipio`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `INSA`.`tb_municipio` ;
@@ -140,27 +161,54 @@ CREATE TABLE IF NOT EXISTS `INSA`.`mv_monitoramento` (
 	`longitude` mediumtext,
 	`capacidade` mediumtext,
 	`volume_percentual` mediumtext,
-	`volume` mediumtext,	
-  `data_informacao` DATE,  
-  `fonte` mediumtext,  
+	`volume` mediumtext,
+  `data_informacao` DATE,
+  `fonte` mediumtext,
 	UNIQUE INDEX `id_mv_monitoramento` (`id_reservatorio`)
 );
 
 
 DROP PROCEDURE IF EXISTS `INSA`.`refresh_mv_monitoramento`;
 
-CREATE PROCEDURE `INSA`.`refresh_mv_monitoramento`() 
-BEGIN 
-TRUNCATE TABLE `INSA`.`mv_monitoramento`; 
+CREATE PROCEDURE `INSA`.`refresh_mv_monitoramento`()
+BEGIN
+TRUNCATE TABLE `INSA`.`mv_monitoramento`;
 
 INSERT INTO `INSA`.`mv_monitoramento`
-SELECT DISTINCT mon.id,mon.latitude,mon.longitude, mon.capacidade, ROUND(mo.volume_percentual,1), mo.volume, mon.maior_data, mo.fonte 
-FROM tb_monitoramento mo 
-RIGHT JOIN (SELECT r.id,r.latitude,r.longitude, r.capacidade, max(m.data_informacao) AS maior_data FROM tb_reservatorio r 
-LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon ON mo.id_reservatorio=mon.id 
-AND mon.maior_data=mo.data_informacao; 
+SELECT DISTINCT mon.id,mon.latitude,mon.longitude, mon.capacidade, ROUND(mo.volume_percentual,1), mo.volume, mon.maior_data, mo.fonte
+FROM tb_monitoramento mo
+RIGHT JOIN (SELECT r.id,r.latitude,r.longitude, r.capacidade, max(m.data_informacao) AS maior_data FROM tb_reservatorio r
+LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon ON mo.id_reservatorio=mon.id
+AND mon.maior_data=mo.data_informacao;
 
 END;
+
+DROP procedure IF EXISTS `INSA`.`replace_reservat_history`;
+
+DELIMITER $$
+CREATE PROCEDURE `INSA`.`replace_reservat_history`(IN reservat INT)
+BEGIN
+
+DECLARE exit handler for sqlexception
+  BEGIN
+    -- ERROR
+  ROLLBACK;
+END;
+
+DECLARE exit handler for sqlwarning
+ BEGIN
+    -- WARNING
+ ROLLBACK;
+END;
+
+START TRANSACTION;
+	DELETE FROM `INSA`.`tb_monitoramento` where id_reservatorio = reservat;
+    INSERT INTO `INSA`.`tb_monitoramento` (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte)
+    SELECT id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte FROM `INSA`.`tb_monitoramento_upload` where id_reservatorio = reservat;
+COMMIT;
+END$$
+
+DELIMITER ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

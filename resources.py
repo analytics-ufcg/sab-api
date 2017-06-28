@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Flask, make_response, request, Response, json
+from flask import Flask, make_response, request, Response, json, redirect, url_for
 import api_mandacaru
 import StringIO
 import csv
+import os
 
 app = Flask(__name__)
-
 
 @app.route('/api')
 def api():
@@ -54,7 +54,6 @@ def reservoirs_monitoring(id):
 
 @app.route('/api/reservatorios/<id>/monitoramento/csv')
 def reservoirs_monitoring_csv(id):
-	#response = json.dumps(api_mandacaru.reservoirs_monitoring_csv(int(id)))
 	csvList = api_mandacaru.reservoirs_monitoring_csv(int(id))
 	si = StringIO.StringIO()
 	cw = csv.writer(si)
@@ -112,6 +111,28 @@ def city_info_brazil():
 @app.route('/api/pesquisa/municipio_reservatorio')
 def search_information():
 	response = json.dumps(api_mandacaru.search_information())
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
+@app.route('/api/upload/verificacao',methods=['POST','OPTIONS'])
+def upload_file():
+	if(request.method == 'OPTIONS'):
+		response = make_response(json.dumps({}))
+		response.headers['Access-Control-Allow-Origin'] = "*"
+		return response
+	response = json.dumps(api_mandacaru.verify_csv(request))
+	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
+
+@app.route('/api/upload/confirmacao/<id>',methods=['GET','POST','OPTIONS'])
+def confirm_upload(id=None):
+	if(request.method == 'OPTIONS'):
+		response = make_response(json.dumps({}))
+		response.headers['Access-Control-Allow-Origin'] = "*"
+		return response
+	response = json.dumps(api_mandacaru.confirm_upload(request,id))
 	response = make_response(response)
 	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
