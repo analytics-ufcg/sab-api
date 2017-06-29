@@ -33,12 +33,17 @@ jwt = JWTManager(app)
 auth = Authorize("INSA")
 completion = False
 
+# send CORS headers
+@app.after_request
+def add_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With')
+    return response 
+
 #Login
 def get_response(data):
 	response = make_response(data)
-	response.headers['Access-Control-Allow-Origin'] = "*"
 	response.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
-	response.headers['Access-Control-Allow-Headers'] = "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
 	return response
 
 # Standard login endpoint
@@ -86,7 +91,7 @@ def _revoke_current_token():
     jti = current_token['jti']
     revoke_token(jti)
 
-@app.route('/logout', methods=['GET','POST', 'OPTIONS'])
+@app.route('/logout', methods=['POST'])
 @jwt_required
 def logout():
     data = jsonify({'Authorized' : completion})

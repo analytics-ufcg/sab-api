@@ -1,73 +1,126 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, session, Response, json, make_response
+from flask import Flask, jsonify, request, Response, json, make_response
+from flask_jwt_extended import JWTManager, jwt_required, \
+    get_jwt_identity, revoke_token, unrevoke_token, \
+    get_stored_tokens, get_all_stored_tokens, create_access_token, \
+    create_refresh_token, jwt_refresh_token_required, \
+    get_raw_jwt, get_stored_token
+    
+import simplekv.memory
+import datetime
 import api_mandacaru
 import StringIO
 import csv
 import sys, os
 sys.path.append('../sab-api/script')
 sys.path.append('../sab-api/authentication')
+
 import aux_collection_insert
 from hasher import digest, hash_all
 from authorize import Authorize
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(12)
+app.config['JWT_BLACKLIST_ENABLED'] = True
+app.config['JWT_BLACKLIST_STORE'] = simplekv.memory.DictStore()
+app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = 'all'
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=5)
+
+jwt = JWTManager(app)
 
 auth = Authorize("INSA")
 completion = False
 
+# send CORS headers
+@app.after_request
+def add_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With')
+    return response 
+
 #Login
-def get_response(status):
-	data = {'Authorized' : status}
-	response = json.dumps(data)
-	response = make_response(response)
-	response.headers['Access-Control-Allow-Origin'] = "*"
+def get_response(data):
+	response = make_response(data)
 	response.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
-	response.headers['Access-Control-Allow-Headers'] = "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-	return response	
-	
-@app.route('/login', methods=['GET', 'POST', 'OPTIONS'])
+	return response
+
+# Standard login endpoint
+@app.route('/login', methods=['GET','POST', 'OPTIONS'])
 def login():
-	resp = get_response(completion)
-	
-	if session.get('logged_in') == auth.check_session() and session['logged_in'] != False:
-		resp = get_response(completion)
-		return resp
-		
-	if request.method == 'POST':
-		json = request.json
-		username = json.get("email")
-		password = json.get("password")
-        
-		global completion
-		completion = auth.authenticate(username, password)
-        
-		if completion == False:
-			return resp
-		else:
-			session['logged_in'] = auth.gen_session(username)
-			resp = get_response(completion)
-			return resp
-	
-	elif request.method == 'OPTIONS':
+    data = jsonify({'Authorized' : completion})
+    resp = get_response(data)
+    
+    if request.method == 'POST':
+        json = request.json
+        username = json.get("email")
+        password = json.get("password")
+
+        global completion
+        completion = auth.authenticate(username, password)
+
+        if completion == False:
+            data = jsonify({'Authorized' : completion, "msg": "Bad username or password"})
+            return get_response(data), 401
+
+        data = jsonify({
+            'Authorized' : completion,
+            'access_token' : create_access_token(identity=username),
+            'refresh_token' : create_refresh_token(identity=username)
+        })
+        return get_response(data), 200
+    
+    elif request.method == 'OPTIONS':
 		return resp 
 	
-	return resp
-    
-@app.route('/logout', methods=['GET', 'POST', 'OPTIONS'])
-def logout():
-    resp = get_response(completion)
-
-    if request.method == 'POST':
-        session['logged_in'] = False
-        global completion
-        completion = session['logged_in']
-        resp = get_response(completion)
-        return resp
-
     return resp
+    
+# Standard refresh endpoint
+@app.route('/refresh', methods=['GET','POST', 'OPTIONS'])
+@jwt_refresh_token_required
+def refresh():
+    current_user = get_jwt_identity()
+    ret = {
+        'access_token': create_access_token(identity=current_user)
+    }
+    return jsonify(ret), 200
+    
+def _revoke_current_token():
+    current_token = get_raw_jwt()
+    jti = current_token['jti']
+    revoke_token(jti)
+
+@app.route('/logout', methods=['POST'])
+@jwt_required
+def logout():
+    data = jsonify({'Authorized' : completion})
+    resp = get_response(data)
+    
+    if request.method == 'POST':
+        try:
+            _revoke_current_token()
+            global completion
+            completion = False
+        except KeyError:
+            return jsonify({
+                'msg': 'Access token not found in the blacklist store'
+            }), 500
+        
+        data = jsonify({'Authorized' : completion, "msg": "Logged Out"})
+        return get_response(data), 200
+    
+    elif request.method == 'OPTIONS':
+		return resp 
+    
+    return resp
+
+@app.route('/upload/verificacao')
+@jwt_required
+def protected():
+    return jsonify({
+        'Authorized': True
+    })
 
 #Resources
 @app.route('/api')
