@@ -46,7 +46,7 @@ def get_response(data):
 	response.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
 	return response
 
-@app.route('/login', methods=['GET','POST', 'OPTIONS'])
+@app.route('/login', methods=['POST'])
 def login():
     data = jsonify({'Authorized' : completion})
     resp = get_response(data)
@@ -69,13 +69,10 @@ def login():
             'refresh_token' : create_refresh_token(identity=username)
         })
         return get_response(data), 200
-    
-    elif request.method == 'OPTIONS':
-		return resp 
 	
     return resp
     
-@app.route('/refresh', methods=['GET','POST', 'OPTIONS'])
+@app.route('/refresh', methods=['POST'])
 @jwt_refresh_token_required
 def refresh():
     current_user = get_jwt_identity()
@@ -108,17 +105,7 @@ def logout():
         data = jsonify({'Authorized' : completion, "msg": "Logged Out"})
         return get_response(data), 200
     
-    elif request.method == 'OPTIONS':
-		return resp 
-    
     return resp
-
-@app.route('/upload/verificacao')
-@jwt_required
-def protected():
-    return jsonify({
-        'Authorized': True
-    })
 
 #Resources
 @app.route('/api')
