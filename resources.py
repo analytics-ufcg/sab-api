@@ -33,20 +33,19 @@ jwt = JWTManager(app)
 auth = Authorize("INSA")
 completion = False
 
-# send CORS headers
+#CORS headers
 @app.after_request
 def add_headers(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With')
     return response 
 
-#Login
+#Authentication
 def get_response(data):
 	response = make_response(data)
 	response.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
 	return response
 
-# Standard login endpoint
 @app.route('/login', methods=['GET','POST', 'OPTIONS'])
 def login():
     data = jsonify({'Authorized' : completion})
@@ -76,7 +75,6 @@ def login():
 	
     return resp
     
-# Standard refresh endpoint
 @app.route('/refresh', methods=['GET','POST', 'OPTIONS'])
 @jwt_refresh_token_required
 def refresh():
@@ -131,7 +129,6 @@ def api():
 def states_sab():
 	response = json.dumps(api_mandacaru.states_sab())
 	response = make_response(response)
-	#response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/pais')
