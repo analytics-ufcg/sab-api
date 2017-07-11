@@ -4,9 +4,14 @@ import IO
 import funcoes_aux
 from dateutil import relativedelta
 from datetime import datetime
+from werkzeug.utils import secure_filename
+from flask import abort
 import math
 import StringIO
 import csv
+import re
+
+ALLOWED_EXTENSIONS = set(['csv'])
 
 def states_sab():
 	return(IO.states_sab())
@@ -252,6 +257,44 @@ def reservoirs_equivalent_states():
 
 	return list_dictionarys
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def verify_csv(req):
+	reservatId = req.values["reservatId"]
+	if 'file' not in req.files:
+	    abort (404)
+	file = req.files['file']
+	if file.filename == '':
+	    abort (404)
+	if file and allowed_file(file.filename):
+	    filename = secure_filename(file.filename)
+	    monitoramento = file.read()
+	    isValido = True
+	    regex = re.compile(r"^\d+(.\d+)?,\d+(.\d+)?,[A-Z ]*,\d\d\/\d\d\/\d\d\d\d")
+	    monitoramentoList = monitoramento.split('\r\n')
+	    for i in range(1,len(monitoramentoList) -1):
+	        if regex.search(monitoramentoList[i]) == None:
+	            isValido = False
+	    monitoramentoList = filter(lambda a: a != '', monitoramentoList)
+	    saida = {"valido": isValido, "arquivo": file.filename, "linhas":len(monitoramentoList)}
+	if isValido:
+		temporary_upload(reservatId, monitoramentoList)
+	return saida
+
+def temporary_upload(reservatId, lines):
+	IO.delete_DB_upload()
+	values = []
+	#id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte
+	for value in lines[1:]:
+		aux = [reservatId] + value.split(',')
+		values.append([int(reservatId),'',float(aux[1]),float(aux[2]),datetime.strptime(aux[4], '%d/%m/%Y').strftime('%Y-%m-%d'),1,aux[3]])
+	IO.insert_many_BD_upload(values)
+
+def confirm_upload(req,reservatId):
+	# reservatId = req.values["reservatId"]
+	return {'replaced' : IO.replace_reservat_history(reservatId)}
 
 def city_info(sab=0):
 	query = ("SELECT mu.id, mu.nome, mu.latitude,mu.longitude, es.sigla, es.nome from tb_municipio mu, tb_estado es where es.id=mu.id_estado and semiarido="+str(sab)+";")

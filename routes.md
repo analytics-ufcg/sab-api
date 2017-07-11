@@ -18,6 +18,7 @@
 ### **Reservatórios**
 *GET*           /api/reservatorios/info
 *GET*           /api/reservatorios/:id/info
+
 ### **Reservatórios e municípios**
 *GET*           /api/pesquisa/municipio_reservatorio
 
@@ -25,6 +26,7 @@
 ### **Reservatórios**
 *GET*           /api/reservatorios/:id/monitoramento
 *GET*           /api/reservatorios/:id/monitoramento/completo
+*GET*           /api/reservatorios/:id/monitoramento/csv
 
 
 ## Similares
@@ -37,3 +39,10 @@
 *GET*           /api/reservatorio/equivalente/bacia
 *GET*           /api/reservatorio/equivalente/estado
 
+
+## Upload manual
+### **Verificação**
+*POST*           /api/upload/verificacao
+*OPTIONS*        /api/upload/verificacao
+*POST*           /api/upload/confirmacao
+*OPTIONS*        /api/upload/confirmacao
