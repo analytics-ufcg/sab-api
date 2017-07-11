@@ -1,4 +1,6 @@
 Flask
+flask-jwt-extended==2.4.1
+simplekv
 pyexcel-xlsx
 MySQL-python
 python-dateutil

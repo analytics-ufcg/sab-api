@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager, jwt_required, \
     get_stored_tokens, get_all_stored_tokens, create_access_token, \
     create_refresh_token, jwt_refresh_token_required, \
     get_raw_jwt, get_stored_token
-    
+
 import simplekv.memory
 import datetime
 import api_mandacaru
@@ -38,7 +38,7 @@ completion = False
 def add_headers(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With')
-    return response 
+    return response
 
 #Authentication
 def get_response(data):
@@ -50,7 +50,7 @@ def get_response(data):
 def login():
     data = jsonify({'Authorized' : completion})
     resp = get_response(data)
-    
+
     if request.method == 'POST':
         json = request.json
         username = json.get("email")
@@ -69,9 +69,9 @@ def login():
             'refresh_token' : create_refresh_token(identity=username)
         })
         return get_response(data), 200
-	
+
     return resp
-    
+
 @app.route('/refresh', methods=['POST'])
 @jwt_refresh_token_required
 def refresh():
@@ -80,7 +80,7 @@ def refresh():
         'access_token': create_access_token(identity=current_user)
     }
     return jsonify(ret), 200
-    
+
 def _revoke_current_token():
     current_token = get_raw_jwt()
     jti = current_token['jti']
@@ -91,7 +91,7 @@ def _revoke_current_token():
 def logout():
     data = jsonify({'Authorized' : completion})
     resp = get_response(data)
-    
+
     if request.method == 'POST':
         try:
             _revoke_current_token()
@@ -101,10 +101,10 @@ def logout():
             return jsonify({
                 'msg': 'Access token not found in the blacklist store'
             }), 500
-        
+
         data = jsonify({'Authorized' : completion, "msg": "Logged Out"})
         return get_response(data), 200
-    
+
     return resp
 
 #Resources
@@ -138,7 +138,7 @@ def reservoirs_information(id=None):
     else:
         response = json.dumps(api_mandacaru.reservoirs_information(int(id)))
 	response = make_response(response)
-	return response
+    return response
 
 @app.route('/api/reservatorios/<id>/monitoramento')
 def reservoirs_monitoring(id):
