@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager, jwt_required, \
     get_stored_tokens, get_all_stored_tokens, create_access_token, \
     create_refresh_token, jwt_refresh_token_required, \
     get_raw_jwt, get_stored_token
-
+    
 import simplekv.memory
 import datetime
 import api_mandacaru
@@ -33,24 +33,25 @@ jwt = JWTManager(app)
 auth = Authorize("INSA")
 completion = False
 
-#CORS headers
+# send CORS headers
 @app.after_request
 def add_headers(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With')
-    return response
+    return response 
 
-#Authentication
+#Login
 def get_response(data):
 	response = make_response(data)
 	response.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
 	return response
 
-@app.route('/login', methods=['POST'])
+# Standard login endpoint
+@app.route('/login', methods=['GET','POST', 'OPTIONS'])
 def login():
     data = jsonify({'Authorized' : completion})
     resp = get_response(data)
-
+    
     if request.method == 'POST':
         json = request.json
         username = json.get("email")
@@ -69,10 +70,14 @@ def login():
             'refresh_token' : create_refresh_token(identity=username)
         })
         return get_response(data), 200
-
+    
+    elif request.method == 'OPTIONS':
+		return resp 
+	
     return resp
-
-@app.route('/refresh', methods=['POST'])
+    
+# Standard refresh endpoint
+@app.route('/refresh', methods=['GET','POST', 'OPTIONS'])
 @jwt_refresh_token_required
 def refresh():
     current_user = get_jwt_identity()
@@ -80,7 +85,7 @@ def refresh():
         'access_token': create_access_token(identity=current_user)
     }
     return jsonify(ret), 200
-
+    
 def _revoke_current_token():
     current_token = get_raw_jwt()
     jti = current_token['jti']
@@ -91,7 +96,7 @@ def _revoke_current_token():
 def logout():
     data = jsonify({'Authorized' : completion})
     resp = get_response(data)
-
+    
     if request.method == 'POST':
         try:
             _revoke_current_token()
@@ -101,11 +106,21 @@ def logout():
             return jsonify({
                 'msg': 'Access token not found in the blacklist store'
             }), 500
-
+        
         data = jsonify({'Authorized' : completion, "msg": "Logged Out"})
         return get_response(data), 200
-
+    
+    elif request.method == 'OPTIONS':
+		return resp 
+    
     return resp
+
+@app.route('/upload/verificacao')
+@jwt_required
+def protected():
+    return jsonify({
+        'Authorized': True
+    })
 
 #Resources
 @app.route('/api')
@@ -116,43 +131,50 @@ def api():
 def states_sab():
 	response = json.dumps(api_mandacaru.states_sab())
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/pais')
 def json_brazil():
 	response = json.dumps(api_mandacaru.json_brazil())
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios')
 def reservoirs():
 	response = json.dumps(api_mandacaru.reservoirs())
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios/info')
 @app.route('/api/reservatorios/<id>/info')
 def reservoirs_information(id=None):
-    if (id is None):
-        response = json.dumps(api_mandacaru.reservoirs_information())
-    else:
-        response = json.dumps(api_mandacaru.reservoirs_information(int(id)))
+	if (id is None):
+		response = json.dumps(api_mandacaru.reservoirs_information())
+	else:
+		response = json.dumps(api_mandacaru.reservoirs_information(int(id)))
 	response = make_response(response)
-    return response
+	response.headers['Access-Control-Allow-Origin'] = "*"
+	return response
 
 @app.route('/api/reservatorios/<id>/monitoramento')
 def reservoirs_monitoring(id):
 	response = json.dumps(api_mandacaru.reservoirs_monitoring(int(id),False))
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios/<id>/monitoramento/csv')
 def reservoirs_monitoring_csv(id):
+	#response = json.dumps(api_mandacaru.reservoirs_monitoring_csv(int(id)))
 	csvList = api_mandacaru.reservoirs_monitoring_csv(int(id))
 	si = StringIO.StringIO()
 	cw = csv.writer(si)
 	cw.writerows(csvList)
 	response = make_response(si.getvalue())
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	response.headers["Content-Disposition"] = "attachment; filename=monitoramento_" + id + ".csv"
 	response.headers["Content-type"] = "text/csv"
 	return response
@@ -161,12 +183,14 @@ def reservoirs_monitoring_csv(id):
 def reservoirs_monitoring_complete(id):
 	response = json.dumps(api_mandacaru.reservoirs_monitoring(int(id),True))
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/reservatorios/similares/<nome>/<limiar>')
 def reservoirs_similar(nome, limiar):
 	response = json.dumps(api_mandacaru.reservoirs_similar(nome, int(limiar)))
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 
@@ -174,6 +198,7 @@ def reservoirs_similar(nome, limiar):
 def reservoirs_equivalent_hydrographic_basin():
 	response = json.dumps(api_mandacaru.reservoirs_equivalent_hydrographic_basin())
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 
@@ -181,36 +206,26 @@ def reservoirs_equivalent_hydrographic_basin():
 def reservoirs_equivalent_states():
 	response = json.dumps(api_mandacaru.reservoirs_equivalent_states())
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/municipios/sab')
 def city_info():
 	response = json.dumps(api_mandacaru.city_info(1))
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/municipios')
 def city_info_brazil():
 	response = json.dumps(api_mandacaru.city_info(0))
 	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response
 
 @app.route('/api/pesquisa/municipio_reservatorio')
 def search_information():
 	response = json.dumps(api_mandacaru.search_information())
 	response = make_response(response)
-	return response
-
-@jwt_required
-@app.route('/api/upload/verificacao',methods=['POST'])
-def upload_file():
-    response = json.dumps(api_mandacaru.verify_csv(request))
-    response = make_response(response)
-    return response
-
-@jwt_required
-@app.route('/api/upload/confirmacao/<id>',methods=['GET','POST'])
-def confirm_upload(id=None):
-	response = json.dumps(api_mandacaru.confirm_upload(request,id))
-	response = make_response(response)
+	response.headers['Access-Control-Allow-Origin'] = "*"
 	return response

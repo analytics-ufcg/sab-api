@@ -7,6 +7,8 @@ import json
 from unicodedata import normalize
 from datetime import datetime
 
+import insert_users_on_DB
+
 try:
 	conn = MySQLdb.connect(read_default_group='INSA')
 	cursor = conn.cursor()
@@ -242,3 +244,10 @@ for row in reader_boletim:
 execute_many_BD("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte) VALUES (%s,%s,%s,%s,%s,%s,%s)""", boletim_historico)
 
 import atualizacao_diaria
+
+#### INSERINDO usuários ao banco de dados
+insert_users_on_DB.drop_table()
+insert_users_on_DB.create_table()
+insert_users_on_DB.insert_user('insa', 'volup14')
+insert_users_on_DB.insert_user('admin', '0lh0n4gu4')
+
