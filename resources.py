@@ -16,8 +16,10 @@ import csv
 import sys, os
 sys.path.append('../sab-api/script')
 sys.path.append('../sab-api/authentication')
+sys.path.append('../sab-api/predict')
 
 import aux_collection_insert
+import predict
 from hasher import digest, hash_all
 from authorize import Authorize
 
@@ -214,3 +216,10 @@ def confirm_upload(id=None):
 	response = json.dumps(api_mandacaru.confirm_upload(request,id))
 	response = make_response(response)
 	return response
+
+@app.route('/api/reservatorios/<id>/previsao')
+def reservoirs_information(id=None):
+    previsao = predict.calcula(id)
+    response = data = jsonify({'Predict' : previsao})
+	response = make_response(response)
+    return response

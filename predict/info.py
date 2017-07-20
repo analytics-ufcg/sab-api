@@ -93,4 +93,4 @@ def demanda(reservatId, today, lastWeek):
     else:
         mes = today.month()
         demanda = v_antes - v_atual - evap(reservatId, mes)
-        return mes
+        return demanda
