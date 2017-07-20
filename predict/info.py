@@ -2,6 +2,9 @@ import sys
 sys.path.append('../sab-api/script')
 import aux_collection_insert
 
+listaCotas = []
+listaVolumes = []
+
 def cotas(reservatId):
     query = 'SELECT cota FROM tb_cav WHERE id = reservatId'
     cotas = aux_collection_insert.consulta_BD(query)
@@ -11,6 +14,12 @@ def volumes(reservatId):
     query = 'SELECT volume FROM tb_cav WHERE id = reservatId'
     volumes = aux_collection_insert.consulta_BD(query)
     return volumes
+
+def popular_variaveis(reservatId):
+    global listaCotas
+    listaCotas = cotas(reservatId)
+    global listaVolumes
+    listaVolumes = volumes(reservatId)
 
 def maisProximo(reservatId, value, listValues):
     mpValue = listValues[0]
@@ -51,28 +60,28 @@ def evap(reservatId, mes):
     return et
 
 def cota(reservatId):
-    c = cotas(reservatId)
-    v = volumes(reservatId)
+    lv = listaVolumes
+    lc = listaCotas
     va = volumeAtual(reservatId)
-    index = maisProximo(reservatId, va, v)
-    cota = ((c[index+1] - c[index]) * ((va - v[index]) / (v[index+1] - v[index]))) + c[index]
+    index = maisProximo(reservatId, va, lv)
+    cota = ((lc[index+1] - lc[index]) * ((va - lv[index]) / (lv[index+1] - lv[index]))) + lc[index]
     return cota
 
-def retirada(reservatId, mes):
-    c = cotas(reservatId)
+def cotaEvap(reservatId, mes):
+    c = listaCotas
     evaporacao = evap(reservatId, mes) / 4
-    cota = cota(reservatId)
+    cota = cota(reservatId, c)
     rt = c[0]
     if (cota - evaporacao) >= c[0]:
         rt = cota - evaporacao
     return rt
 
 def volumeParcial(reservatId, mes):
-    c = cotas(reservatId)
-    v = volumes(reservatId)
-    ca = retirada(reservatId)
-    index = maisProximo(reservatId, ca, c)
-    vp = ((v[index+1] - v[index]) * ((ca - c[index]) / (c[index+1] - c[index]))) + v[index]
+    lc = listaCotas
+    lv = listaVolumes
+    c_evap = cotaEvap(reservatId, mes)
+    index = maisProximo(reservatId, ca, lc)
+    vp = ((lv[index+1] - lv[index]) * ((ca - lc[index]) / (lc[index+1] - lc[index]))) + lv[index]
     return vp
 
 def demanda(reservatId, today, lastWeek):
