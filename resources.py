@@ -218,8 +218,8 @@ def confirm_upload(id=None):
 	return response
 
 @app.route('/api/reservatorios/<id>/previsao')
-def reservoirs_information(id=None):
+def pred(id=None):
     previsao = predict.calcula(id)
     response = data = jsonify({'Predict' : previsao})
-	response = make_response(response)
+    response = make_response(response)
     return response

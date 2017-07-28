@@ -1,13 +1,17 @@
-import info
-from datetime import datetime, timedelta
+import predict_info
 
-def calcula(reservatId):
-    today = datetime.date.today()
-    lastWeek = today - timedelta(days=7)
+from datetime import timedelta, date, datetime
+
+def calcula(list_of_values):
+    reservatId = list_of_values[0]
+    vol = list_of_values[10]
+    data = list_of_values[12]
+    data = datetime.strptime(data, "%d/%m/%Y").date()
     mes = data.month
 
-    info.popular_variaveis(reservatId)
+    predict_info.popular_variaveis(reservatId)
 
-    previsao = info.volumeParcial(reservatId, mes) + info.precip() + \
-    info.vazao() - info.evap(reservatId, mes) - info.demanda(reservatId, lastWeek)
+    previsao = predict_info.volumeParcial(reservatId, mes, vol) + predict_info.precip() + predict_info.vazao() \
+                - predict_info.evap(reservatId, vol) - predict_info.demanda(reservatId, data, vol)
+
     return previsao
