@@ -11,7 +11,6 @@ def cotas(reservatId):
     list_of_cotas = []
     for value in aux:
         list_of_cotas.append(value[0])
-    print list_of_cotas
     return list_of_cotas
 
 def volumes(reservatId):
@@ -21,7 +20,6 @@ def volumes(reservatId):
     list_of_volumes = []
     for value in aux:
         list_of_volumes.append(value[0])
-    print list_of_volumes
     return list_of_volumes
 
 def rowsToList(rows):

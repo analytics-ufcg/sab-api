@@ -45,26 +45,26 @@ def evap(reservatId, mes):
 def cota(reservatId, vol):
     lv = listaVolumes
     lc = listaCotas
-    va = float(vol)
-    index = maisProximo(reservatId, va, lv)
-    ct = ((lc[index+1] - lc[index]) * ((va - lv[index]) / (lv[index+1] - lv[index]))) + lc[index]
+    v_atual = float(vol)
+    index = maisProximo(reservatId, v_atual, lv)
+    ct = ((lc[index+1] - lc[index]) * ((v_atual - lv[index]) / (lv[index+1] - lv[index]))) + lc[index]
     return ct
 
 def cotaEvap(reservatId, mes, vol):
-    c = listaCotas
+    lc = listaCotas
     evaporacao = evap(reservatId, mes) / 4
-    ct = cota(reservatId, vol)
-    rt = c[0]
-    if (ct - evaporacao) >= c[0]:
-        rt = ct - evaporacao
-    return rt
+    c_atual = cota(reservatId, vol)
+    c_final = lc[0]
+    if (c_atual - evaporacao) >= lc[0]:
+        c_final = c_atual - evaporacao
+    return c_final
 
 def volumeParcial(reservatId, mes, vol):
     lc = listaCotas
     lv = listaVolumes
-    c_evap = cotaEvap(reservatId, mes, vol)
-    index = maisProximo(reservatId, c_evap, lc)
-    vp = ((lv[index+1] - lv[index]) * ((c_evap - lc[index]) / (lc[index+1] - lc[index]))) + lv[index]
+    c_final = cotaEvap(reservatId, mes, vol)
+    index = maisProximo(reservatId, c_final, lc)
+    vp = ((lv[index+1] - lv[index]) * ((c_final - lc[index]) / (lc[index+1] - lc[index]))) + lv[index]
     return vp
 
 def demanda(reservatId, data, vol):
