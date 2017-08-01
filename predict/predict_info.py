@@ -38,9 +38,11 @@ def vazao():
     return qt
 
 def evap(reservatId, mes):
-    #query = ''
-    #et = aux_collection_insert.consulta_BD(query)
-    return 0.123
+    mes_dic = {'1' : 'jan', '2' : 'fev', '3' : 'mar', '4' : 'abr', '5' : 'mai', '6' : 'jun',
+               '7' : 'jul', '8' : 'ago', '9' : 'set', '10' : 'out', '11' : 'nov', '12' : 'dez'}
+    query = 'SELECT eva_' + mes_dic[str(mes)] + ' FROM tb_reservatorio WHERE id = ' + str(reservatId)
+    evaporacao = aux_collection_insert.consulta_BD(query)[0][0]
+    return evaporacao / 1000.0
 
 def cota(reservatId, vol):
     lv = listaVolumes

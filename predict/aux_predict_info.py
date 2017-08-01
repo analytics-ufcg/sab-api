@@ -49,7 +49,14 @@ def demanda_dif(reservatId, data, volumeAtual):
 
     dif_datas = data - rows[1]
     day = dif_datas.days
-    media_dem = (float(rows[0]) - float(volumeAtual)) / day
-    demanda = media_dem * 7
+    media_dem = ((float(rows[0]) * 10000.00) - float(volumeAtual)) / day
 
-    return demanda if demanda > 0.0 else 0.0
+    return media_dem if media_dem > 0.0 else 0.0
+
+def critical(reservatId):
+    query = 'SELECT capacidade FROM tb_reservatorio WHERE id = ' + str(reservatId)
+    row = aux_collection_insert.consulta_BD(query)[0][0]
+    cap = float(row) * 1000000.00
+    critico = (cap * 8.0) / 100.0
+
+    return critico
