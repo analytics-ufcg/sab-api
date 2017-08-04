@@ -8,9 +8,10 @@ def calcula(list_of_values):
 
     volume_atual = float(list_of_values[10]) * 1000000.00
 
-    data = list_of_values[12]
-    data = datetime.strptime(data, "%d/%m/%Y").date()
-    mes = data.month
+    #data = list_of_values[12]
+    #data = datetime.strptime(data, "%d/%m/%Y").date()
+
+    data = date.today()
 
     predict_info.popular_variaveis(reservatId)
     dias = 0
@@ -19,8 +20,9 @@ def calcula(list_of_values):
     volume_morto = 28238900.00
 
     while (volume_atual > volume_morto):
-        previsao = predict_info.volumeParcial(reservatId, mes, volume_atual) + predict_info.precip() + predict_info.vazao() - dem
+        previsao = predict_info.volumeParcial(reservatId, data, volume_atual) + predict_info.precip() + predict_info.vazao() - dem
         volume_atual = previsao
         dias += 1
+        data += timedelta(days=1)
 
     return dias
