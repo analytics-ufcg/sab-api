@@ -33,38 +33,6 @@ def rowsToList(rows):
     else:
         return lista
 
-def demanda_dif(reservatId, data, volumeAtual):
-    #lastWeek = data - timedelta(days=7)
-    #query = """SELECT volume, data_informacao FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-    #        data_informacao='"""+str(lastWeek)+"""' GROUP BY volume """
-    #rows = rowsToList(aux_collection_insert.consulta_BD(query))
-
-    #if len(rows) <= 0:
-
-    #query = """SELECT volume, MAX(data_informacao) FROM tb_monitoramento
-    #    WHERE id_reservatorio="""+str(reservatId)+""" AND
-    #        data_informacao=(SELECT MAX(data_informacao)
-    #                        FROM tb_monitoramento
-    #                        WHERE id_reservatorio="""+str(reservatId)+""") GROUP BY volume"""
-    #rows = rowsToList(aux_collection_insert.consulta_BD(query))
-
-    query_datas = """SELECT MIN(data_informacao), MAX(data_informacao) FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-            data_informacao BETWEEN '2017-01-01' AND '2017-03-01'"""
-    rows_datas = rowsToList(aux_collection_insert.consulta_BD(query_datas))
-
-    query_fim = """SELECT volume, data_informacao FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-            data_informacao='"""+str(rows_datas[0])+"""'"""
-    rows_fim = rowsToList(aux_collection_insert.consulta_BD(query_fim))
-
-    query_inicio = """SELECT volume, data_informacao FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-            data_informacao='"""+str(rows_datas[1])+"""'"""
-    rows_inicio = rowsToList(aux_collection_insert.consulta_BD(query_inicio))
-
-    dif_datas = rows_datas[0] - rows_datas[1]
-    day = dif_datas.days
-    media_dem = ((float(rows_fim[0]) * 10000.00) - (float(rows_inicio[0]) * 10000.00)) / day
-    return media_dem if media_dem > 0.0 else 0.0
-
 def critical(reservatId):
     query = 'SELECT capacidade FROM tb_reservatorio WHERE id = ' + str(reservatId)
     row = aux_collection_insert.consulta_BD(query)[0][0]

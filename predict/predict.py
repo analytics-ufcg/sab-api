@@ -15,10 +15,11 @@ def calcula(list_of_values):
     predict_info.popular_variaveis(reservatId)
     dias = 0
 
-    demanda = predict_info.demanda(reservatId, data, volume_atual)
+    dem = predict_info.demanda(reservatId)
+    volume_morto = 28238900.00
 
-    while (volume_atual > 0.0):
-        previsao = predict_info.volumeParcial(reservatId, mes, volume_atual) + predict_info.precip() + predict_info.vazao() - demanda
+    while (volume_atual > volume_morto):
+        previsao = predict_info.volumeParcial(reservatId, mes, volume_atual) + predict_info.precip() + predict_info.vazao() - dem
         volume_atual = previsao
         dias += 1
 

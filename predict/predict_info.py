@@ -69,7 +69,7 @@ def volumeParcial(reservatId, mes, vol):
     vp = ((lv[index+1] - lv[index]) * ((c_final - lc[index]) / (lc[index+1] - lc[index]))) + lv[index]
     return vp
 
-def demanda(reservatId, data, vol):
-    dif_volumes = aux_predict_info.demanda_dif(reservatId, data, vol)
-    demanda = dif_volumes - evap(reservatId, data.month)
-    return demanda
+def demanda(reservatId):
+    query = """SELECT demanda FROM tb_reservatorio WHERE id="""+str(reservatId)
+    dem = aux_collection_insert.consulta_BD(query)
+    return float(dem[0][0]) if len(dem) > 0 else 0.0
