@@ -13,16 +13,18 @@ def calcula(list_of_values):
 
     data = date.today()
 
-    predict_info.popular_variaveis(reservatId)
+    predict_info.popular_variaveis(reservatId, data)
     dias = 0
 
     dem = predict_info.demanda(reservatId)
     volume_morto = 28238900.00
 
     while (volume_atual > volume_morto):
+        print volume_atual
         previsao = predict_info.volumeParcial(reservatId, data, volume_atual) + predict_info.precip() + predict_info.vazao() - dem
         volume_atual = previsao
         dias += 1
         data += timedelta(days=1)
 
+    print volume_atual
     return dias

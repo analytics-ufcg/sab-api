@@ -27,15 +27,16 @@ def list_of_dictionarys(list_of_values, keys, especial=None):
 	list_of_values = list(list_of_values)
 	list_of_values_aux = list(list_of_values[0])
 
-	previsao = predict.calcula(list_of_values_aux)
-	if float(previsao) >= 0.0:
-		list_of_values_aux.append(str(previsao))
-	else:
-		list_of_values_aux.append("0.0")
+	if list_of_values_aux[-1] == 'PB' and list_of_values_aux[10] != None:
+		previsao = predict.calcula(list_of_values_aux)
+		if float(previsao) >= 0.0:
+			list_of_values_aux.append(str(previsao))
+		else:
+			list_of_values_aux.append("0.0")
 
-	list_of_values[0] = tuple(list_of_values_aux)
-	list_of_values = tuple(list_of_values)
-	keys.append("previsao")
+		list_of_values[0] = tuple(list_of_values_aux)
+		list_of_values = tuple(list_of_values)
+		keys.append("previsao")
 
 	for value in list_of_values:
 		dictionary = create_dictionary(value,keys)

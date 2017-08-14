@@ -7,15 +7,41 @@ from datetime import timedelta, date, datetime
 
 listaCotas = []
 listaVolumes = []
-data = date.today()
+data = ''
+mes = ''
+evaporacao = 0.0
 
-def popular_variaveis(reservatId):
+def cotas(reservatId):
+    query = 'SELECT cota FROM tb_cav WHERE id_reservatorio = ' + str(reservatId)
+    cotas = aux_collection_insert.consulta_BD(query)
+    aux = list(cotas)
+    list_of_cotas = []
+    for value in aux:
+        list_of_cotas.append(value[0])
+    return list_of_cotas
+
+def volumes(reservatId):
+    query = 'SELECT volume FROM tb_cav WHERE id_reservatorio = ' + str(reservatId)
+    volumes = aux_collection_insert.consulta_BD(query)
+    aux = list(volumes)
+    list_of_volumes = []
+    for value in aux:
+        list_of_volumes.append(value[0])
+    return list_of_volumes
+
+def popular_variaveis(reservatId, data_inicial):
     global listaCotas
-    listaCotas = aux_predict_info.cotas(reservatId)
+    listaCotas = cotas(reservatId)
     global listaVolumes
-    listaVolumes = aux_predict_info.volumes(reservatId)
+    listaVolumes = volumes(reservatId)
+    global data
+    data = data_inicial
+    global mes
+    mes = data.month
+    global evaporacao
+    evaporacao = evap(reservatId)
 
-def maisProximo(reservatId, value, listValues):
+def maisProximo(value, listValues):
     mpValue = listValues[0]
     index = 0
     for i in range(0, len(listValues)):
@@ -41,36 +67,35 @@ def vazao():
     return qt
 
 def evap(reservatId):
-    mes = int(data.month)
-    ano = int(data.year)
+    mes_evap = int(mes)
+    ano_evap = int(data.year)
 
     mes_dic = {'1' : 'jan', '2' : 'fev', '3' : 'mar', '4' : 'abr', '5' : 'mai', '6' : 'jun',
                '7' : 'jul', '8' : 'ago', '9' : 'set', '10' : 'out', '11' : 'nov', '12' : 'dez'}
-    query = 'SELECT eva_' + mes_dic[str(mes)] + ' FROM tb_reservatorio WHERE id = ' + str(reservatId)
+    query = 'SELECT eva_' + mes_dic[str(mes_evap)] + ' FROM tb_reservatorio WHERE id = ' + str(reservatId)
     evaporacao = aux_collection_insert.consulta_BD(query)[0][0]
 
-    if mes == 2:
-        if ((ano % 4) == 0 and (ano % 100) != 0) or ano%400 == 0:
+    if mes_evap == 2:
+        if ((ano_evap % 4) == 0 and (ano_evap % 100) != 0) or (ano_evap % 400) == 0:
             return (evaporacao / 1000.0) / 29
         return (evaporacao / 1000.0) / 28
-    elif (mes % 2) == 0:
+    elif (mes_evap % 2) == 0:
         return (evaporacao / 1000.0) / 31
-    elif mes == 7:
+    elif mes_evap == 7:
         return (evaporacao / 1000.0) / 31
     return (evaporacao / 1000.0) / 30
 
-def cota(reservatId, vol):
+def cota(vol):
     lv = listaVolumes
     lc = listaCotas
     v_atual = float(vol)
-    index = maisProximo(reservatId, v_atual, lv)
+    index = maisProximo(v_atual, lv)
     ct = ((lc[index+1] - lc[index]) * ((v_atual - lv[index]) / (lv[index+1] - lv[index]))) + lc[index]
     return ct
 
 def cotaEvap(reservatId, vol):
     lc = listaCotas
-    evaporacao = evap(reservatId)
-    c_atual = cota(reservatId, vol)
+    c_atual = cota(vol)
     c_final = lc[0]
     if (c_atual - evaporacao) >= lc[0]:
         c_final = c_atual - evaporacao
@@ -79,14 +104,20 @@ def cotaEvap(reservatId, vol):
 def volumeParcial(reservatId, data_atual, vol):
     global data
     data = data_atual
+    if mes != data.month:
+        global mes
+        mes = data.month
+        global evaporacao
+        evaporacao = evap(reservatId)
+
     lc = listaCotas
     lv = listaVolumes
     c_final = cotaEvap(reservatId, vol)
-    index = maisProximo(reservatId, c_final, lc)
+    index = maisProximo(c_final, lc)
     vp = ((lv[index+1] - lv[index]) * ((c_final - lc[index]) / (lc[index+1] - lc[index]))) + lv[index]
     return vp
 
 def demanda(reservatId):
     query = """SELECT demanda FROM tb_reservatorio WHERE id="""+str(reservatId)
     dem = aux_collection_insert.consulta_BD(query)
-    return float(dem[0][0]) if len(dem) > 0 else 0.0
+    return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else 0.0
