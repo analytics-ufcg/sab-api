@@ -106,7 +106,7 @@ def demandas(data, reservatId):
     if (len(listaCotas) <= 0) or (len(listaVolumes) <= 0):
         demanda_res = "NULL"
         print 'Demanda Total: '+str(demanda_res)
-        query = """UPDATE tb_reservatorio SET demanda="""+demanda_res+""" WHERE id="""+str(reservatId)
+        query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
         aux_collection_insert.update_BD(query)
 
     elif len(rows) > 0:
@@ -152,7 +152,7 @@ def demandas(data, reservatId):
             dem = (vp_inicial - vp_final) / dif_datas.days
             lista_dem.append(dem)
 
-        demanda_res = sum(lista_dem) / len(lista_dem) if len(lista_dem) > 0 else 0.0
+        demanda_res = sum(lista_dem) / len(lista_dem) if len(lista_dem) > 0 else "NULL"
         print 'Demanda Total: '+str(demanda_res)
         query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
         aux_collection_insert.update_BD(query)

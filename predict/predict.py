@@ -18,7 +18,7 @@ def calcula(list_of_values):
     dem = predict_info.demanda(reservatId)
     volume_morto = predict_info.volumeMorto(reservatId)
 
-    if dif_datas.days <= 7 and dem > 0.0:
+    if dif_datas.days <= 7 and dem != "NULL":
         while (volume_atual > volume_morto):
             previsao = predict_info.volumeParcial(reservatId, data, volume_atual) + predict_info.precip() + predict_info.vazao() - dem
             volume_atual = previsao
