@@ -24,18 +24,22 @@ def fix_accents(txt):
 def list_of_dictionarys(list_of_values, keys, especial=None):
 	answer_list = []
 
-	list_of_values = list(list_of_values)
-	list_of_values_aux = list(list_of_values[0])
+	if len(list_of_values) > 0 and len(keys) > 0:
+		list_of_values = list(list_of_values)
+		list_of_values_aux = list(list_of_values[0])
 
-	if list_of_values_aux[-1] == 'PB' and list_of_values_aux[10] != None:
-		previsao = predict.calcula(list_of_values_aux)
-		if float(previsao) >= 0.0:
-			list_of_values_aux.append(str(previsao))
+		if list_of_values_aux[-1] == 'PB' and list_of_values_aux[10] != None:
+			previsao = predict.calcula(list_of_values_aux)
+			if previsao != None:
+				list_of_values_aux.append(str(previsao))
+			else:
+				list_of_values_aux.append("NULL")
+
+			list_of_values[0] = tuple(list_of_values_aux)
+			list_of_values = tuple(list_of_values)
 		else:
-			list_of_values_aux.append("0.0")
+			list_of_values.append("NULL")
 
-		list_of_values[0] = tuple(list_of_values_aux)
-		list_of_values = tuple(list_of_values)
 		keys.append("previsao")
 
 	for value in list_of_values:

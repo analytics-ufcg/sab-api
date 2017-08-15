@@ -87,7 +87,7 @@ def rowsToList(rows):
     else:
         return lista
 
-def demanda_opt(data, reservatId):
+def demandas(data, reservatId):
     mes_atual = int(data.month)
     mes_limite = int(data.month) - 6
     ano_atual = int(data.year)
@@ -103,7 +103,13 @@ def demanda_opt(data, reservatId):
             data_informacao BETWEEN '"""+str(ano_limite)+"""-"""+str(mes_limite)+"""-01' AND '"""+str(ano_atual)+"""-"""+str(mes_atual)+"""-31' ORDER BY data_informacao ASC"""
     rows = rowsToList(aux_collection_insert.consulta_BD(query))
 
-    if len(rows) > 0:
+    if (len(listaCotas) <= 0) or (len(listaVolumes) <= 0):
+        demanda_res = "NULL"
+        print 'Demanda Total: '+str(demanda_res)
+        query = """UPDATE tb_reservatorio SET demanda="""+demanda_res+""" WHERE id="""+str(reservatId)
+        aux_collection_insert.update_BD(query)
+
+    elif len(rows) > 0:
         lista_datas = []
         lista_dias = []
         lista_volumes = []
@@ -146,98 +152,10 @@ def demanda_opt(data, reservatId):
             dem = (vp_inicial - vp_final) / dif_datas.days
             lista_dem.append(dem)
 
-    demanda_res = sum(lista_dem) / len(lista_dem) if len(lista_dem) > 0 else 0.0
-    print 'Demanda Total: '+str(demanda_res)
-    query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
-    aux_collection_insert.update_BD(query)
-
-
-def demanda_atr(data, reservatId):
-    mes = int(data.month) - 1
-    ano = int(data.year)
-    ld = []
-    while len(ld) < 3:
-        query_datas = """SELECT MIN(data_informacao), MAX(data_informacao) FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-                data_informacao BETWEEN '"""+str(ano)+"""-"""+str(mes)+"""-01' AND '"""+str(ano)+"""-"""+str(mes)+"""-31'"""
-        rows_datas = rowsToList(aux_collection_insert.consulta_BD(query_datas))
-
-        print rows_datas
-
-        if rows_datas[0] != None:
-            query_fim = """SELECT volume, data_informacao FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-                           data_informacao='"""+str(rows_datas[1])+"""'"""
-            rows_fim = rowsToList(aux_collection_insert.consulta_BD(query_fim))
-
-            query_inicio = """SELECT volume, data_informacao FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-                              data_informacao='"""+str(rows_datas[0])+"""'"""
-            rows_inicio = rowsToList(aux_collection_insert.consulta_BD(query_inicio))
-
-            if float(rows_inicio[0]) > float(rows_fim[0]):
-                dif_datas = rows_datas[1] - rows_datas[0]
-                day = dif_datas.days
-                vp2 = volumeParcial(rows_datas[0].month, float(rows_inicio[0]) * 1000000.00, reservatId)
-                vp1 = volumeParcial(rows_datas[1].month, float(rows_fim[0]) * 1000000.00, reservatId)
-                media_dem = (vp2 - vp1) / day
-                ld.append(media_dem)
-
-                print 'Mes: '+str(mes)
-                print 'Datas / Volume: '+str(rows_datas[0])+' / '+str(rows_inicio[0])
-                print 'Datas / Volume: '+str(rows_datas[1])+' / '+str(rows_fim[0])
-                print 'Dif. Dias: '+str(day)
-                print 'Volumes Parciais: '+str(vp2)+' / '+str(vp1)
-                print 'Demanda Media: '+str(media_dem)
-                print '---------'
-
-        mes -= 1
-        if mes == 0:
-            ano -= 1
-            mes = 12
-
-    demanda_res = sum(ld) / len(ld) if len(ld) > 0 else 0.0
-    print 'Demanda Total: '+str(demanda_res)
-    query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
-    aux_collection_insert.update_BD(query)
-
-def demandas(data, reservatId):
-    mes = 1
-    ano = int(data.year) - 1
-    ld = []
-    while mes <= 12:
-        query_datas = """SELECT MIN(data_informacao), MAX(data_informacao) FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-                data_informacao BETWEEN '"""+str(ano)+"""-"""+str(mes)+"""-01' AND '"""+str(ano)+"""-"""+str(mes)+"""-31'"""
-        rows_datas = rowsToList(aux_collection_insert.consulta_BD(query_datas))
-        if len(rows_datas) > 0:
-            if rows_datas[0] != rows_datas[1]:
-                query_fim = """SELECT volume, data_informacao FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-                               data_informacao='"""+str(rows_datas[1])+"""'"""
-                rows_fim = rowsToList(aux_collection_insert.consulta_BD(query_fim))
-
-                query_inicio = """SELECT volume, data_informacao FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
-                                  data_informacao='"""+str(rows_datas[0])+"""'"""
-                rows_inicio = rowsToList(aux_collection_insert.consulta_BD(query_inicio))
-
-                dif_datas = rows_datas[1] - rows_datas[0]
-                day = dif_datas.days
-                vp2 = volumeParcial(rows_datas[0].month, float(rows_inicio[0]) * 1000000.00, reservatId)
-                vp1 = volumeParcial(rows_datas[1].month, float(rows_fim[0]) * 1000000.00, reservatId)
-                media_dem = (vp2 - vp1) / day
-
-                print 'Mes: '+str(mes)
-                print 'Datas / Volume: '+str(rows_datas[0])+' / '+str(rows_inicio[0])
-                print 'Datas / Volume: '+str(rows_datas[1])+' / '+str(rows_fim[0])
-                print 'Dif. Dias: '+str(day)
-                print 'Volumes Parciais: '+str(vp2)+' / '+str(vp1)
-                print 'Demanda Media: '+str(media_dem)
-                print '---------'
-
-                if media_dem > 0.0:
-                    ld.append(media_dem)
-        mes += 1
-
-    demanda_res = sum(ld) / len(ld) if len(ld) > 0 else 0.0
-    print 'Demanda Total: '+str(demanda_res)
-    query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
-    aux_collection_insert.update_BD(query)
+        demanda_res = sum(lista_dem) / len(lista_dem) if len(lista_dem) > 0 else 0.0
+        print 'Demanda Total: '+str(demanda_res)
+        query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
+        aux_collection_insert.update_BD(query)
 
 def ids_PB():
     query = """SELECT DISTINCT res.id
@@ -256,16 +174,17 @@ def ids_PB():
     return rows
 
 def create_demanda():
-    query = """ALTER TABLE tb_reservatorio ADD COLUMN demada VARCHAR(45) NULL AFTER longitude"""
+    query = """ALTER TABLE tb_reservatorio ADD COLUMN demanda VARCHAR(45) NULL AFTER longitude"""
     aux_collection_insert.update_BD(query)
 
 def popular_demanda():
-    global listaCotas
-    listaCotas = cotas(reservatId)
-    global listaVolumes
-    listaVolumes = volumes(reservatId)
-
     today = date.today()
     ids_list = ids_PB()
     for reservatId in ids_list:
-        demanda_opt(today, reservatId)
+        global listaCotas
+        listaCotas = cotas(reservatId)
+        global listaVolumes
+        listaVolumes = volumes(reservatId)
+        demandas(today, reservatId)
+
+popular_demanda()

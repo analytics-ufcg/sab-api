@@ -1,7 +1,6 @@
 import sys
 sys.path.append('../sab-api/script')
 import aux_collection_insert
-import aux_predict_info
 
 from datetime import timedelta, date, datetime
 
@@ -73,7 +72,10 @@ def evap(reservatId):
     mes_dic = {'1' : 'jan', '2' : 'fev', '3' : 'mar', '4' : 'abr', '5' : 'mai', '6' : 'jun',
                '7' : 'jul', '8' : 'ago', '9' : 'set', '10' : 'out', '11' : 'nov', '12' : 'dez'}
     query = 'SELECT eva_' + mes_dic[str(mes_evap)] + ' FROM tb_reservatorio WHERE id = ' + str(reservatId)
-    evaporacao = aux_collection_insert.consulta_BD(query)[0][0]
+    rows = aux_collection_insert.consulta_BD(query)
+    evaporacao = rows[0][0]
+    if len(rows) < 0 or evaporacao == None:
+        evaporacao = 0.0
 
     if mes_evap == 2:
         if ((ano_evap % 4) == 0 and (ano_evap % 100) != 0) or (ano_evap % 400) == 0:
@@ -121,3 +123,8 @@ def demanda(reservatId):
     query = """SELECT demanda FROM tb_reservatorio WHERE id="""+str(reservatId)
     dem = aux_collection_insert.consulta_BD(query)
     return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else 0.0
+
+def volumeMorto(reservatId):
+    query = 'SELECT volume_morto FROM tb_reservatorio WHERE id = ' + str(reservatId)
+    row = aux_collection_insert.consulta_BD(query)[0][0]
+    return row
