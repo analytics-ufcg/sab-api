@@ -2,12 +2,12 @@ import predict_info
 
 from datetime import timedelta, date, datetime
 
-def calcula(list_of_values):
-    reservatId = list_of_values[0]
+def calcula(dictionary):
+    reservatId = dictionary["id"]
 
-    volume_atual = float(list_of_values[10]) * 1000000.00
+    volume_atual = float(dictionary["volume"]) * 1000000.00
 
-    ultima_data = list_of_values[12]
+    ultima_data = dictionary["data_informacao"]
     ultima_data = datetime.strptime(ultima_data, "%d/%m/%Y").date()
     data = date.today()
     dif_datas = data - ultima_data
