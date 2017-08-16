@@ -122,7 +122,7 @@ def volumeParcial(reservatId, data_atual, vol):
 def demanda(reservatId):
     query = """SELECT demanda FROM tb_reservatorio WHERE id="""+str(reservatId)
     dem = aux_collection_insert.consulta_BD(query)
-    return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else 0.0
+    return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else None
 
 def volumeMorto(reservatId):
     query = 'SELECT volume_morto FROM tb_reservatorio WHERE id = ' + str(reservatId)
