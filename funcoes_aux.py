@@ -31,15 +31,16 @@ def list_of_dictionarys(list_of_values, keys, especial=None):
 			dictionary["nome_sem_acento"] = remove_accents(dictionary["nome"])
 			dictionary["reservat_sem_acento"] = remove_accents(dictionary["reservat"])
 			dictionary["tipo"] = "reservatorio"
-			if dictionary["uf"] == 'PB' and dictionary["volume"] != None:
-				previsao = predict.calcula(dictionary)
-				if previsao != None:
-					dias = str(previsao)
+			if "uf" in dictionary:
+				if dictionary["uf"] == 'PB' and dictionary["volume"] != None:
+					previsao = predict.calcula(dictionary)
+					if previsao != None:
+						dias = str(previsao)
+					else:
+						dias = "NULL"
 				else:
 					dias = "NULL"
-			else:
-				dias = "NULL"
-			dictionary["previsao"] = dias
+				dictionary["previsao"] = dias
 		if (especial == "mun"):
 			dictionary["nome_sem_acento"] = remove_accents(dictionary["nome"])
 			dictionary["tipo"] = "municipio"
