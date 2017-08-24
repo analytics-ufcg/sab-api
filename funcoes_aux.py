@@ -10,6 +10,7 @@ from scipy import stats
 import sys
 sys.path.append('../sab-api/predict')
 import predict
+import predict_info
 
 
 
@@ -41,6 +42,7 @@ def list_of_dictionarys(list_of_values, keys, especial=None):
 				else:
 					dias = "NULL"
 				dictionary["previsao"] = dias
+				dictionary["volume_morto"] = "%.2f" % round((predict_info.volumeMorto(dictionary["id"]) / 1000000.0), 2)
 		if (especial == "mun"):
 			dictionary["nome_sem_acento"] = remove_accents(dictionary["nome"])
 			dictionary["tipo"] = "municipio"

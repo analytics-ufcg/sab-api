@@ -217,9 +217,9 @@ def confirm_upload(id=None):
 	response = make_response(response)
 	return response
 
-@app.route('/api/reservatorios/<id>/previsao')
+@app.route('/api/reservatorios/<id>/previsoes')
 def pred(id=None):
-    previsao = predict.calcula(id)
-    response = data = jsonify({'Predict' : previsao})
+    listaPrevisoes = predict.compara(id)
+    response = jsonify({'previsao' : listaPrevisoes[0], 'outorga' : listaPrevisoes[1], 'volume_morto' : listaPrevisoes[2]})
     response = make_response(response)
     return response

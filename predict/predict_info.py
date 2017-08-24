@@ -128,3 +128,8 @@ def volumeMorto(reservatId):
     query = 'SELECT volume_morto FROM tb_reservatorio WHERE id = ' + str(reservatId)
     row = aux_collection_insert.consulta_BD(query)[0][0]
     return row
+
+def volumeAtual(reservatId):
+    query = 'SELECT volume FROM mv_monitoramento WHERE id_reservatorio = ' + str(reservatId)
+    row = aux_collection_insert.consulta_BD(query)[0][0]
+    return float(row) * 1000000.00
