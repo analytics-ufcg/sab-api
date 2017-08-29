@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import predict_info
 
 from datetime import timedelta, date, datetime
@@ -36,7 +39,7 @@ def compara(reservatId):
 
     predict_info.popular_variaveis(reservatId, data)
 
-    outorga = 56160.00
+    outorga = 40608.00
     demanda = predict_info.demanda(reservatId)
 
     volume_atual = predict_info.volumeAtual(reservatId)

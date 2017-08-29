@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
 sys.path.append('../sab-api/script')
 import aux_collection_insert
@@ -119,16 +122,19 @@ def volumeParcial(reservatId, data_atual, vol):
     vp = ((lv[index+1] - lv[index]) * ((c_final - lc[index]) / (lc[index+1] - lc[index]))) + lv[index]
     return vp
 
+#Retorno em m³
 def demanda(reservatId):
     query = """SELECT demanda FROM tb_reservatorio WHERE id="""+str(reservatId)
     dem = aux_collection_insert.consulta_BD(query)
     return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else None
 
+#Retorno em m³
 def volumeMorto(reservatId):
     query = 'SELECT volume_morto FROM tb_reservatorio WHERE id = ' + str(reservatId)
     row = aux_collection_insert.consulta_BD(query)[0][0]
     return row
 
+#Retorno em m³, recebe do bd em hm³
 def volumeAtual(reservatId):
     query = 'SELECT volume FROM mv_monitoramento WHERE id_reservatorio = ' + str(reservatId)
     row = aux_collection_insert.consulta_BD(query)[0][0]
