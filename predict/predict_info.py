@@ -139,3 +139,9 @@ def volumeAtual(reservatId):
     query = 'SELECT volume FROM mv_monitoramento WHERE id_reservatorio = ' + str(reservatId)
     row = aux_collection_insert.consulta_BD(query)[0][0]
     return float(row) * 1000000.00
+
+#Retorno em m³
+def outorga(reservatId):
+    query = """SELECT outorga FROM tb_reservatorio WHERE id="""+str(reservatId)
+    dem = aux_collection_insert.consulta_BD(query)
+    return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else None

@@ -22,7 +22,6 @@ def calcula(dictionary):
     volume_morto = predict_info.volumeMorto(reservatId)
 
     if dif_datas.days <= 7 and dem != None:
-        print reservatId
         while (volume_atual > volume_morto):
             previsao = predict_info.volumeParcial(reservatId, data, volume_atual) + predict_info.precip() + predict_info.vazao() - dem
             volume_atual = previsao
@@ -39,24 +38,29 @@ def compara(reservatId):
 
     predict_info.popular_variaveis(reservatId, data)
 
-    outorga = 40608.00
+    outorga = predict_info.outorga(reservatId)
     demanda = predict_info.demanda(reservatId)
 
     volume_atual = predict_info.volumeAtual(reservatId)
     volume_morto = predict_info.volumeMorto(reservatId)
 
-    if demanda != None and outorga != None:
+    if demanda != None:
         va_dem = volume_atual
         while (va_dem > volume_morto):
             previsao = predict_info.volumeParcial(reservatId, data, va_dem) + predict_info.precip() + predict_info.vazao() - demanda
             va_dem = previsao
             volumesDemOut[0].append("%.2f" % round((va_dem / 1000000.0), 2))
+    else:
+        volumesDemOut[0] = None
 
+    if outorga != None:
         va_outorga = volume_atual
         while (va_outorga > volume_morto):
             previsao = predict_info.volumeParcial(reservatId, data, va_outorga) + predict_info.precip() + predict_info.vazao() - outorga
             va_outorga = previsao
             volumesDemOut[1].append("%.2f" % round((va_outorga / 1000000.0), 2))
+    else:
+        volumesDemOut[1] = None
 
     volumesDemOut.append("%.2f" % round((volume_morto / 1000000.0), 2))
     return volumesDemOut

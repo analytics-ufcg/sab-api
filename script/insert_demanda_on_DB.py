@@ -174,7 +174,7 @@ def ids_PB():
     return rows
 
 def create_demanda():
-    query = """ALTER TABLE tb_reservatorio ADD COLUMN demanda VARCHAR(45) NULL AFTER longitude"""
+    query = """ALTER TABLE tb_reservatorio ADD COLUMN demanda MEDIUMTEXT NULL AFTER longitude"""
     aux_collection_insert.update_BD(query)
 
 def popular_demanda():
