@@ -53,7 +53,7 @@ def compara(reservatId):
     else:
         volumesDemOut[0] = None
 
-    if outorga != None:
+    if outorga != None and len(predict_info.cotas(reservatId)):
         va_outorga = volume_atual
         while (va_outorga > volume_morto):
             previsao = predict_info.volumeParcial(reservatId, data, va_outorga) + predict_info.precip() + predict_info.vazao() - outorga

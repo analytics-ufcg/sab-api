@@ -254,3 +254,7 @@ insert_users_on_DB.insert_user('admin', '0lh0n4gu4')
 #### INSERINDO demandas para os reservatórios da PB
 insert_demanda_on_BD.create_demanda()
 insert_demanda_on_BD.popular_demanda()
+
+#### INSERINDO outorgas para os reservatórios da PB
+insert_outorga_on_BD.create_outorga()
+insert_outorga_on_BD.popular_outorga()

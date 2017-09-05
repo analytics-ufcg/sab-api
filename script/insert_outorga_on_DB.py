@@ -6,6 +6,8 @@ import csv
 from unicodedata import normalize
 from datetime import timedelta, date, datetime
 
+outorgas = {}
+
 def remove_accents(txt):
 	if (type(txt) is str):
 		txt= unicode(txt, "utf-8")
@@ -27,13 +29,41 @@ def nomes_PB():
     rows = aux_collection_insert.consulta_BD(query)
     return rows
 
-reader_outorgas_pb = csv.DictReader(open('../data/outorgas_pb.csv'))
-outorgas_pb = {}
-resertvats = nomes_PB()
-for row in reader_outorgas_pb:
-    for column, value in row.iteritems():
-        outorgas_pb.setdefault(column, []).append(value)
+def insert_outorga(outorgas_pb, resertvats):
+    today = date.today()
     for res in resertvats:
-        if remove_accents(outorgas_pb["Açude Monitorados"][0]) == remove_accents(res[0]):
-            print outorgas_pb["Açude Monitorados"][0]
+        acude = outorgas_pb["Açude Monitorados"][0]
+        expira = outorgas_pb["Expiração da Outorga"][0]
+        vazao = outorgas_pb["Vazão Horária  (m³/h)"][0]
+
+        if remove_accents(acude) == remove_accents(res[0]) and expira != "null" and vazao != "null":
+            data = datetime.strptime(outorgas_pb["Expiração da Outorga"][0], "%d/%m/%Y").date()
+            if data.year >= 2010:
+                vazao = float(vazao) * 24.00
+                if outorgas.get(acude) != None:
+                    if data > today and outorgas[acude][0] > today:
+                        vazao = outorgas[acude][1] + vazao
+                        global outorgas
+                        outorgas[acude] = [data, vazao]
+                    elif data > outorgas[acude][0]:
+                        global outorgas
+                        outorgas[acude] = [data, vazao]
+                else:
+                    global outorgas
+                    outorgas[acude] = [data, vazao]
+                query = """UPDATE tb_reservatorio SET outorga="""+str(outorgas[acude][1])+""" WHERE id="""+str(res[1])
+                aux_collection_insert.update_BD(query)
+
+def popular_outorga():
+    reader_outorgas_pb = csv.DictReader(open('../data/outorgas_pb.csv'))
     outorgas_pb = {}
+    resertvats = nomes_PB()
+    for row in reader_outorgas_pb:
+        for column, value in row.iteritems():
+            outorgas_pb.setdefault(column, []).append(value)
+        insert_outorga(outorgas_pb, resertvats)
+        outorgas_pb = {}
+
+def create_outorga():
+    query = """ALTER TABLE tb_reservatorio ADD COLUMN outorga MEDIUMTEXT NULL AFTER demanda"""
+    aux_collection_insert.update_BD(query)
