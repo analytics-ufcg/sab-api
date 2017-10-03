@@ -74,15 +74,15 @@ def insert_outorga(outorgas_pb, resertvats):
 			query = """UPDATE tb_reservatorio SET outorga="""+str(vazao_total)+""" WHERE id="""+str(res[1])
 			aux_collection_insert.update_BD(query)
 
-#def popular_outorga():
-reader_outorgas_pb = csv.DictReader(open('../data/outorgas_pb.csv'))
-outorgas_pb = {}
-resertvats = nomes_PB()
-for row in reader_outorgas_pb:
-    for column, value in row.iteritems():
-        outorgas_pb.setdefault(column, []).append(value)
-    insert_outorga(outorgas_pb, resertvats)
-    outorgas_pb = {}
+def popular_outorga():
+	reader_outorgas_pb = csv.DictReader(open('../data/outorgas_pb.csv'))
+	outorgas_pb = {}
+	resertvats = nomes_PB()
+	for row in reader_outorgas_pb:
+	    for column, value in row.iteritems():
+	        outorgas_pb.setdefault(column, []).append(value)
+	    insert_outorga(outorgas_pb, resertvats)
+	    outorgas_pb = {}
 
 def create_outorga():
     query = """ALTER TABLE tb_reservatorio ADD COLUMN outorga MEDIUMTEXT NULL AFTER demanda"""

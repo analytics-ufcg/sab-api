@@ -34,7 +34,7 @@ def calcula(dictionary):
 def compara(reservatId):
     volumesDemOut = [[], []]
 
-    data = date.today()
+    data = predict_info.getDate(reservatId)
 
     predict_info.popular_variaveis(reservatId, data)
 

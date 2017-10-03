@@ -145,3 +145,9 @@ def outorga(reservatId):
     query = """SELECT outorga FROM tb_reservatorio WHERE id="""+str(reservatId)
     dem = aux_collection_insert.consulta_BD(query)
     return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else None
+
+#Retorna última data
+def getDate(reservatId):
+    query = "SELECT data_informacao FROM INSA.mv_monitoramento WHERE id_reservatorio="+str(reservatId)
+    date = aux_collection_insert.consulta_BD(query)[0][0]
+    return date
