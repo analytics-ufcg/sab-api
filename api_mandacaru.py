@@ -79,7 +79,7 @@ def reservoirs_information(res_id=None):
 				" GROUP BY r.id,mv_mo.volume, mv_mo.volume_percentual,mv_mo.data_informacao")
 
 	select_answer = IO.select_DB(query)
-
+	
 	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","fonte","volume","volume_percentual","data_informacao","municipio","estado", "uf"]
 
 	return funcoes_aux.list_of_dictionarys(select_answer, keys, "info")

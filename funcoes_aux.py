@@ -7,6 +7,10 @@ from datetime import datetime
 from fuzzywuzzy import fuzz
 import re
 from scipy import stats
+import sys
+sys.path.append('../sab-api/predict')
+import predict
+import predict_info
 
 
 
@@ -20,16 +24,30 @@ def fix_accents(txt):
 
 def list_of_dictionarys(list_of_values, keys, especial=None):
 	answer_list = []
+	dias = 0
+
 	for value in list_of_values:
 		dictionary = create_dictionary(value,keys)
 		if (especial == "info"):
 			dictionary["nome_sem_acento"] = remove_accents(dictionary["nome"])
 			dictionary["reservat_sem_acento"] = remove_accents(dictionary["reservat"])
 			dictionary["tipo"] = "reservatorio"
+			if "uf" in dictionary:
+				if dictionary["uf"] == 'PB' and dictionary["volume"] != None:
+					previsao = predict.calcula(dictionary)
+					if previsao != None:
+						dias = str(previsao)
+					else:
+						dias = "NULL"
+				else:
+					dias = "NULL"
+				dictionary["previsao"] = dias
+				dictionary["volume_morto"] = "%.2f" % round((predict_info.volumeMorto(dictionary["id"]) / 1000000.0), 2)
 		if (especial == "mun"):
 			dictionary["nome_sem_acento"] = remove_accents(dictionary["nome"])
 			dictionary["tipo"] = "municipio"
 		answer_list.append(dictionary)
+
 	return answer_list
 
 def create_dictionary(values, keys):

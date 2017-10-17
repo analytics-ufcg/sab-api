@@ -6,6 +6,9 @@ print str(datetime.now()) + " - script da ana finalizado"
 print str(datetime.now()) + " - script do governo rn iniciado"
 import governo_rn
 print str(datetime.now()) + " - script do governo rn finalizado"
+print str(datetime.now()) + " - script da demanda iniciado"
+insert_demanda_on_BD.popular_demanda()
+print str(datetime.now()) + " - script da demanda finalizado"
 import aux_collection_insert
 aux_collection_insert.update_BD('call refresh_mv_monitoramento;')
 print str(datetime.now()) + " - fim do script diario"

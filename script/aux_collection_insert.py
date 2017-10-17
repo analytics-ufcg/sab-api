@@ -71,6 +71,7 @@ def consulta_BD(query):
 	""" Connect to MySQL database """
 	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
 	cursor = conn.cursor()
+	rows = []
 	try:
 		cursor.execute(query)
 		rows = cursor.fetchall()
