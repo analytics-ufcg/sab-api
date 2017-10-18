@@ -138,7 +138,7 @@ def volumeMorto(reservatId):
 def volumeAtual(reservatId):
     query = 'SELECT volume FROM mv_monitoramento WHERE id_reservatorio = ' + str(reservatId)
     row = aux_collection_insert.consulta_BD(query)[0][0]
-    return float(row) * 1000000.00
+    return float(row) * 1000000.0
 
 #Retorno em m³
 def outorga(reservatId):

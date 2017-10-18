@@ -53,7 +53,7 @@ def compara(reservatId):
         while (va_dem > volume_morto and previsaoDict['dias'] < 180):
             previsao = predict_info.volumeParcial(reservatId, data, va_dem) + predict_info.precip() + predict_info.vazao() - demanda
             va_dem = previsao if previsao > 0.0 else 0.0
-            previsaoDict['volumes'].append("%.2f" % round((va_dem / 1000000.0), 2))
+            previsaoDict['volumes'].append("%.4f" % round((va_dem / 1000000.0), 4))
             previsaoDict['dias'] = previsaoDict['dias'] + 1
         volumesDemOut[0] = previsaoDict
     else:
@@ -65,11 +65,11 @@ def compara(reservatId):
         while (va_outorga > volume_morto and outorgasDict['dias'] < 180):
             previsao = predict_info.volumeParcial(reservatId, data, va_outorga) + predict_info.precip() + predict_info.vazao() - outorga
             va_outorga = previsao if previsao > 0.0 else 0.0
-            outorgasDict['volumes'].append("%.2f" % round((va_outorga / 1000000.0), 2))
+            outorgasDict['volumes'].append("%.4f" % round((va_outorga / 1000000.0), 4))
             outorgasDict['dias'] = outorgasDict['dias'] + 1
         volumesDemOut[1] = outorgasDict
     else:
         volumesDemOut[1] = outorgasDict
 
-    volumesDemOut.append("%.2f" % round((volume_morto / 1000000.0), 2))
+    volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
