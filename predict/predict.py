@@ -33,6 +33,7 @@ def calcula(dictionary):
 
 def compara(reservatId):
     volumesDemOut = [[], []]
+    VOLUME_PARADA = 0.0
 
     data = predict_info.getDate(reservatId)
 
@@ -50,7 +51,7 @@ def compara(reservatId):
     if demanda != None:
         va_dem = volume_atual
         previsaoDict['calculado'] = True
-        while (va_dem > volume_morto and previsaoDict['dias'] < 180):
+        while (va_dem > VOLUME_PARADA and previsaoDict['dias'] < 180):
             previsao = predict_info.volumeParcial(reservatId, data, va_dem) + predict_info.precip() + predict_info.vazao() - demanda
             va_dem = previsao if previsao > 0.0 else 0.0
             previsaoDict['volumes'].append("%.4f" % round((va_dem / 1000000.0), 4))
@@ -62,7 +63,7 @@ def compara(reservatId):
     if outorga != None and len(predict_info.cotas(reservatId)):
         va_outorga = volume_atual
         outorgasDict['calculado'] = True
-        while (va_outorga > volume_morto and outorgasDict['dias'] < 180):
+        while (va_outorga > VOLUME_PARADA and outorgasDict['dias'] < 180):
             previsao = predict_info.volumeParcial(reservatId, data, va_outorga) + predict_info.precip() + predict_info.vazao() - outorga
             va_outorga = previsao if previsao > 0.0 else 0.0
             outorgasDict['volumes'].append("%.4f" % round((va_outorga / 1000000.0), 4))
