@@ -140,6 +140,11 @@ def volumeAtual(reservatId):
     row = aux_collection_insert.consulta_BD(query)[0][0]
     return float(row) * 1000000.0
 
+def volumePassado(reservatId, ultimaData):
+    query = 'SELECT volume FROM tb_monitoramento WHERE id_reservatorio = ' + str(reservatId) + ' ORDER BY ABS(DATEDIFF(data_informacao, \'' + ultimaData + '\')) LIMIT 1'
+    row = aux_collection_insert.consulta_BD(query)[0][0]
+    return float(row) * 1000000.0
+
 #Retorno em m³
 def outorga(reservatId):
     query = """SELECT outorga FROM tb_reservatorio WHERE id="""+str(reservatId)

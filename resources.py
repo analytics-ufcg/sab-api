@@ -218,8 +218,12 @@ def confirm_upload(id=None):
 	return response
 
 @app.route('/api/reservatorios/<id>/previsoes')
-def pred(id=None):
-    listaPrevisoes = predict.compara(id)
+@app.route('/api/reservatorios/<id>/<date>/previsoes')
+def pred(id=None, date=None):
+    if date == None:
+        listaPrevisoes = predict.compara(id)
+    else:
+        listaPrevisoes = predict.compara_passado(id, date)
     response = jsonify({'previsao' : listaPrevisoes[0], 'outorga' : listaPrevisoes[1], 'volume_morto' : listaPrevisoes[2]})
     response = make_response(response)
     return response
