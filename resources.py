@@ -222,8 +222,14 @@ def confirm_upload(id=None):
 def pred(id=None, date=None):
     if date == None:
         listaPrevisoes = predict.compara(id)
+        date = datetime.datetime.now()
     else:
         listaPrevisoes = predict.compara_passado(id, date)
+        date = datetime.datetime.strptime(date,'%Y-%m-%d')
+    days_previsao = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[0]['volumes']))]
+    days_outorga = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[1]['volumes']))]
+    listaPrevisoes[0]['volumes'] = [{"DataInformacao" : days_previsao[i], "Volume" : listaPrevisoes[0]['volumes'][i]} for i in range(len(listaPrevisoes[0]['volumes']))]
+    listaPrevisoes[1]['volumes'] = [{"DataInformacao" : days_outorga[i], "Volume" : listaPrevisoes[1]['volumes'][i]} for i in range(len(listaPrevisoes[1]['volumes']))]
     response = jsonify({'previsao' : listaPrevisoes[0], 'outorga' : listaPrevisoes[1], 'volume_morto' : listaPrevisoes[2]})
     response = make_response(response)
     return response
