@@ -11,6 +11,7 @@ from flask_jwt_extended import JWTManager, jwt_required, \
 import simplekv.memory
 import datetime
 import api_mandacaru
+import funcoes_aux
 import StringIO
 import csv
 import sys, os
@@ -222,7 +223,7 @@ def confirm_upload(id=None):
 def pred(id=None, date=None):
     if date == None:
         listaPrevisoes = predict.compara(id)
-        date = datetime.datetime.now()
+        date = funcoes_aux.get_last_date(id)
     else:
         listaPrevisoes = predict.compara_passado(id, date)
         date = datetime.datetime.strptime(date,'%Y-%m-%d')

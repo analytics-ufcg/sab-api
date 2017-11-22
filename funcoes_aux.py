@@ -11,6 +11,7 @@ import sys
 sys.path.append('../sab-api/predict')
 import predict
 import predict_info
+import IO
 
 
 
@@ -103,3 +104,6 @@ def reservoirs_similar(reservoir_name, reservoirs, threshold):
 def regression_gradient(list_1,list_2):
 	gradient, intercept, r_value, p_value, std_err = stats.linregress(list_1,list_2)
 	return gradient
+
+def get_last_date(reservoir_id):
+	return IO.select_DB("select data_informacao from mv_monitoramento where id_reservatorio = " + reservoir_id +" ;" )[0][0]
