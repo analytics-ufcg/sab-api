@@ -4,6 +4,7 @@
 import sys
 sys.path.append('../sab-api/script')
 import aux_collection_insert
+import retirada
 
 from datetime import timedelta, date, datetime
 
@@ -123,10 +124,10 @@ def volumeParcial(reservatId, data_atual, vol):
     return vp
 
 #Retorno em m³
-def demanda(reservatId):
-    query = """SELECT demanda FROM tb_reservatorio WHERE id="""+str(reservatId)
-    dem = aux_collection_insert.consulta_BD(query)
-    return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else None
+def demanda(data, reservatId):
+    retirada.popular_demanda(reservatId)
+    dem = retirada.demandas(data, reservatId)
+    return dem
 
 #Retorno em m³
 def volumeMorto(reservatId):

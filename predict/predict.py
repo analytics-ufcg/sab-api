@@ -21,7 +21,7 @@ def calcula(dictionary):
     predict_info.popular_variaveis(reservatId, data)
     dias = 0
 
-    dem = predict_info.demanda(reservatId)
+    dem = predict_info.demanda(data, reservatId)
     volume_morto = predict_info.volumeMorto(reservatId)
 
     if dif_datas.days <= 7 and dem != None:
@@ -73,7 +73,7 @@ def calcula_previsoes(volume_atual, reservatId, data):
     VOLUME_PARADA = 0.0
 
     outorga = predict_info.outorga(reservatId)
-    demanda = predict_info.demanda(reservatId)
+    demanda = predict_info.demanda(data, reservatId)
 
     outorgasDict = {'calculado': False, 'volumes': [], 'dias': 0}
     previsaoDict = {'calculado': False, 'volumes': [], 'dias': 0}

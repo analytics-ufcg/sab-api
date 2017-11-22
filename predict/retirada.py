@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../sab-api/script')
 import aux_collection_insert
 
 from datetime import timedelta, date, datetime
@@ -89,13 +91,9 @@ def rowsToList(rows):
 
 def demandas(data, reservatId):
     mes_atual = int(data.month)
-    mes_limite = int(data.month) - 6
+    mes_limite = int(data.month)
     ano_atual = int(data.year)
-    if mes_limite > 0:
-        ano_limite = ano_atual
-    else:
-        ano_limite = ano_atual - 1
-        mes_limite = 12 - mes_limite
+    ano_limite = ano_atual - 1
 
     ld = []
 
@@ -105,7 +103,6 @@ def demandas(data, reservatId):
 
     if (len(listaCotas) <= 0) or (len(listaVolumes) <= 0):
         demanda_res = "NULL"
-        print 'Demanda Total: '+str(demanda_res)
         query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
         aux_collection_insert.update_BD(query)
 
@@ -153,38 +150,10 @@ def demandas(data, reservatId):
             lista_dem.append(dem)
 
         demanda_res = sum(lista_dem) / len(lista_dem) if len(lista_dem) > 0 else "NULL"
-        print 'Demanda Total: '+str(demanda_res)
-        query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
-        aux_collection_insert.update_BD(query)
+        return demanda_res
 
-def ids_PB():
-    query = """SELECT DISTINCT res.id
-               FROM INSA.tb_reservatorio res,
-                INSA.tb_reservatorio_municipio rm,
-                INSA.tb_municipio mu,
-                INSA.tb_estado es
-               WHERE (
-                res.id = rm.id_reservatorio AND
-                rm.id_municipio = mu.id AND
-                mu.id_estado = es.id AND
-                es.sigla = 'PB'
-               )
-               ORDER BY res.id ASC"""
-    rows = rowsToList(aux_collection_insert.consulta_BD(query))
-    return rows
-
-def create_demanda():
-    query = """ALTER TABLE tb_reservatorio ADD COLUMN demanda MEDIUMTEXT NULL AFTER longitude"""
-    aux_collection_insert.update_BD(query)
-
-def popular_demanda():
-    today = date.today()
-    ids_list = ids_PB()
-    for reservatId in ids_list:
-        global listaCotas
-        listaCotas = cotas(reservatId)
-        global listaVolumes
-        listaVolumes = volumes(reservatId)
-        demandas(today, reservatId)
-
-popular_demanda()
+def popular_demanda(reservatId):
+    global listaCotas
+    listaCotas = cotas(reservatId)
+    global listaVolumes
+    listaVolumes = volumes(reservatId)
