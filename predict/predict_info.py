@@ -127,7 +127,7 @@ def volumeParcial(reservatId, data_atual, vol):
 def demanda(data, reservatId):
     retirada.popular_demanda(reservatId)
     dem = retirada.demandas(data, reservatId)
-    return dem
+    return dem if type(dem) == float else None
 
 #Retorno em m³
 def volumeMorto(reservatId):
