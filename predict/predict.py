@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import predict_info
+import precisao
 
 from datetime import timedelta, date, datetime
+from pandas import Series
+from statsmodels.tsa.arima_model import ARIMA
+import numpy
 
 #Retorno para o /info do reservatório.
 #Adiciona uma previsão do números de dias restantes de água.
@@ -45,7 +49,9 @@ def compara(reservatId):
     volume_morto = predict_info.volumeMorto(reservatId)
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
+    volumeMat = previsao_matematica(reservatId, data)
 
+    volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
 
@@ -54,16 +60,43 @@ def compara(reservatId):
 # retornando a previsão pela Outorga e pela Retirada (demanda), além do volume morto.
 # - Condição: volume ser maior que ZERO e número de dias menor que 180 dias.
 def compara_passado(reservatId, ultimaData):
-
     data = datetime.strptime(ultimaData, "%Y-%m-%d").date()
 
     volume_atual = predict_info.volumePassado(reservatId, ultimaData)
     volume_morto = predict_info.volumeMorto(reservatId)
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
+    volumeMat = previsao_matematica(reservatId, ultimaData)
 
+    volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
+
+# - Função auxiliar para os cálculos de previsão por modelo matemático
+def previsao_matematica(reservatId, data):
+    seriesArray = Series.from_array(predict_info.getSeries(reservatId, data))
+    seriesValues = seriesArray.values
+
+    mathDict = {'calculado': False, 'volumes': [], 'dias': 0}
+
+    # seasonal difference
+    days_in_year = 1
+    differenced = predict_info.difference(seriesValues, days_in_year)
+    # fit model
+    model = ARIMA(differenced, order=(1,0,1))
+    model_fit = model.fit(disp=0)
+    # multi-step out-of-sample forecast
+    forecast = model_fit.forecast(steps=180)[0]
+    # invert the differenced forecast to something usable
+    mathDict['calculado'] = True
+    history = [x for x in seriesValues]
+    for yhat in forecast:
+    	inverted = predict_info.inverse_difference(history, yhat, days_in_year)
+        history.append(inverted)
+        if inverted >= 0.0:
+            mathDict['volumes'].append("%.4f" % round((inverted), 4))
+            mathDict['dias'] = mathDict['dias'] + 1
+    return mathDict
 
 # - Função auxiliar para os cálculos de previsões
 def calcula_previsoes(volume_atual, reservatId, data):
@@ -103,3 +136,9 @@ def calcula_previsoes(volume_atual, reservatId, data):
         volumesDemOut[1] = outorgasDict
 
     return volumesDemOut
+
+def porcentagem(reservatId, volume):
+    vol = float(volume)
+    cap = float(predict_info.getCapacidade(reservatId))
+    nivel = round((vol*100.00)/cap, 4)
+    return nivel

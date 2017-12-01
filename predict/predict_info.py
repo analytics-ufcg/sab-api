@@ -5,6 +5,7 @@ import sys
 sys.path.append('../sab-api/script')
 import aux_collection_insert
 import retirada
+import numpy
 
 from datetime import timedelta, date, datetime
 
@@ -142,9 +143,15 @@ def volumeAtual(reservatId):
     return float(row) * 1000000.0
 
 def volumePassado(reservatId, ultimaData):
-    query = 'SELECT volume FROM tb_monitoramento WHERE id_reservatorio = ' + str(reservatId) + ' ORDER BY ABS(DATEDIFF(data_informacao, \'' + ultimaData + '\')) LIMIT 1'
+    query = 'SELECT volume FROM tb_monitoramento WHERE id_reservatorio = ' + str(reservatId) + ' ORDER BY ABS(DATEDIFF(data_informacao, \'' + str(ultimaData) + '\')) LIMIT 1'
     row = aux_collection_insert.consulta_BD(query)[0][0]
     return float(row) * 1000000.0
+
+def volumesEntre(reservatId, inicio, fim):
+    query = """SELECT data_informacao, volume FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
+            data_informacao BETWEEN '"""+str(inicio)+"""' AND '2017-03-01' ORDER BY data_informacao ASC"""
+    rows = aux_collection_insert.consulta_BD(query)
+    return rows
 
 #Retorno em m³
 def outorga(reservatId):
@@ -157,3 +164,29 @@ def getDate(reservatId):
     query = "SELECT data_informacao FROM INSA.mv_monitoramento WHERE id_reservatorio="+str(reservatId)
     date = aux_collection_insert.consulta_BD(query)[0][0]
     return date
+
+#Retorna série de volumes
+def getSeries(reservatId, data):
+    query = 'SELECT volume FROM tb_monitoramento WHERE id_reservatorio = ' + str(reservatId) + ' AND data_informacao <= \'' + str(data) + '\''
+    row = aux_collection_insert.consulta_BD(query)
+    series = []
+    for vol in row:
+        series.append(float(vol[0]))
+    return series
+
+# create a differenced series
+def difference(dataset, interval=1.0):
+	diff = list()
+	for i in range(interval, len(dataset)):
+		value = dataset[i] - dataset[i - interval]
+		diff.append(value)
+	return numpy.array(diff)
+
+# invert differenced value
+def inverse_difference(history, yhat, interval=1):
+	return yhat + history[-interval]
+
+def getCapacidade(reservatId):
+    query = "SELECT capacidade FROM tb_reservatorio WHERE id="""+str(reservatId)
+    cap = aux_collection_insert.consulta_BD(query)[0][0]
+    return cap
