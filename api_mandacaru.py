@@ -79,7 +79,7 @@ def reservoirs_information(res_id=None):
 				" GROUP BY r.id,mv_mo.volume, mv_mo.volume_percentual,mv_mo.data_informacao")
 
 	select_answer = IO.select_DB(query)
-	
+
 	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","fonte","volume","volume_percentual","data_informacao","municipio","estado", "uf"]
 
 	return funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
@@ -208,6 +208,7 @@ def reservoirs_equivalent_states():
 	# Semiarido Brasileiro
 	volume_equivalente = 0
 	capacidade_equivalente = 0
+	porcentagem_equivalente = 0.0
 	quant_reservatorio_com_info = 0
 	quant_reservatorio_sem_info = 0
 	total_reservatorios = 0
@@ -247,9 +248,11 @@ def reservoirs_equivalent_states():
 		quant_reserv_intervalo_4 = quant_reserv_intervalo_4 + list_dictionarys[i]["quant_reserv_intervalo_4"]
 		quant_reserv_intervalo_5 = quant_reserv_intervalo_5 + list_dictionarys[i]["quant_reserv_intervalo_5"]
 
+	if capacidade_equivalente > 0:
+		porcentagem_equivalente = volume_equivalente/capacidade_equivalente*100
 
 	list_dictionarys.append({"estado":"Semiarido", "uf":"Semiarido","semiarido":"Semiárido Brasileiro", "volume_equivalente":round(volume_equivalente,2),
-		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,1),
+		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(porcentagem_equivalente,1),
 		"quant_reservatorio_com_info":quant_reservatorio_com_info,"quant_reservatorio_sem_info":quant_reservatorio_sem_info,
 		"total_reservatorios":total_reservatorios, "quant_reserv_intervalo_1":quant_reserv_intervalo_1, "quant_reserv_intervalo_2":quant_reserv_intervalo_2,
 		 "quant_reserv_intervalo_3":quant_reserv_intervalo_3, "quant_reserv_intervalo_4":quant_reserv_intervalo_4,

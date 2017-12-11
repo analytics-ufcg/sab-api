@@ -6,16 +6,18 @@ import predict_info
 from datetime import timedelta, date, datetime
 
 def mae(reservatId, data):
+    response = []
+
     vol_reais = getVolumes("real", reservatId, data)
     vol_pred = getVolumes("retirada", reservatId, data)
-    fit = fitVolumes(vol_reais, vol_pred)
+    result_fit = fitVolumes(vol_reais, vol_pred)
+    fit = result_fit[1]
     difs = difference(vol_reais, fit)
 
-    error = sum(difs)/len(difs)
-    print difs
-    print sum(difs)
-    print len(difs)
-    return error
+    error = sum(difs)/len(difs) if len(difs) > 0 else None
+    response.append(error)
+    response.append(result_fit[0])
+    return response
 
 def difference(reais, fit):
     difs = []
@@ -29,6 +31,7 @@ def difference(reais, fit):
     return difs
 
 def fitVolumes(reais, pred):
+    result = ["", []]
     fit = []
     index = -1
     for i in range(0, len(reais)-3, 2):
@@ -37,9 +40,14 @@ def fitVolumes(reais, pred):
         dif_datas = data_final - data_inicial
         dias = dif_datas.days
 
-        index = index + dias
-        fit.append(pred[index])
-    return fit
+        index = index + dias - 1
+        if index < len(pred):
+            fit.append(pred[index])
+            result[0] = data_final
+            result[1] = fit
+        else:
+            return result
+    return result
 
 def getVolumes(tipo, reservatId, data):
     rows = []

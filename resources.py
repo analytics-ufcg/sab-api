@@ -231,17 +231,20 @@ def pred(id=None, date=None):
 
     days_previsao = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[0]['volumes']))]
     days_outorga = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[1]['volumes']))]
-    days_math = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[2]['volumes']))]
+    #days_math = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[2]['volumes']))]
 
     listaPrevisoes[0]['volumes'] = [{"DataInformacao" : days_previsao[i], "Volume" : listaPrevisoes[0]['volumes'][i], "Porcentagem" : predict.porcentagem(id, listaPrevisoes[0]['volumes'][i])} for i in range(len(listaPrevisoes[0]['volumes']))]
     listaPrevisoes[1]['volumes'] = [{"DataInformacao" : days_outorga[i], "Volume" : listaPrevisoes[1]['volumes'][i], "Porcentagem" : predict.porcentagem(id, listaPrevisoes[1]['volumes'][i])} for i in range(len(listaPrevisoes[1]['volumes']))]
-    listaPrevisoes[2]['volumes'] = [{"DataInformacao" : days_math[i], "Volume" : listaPrevisoes[2]['volumes'][i], "Porcentagem" : predict.porcentagem(id, listaPrevisoes[2]['volumes'][i])} for i in range(len(listaPrevisoes[2]['volumes']))]
+    #listaPrevisoes[2]['volumes'] = [{"DataInformacao" : days_math[i], "Volume" : listaPrevisoes[2]['volumes'][i], "Porcentagem" : predict.porcentagem(id, listaPrevisoes[2]['volumes'][i])} for i in range(len(listaPrevisoes[2]['volumes']))]
 
-    response = jsonify({'previsao' : listaPrevisoes[0], 'outorga' : listaPrevisoes[1], 'math' : listaPrevisoes[2], 'volume_morto' : listaPrevisoes[3]})
+    response = jsonify({'previsao' : listaPrevisoes[0], 'outorga' : listaPrevisoes[1], 'volume_morto' : listaPrevisoes[2]})
     response = make_response(response)
     return response
 
 @app.route('/api/reservatorios/<id>/<date>/precisao')
 def ma_error(id=None, date=None):
     if id != None and date != None:
-        print precisao.mae(id, date)
+        error = precisao.mae(id, date)
+        response = jsonify({'Período' : str(date)+' até '+str(error[1]), 'M.A.E.' : error[0]})
+        response = make_response(response)
+        return response

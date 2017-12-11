@@ -91,9 +91,13 @@ def rowsToList(rows):
 
 def demandas(data, reservatId):
     mes_atual = int(data.month)
-    mes_limite = mes_atual - 6
+    mes_limite = mes_atual - 12
     ano_atual = int(data.year)
-    ano_limite = int(data.year)
+    if mes_limite > 0:
+        ano_limite = ano_atual
+    else:
+        ano_limite = ano_atual - 1
+        mes_limite = 12 + mes_limite
 
     ld = []
 

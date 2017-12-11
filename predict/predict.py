@@ -49,9 +49,9 @@ def compara(reservatId):
     volume_morto = predict_info.volumeMorto(reservatId)
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
-    volumeMat = previsao_matematica(reservatId, data)
+    #volumeMat = previsao_matematica(reservatId, data)
 
-    volumesDemOut.append(volumeMat)
+    #volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
 
@@ -66,9 +66,9 @@ def compara_passado(reservatId, ultimaData):
     volume_morto = predict_info.volumeMorto(reservatId)
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
-    volumeMat = previsao_matematica(reservatId, ultimaData)
+    #volumeMat = previsao_matematica(reservatId, ultimaData)
 
-    volumesDemOut.append(volumeMat)
+    #volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
 
@@ -115,7 +115,9 @@ def calcula_previsoes(volume_atual, reservatId, data):
         va_dem = volume_atual
         previsaoDict['calculado'] = True
         while (va_dem > VOLUME_PARADA and previsaoDict['dias'] < 180):
-            previsao = predict_info.volumeParcial(reservatId, data, va_dem) + predict_info.precip() + predict_info.vazao() - demanda
+            va_p1 = predict_info.volumeParcial(reservatId, data, va_dem)
+            va_p2 = va_p1 + predict_info.precip() + predict_info.vazao() - demanda
+            previsao = predict_info.volumeParcial(reservatId, data, va_p2)
             va_dem = previsao if previsao > 0.0 else 0.0
             previsaoDict['volumes'].append("%.4f" % round((va_dem / 1000000.0), 4))
             previsaoDict['dias'] = previsaoDict['dias'] + 1
@@ -123,7 +125,7 @@ def calcula_previsoes(volume_atual, reservatId, data):
     else:
         volumesDemOut[0] = previsaoDict
 
-    if outorga != None and len(predict_info.cotas(reservatId)):
+    if outorga != None and len(predict_info.areas(reservatId)):
         va_outorga = volume_atual
         outorgasDict['calculado'] = True
         while (va_outorga > VOLUME_PARADA and outorgasDict['dias'] < 180):
