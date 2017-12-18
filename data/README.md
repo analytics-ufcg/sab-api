@@ -21,11 +21,19 @@ O Esri Shapefile ou simplesmente shapefile é um formato popular de arquivo cont
 Este projeto utiliza o shapefile com o contorno do Semiárido brasileiro com sua divisão estadual, bem
 como o shapefile com a geolocalização de cada reservatório.
 
-[/data/shapefiles/MUNICIPIOS_SAB.shp](https://github.com/github/analytics-ufcg/sab-api/master/data/shapefiles/MUNICIPIOS_SAB.shp)
-[/data/shapefiles/RESERVATORIOS.shp](https://github.com/github/analytics-ufcg/sab-api/master/data/shapefiles/RESERVATORIOS.shp)
+Contorno do semiárido: [/data/shapefiles/MUNICIPIOS_SAB.shp](https://github.com/github/analytics-ufcg/sab-api/master/data/shapefiles/MUNICIPIOS_SAB.shp)
+Localização dos reservatórios: [/data/shapefiles/RESERVATORIOS.shp](https://github.com/github/analytics-ufcg/sab-api/master/data/shapefiles/RESERVATORIOS.shp)
 
 ## 2 Conversão para GeoJSON e TopoJSON
 
 Após instalados os requisitos, execute os comandos na raiz do projeto:
 
-ogr2ogr -f GeoJSON [-where "<condições>"] <destino> <origem>
+```
+ogr2ogr -f GeoJSON data/geojson/semiarido.json data/shapefiles/MUNICIPIOS_SAB.shp
+ogr2ogr -f GeoJSON data/geojson/reservatorios.json data/shapefiles/RESERVATORIOS.shp
+
+topojson -o data/topojson/sab.json --id-property CD_GEOCUF --properties CD_GEOCUF=id -- data/geojson/semiarido.json
+topojson -o data/topojson/reservatorios.json --id-property CD_RESERV_ --properties CD_RESERV_=id -- data/geojson/reservatorios.json
+
+toposimplify -o data/topojson/semiarido.json -P 0.05 data/topojson/sab.json
+```
