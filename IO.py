@@ -9,7 +9,7 @@ import MySQLdb
 path_local = os.path.dirname(os.path.realpath(__file__))
 
 
-with open(path_local+'/data/div_estadual_topo.json') as data_file:
+with open(path_local+'/data/topojson/semiarido.json') as data_file:
 	_state_division_sab = json.load(data_file)
 
 def states_sab():

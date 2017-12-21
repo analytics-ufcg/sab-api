@@ -54,4 +54,4 @@ python run.py [--debug]
 ### Importação de dados
 
 Para atualização do desenho do semiárido e geolocalização dos reservatórios, veja o
-guia de [importação de dados](https://github.com/analytics-ufcg/sab-api/tree/data/data).
+guia de [importação de dados](https://github.com/analytics-ufcg/sab-api/master/data).
