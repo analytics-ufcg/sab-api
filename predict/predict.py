@@ -52,7 +52,6 @@ def compara(reservatId):
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
     #volumeMat = previsao_matematica(reservatId, data)
-    previsao_matematica(reservatId, data)
 
     #volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
@@ -69,10 +68,9 @@ def compara_passado(reservatId, ultimaData):
     volume_morto = predict_info.volumeMorto(reservatId)
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
-    volumeMat = previsao_matematica(reservatId, ultimaData)
-    #previsao_matematica(reservatId, data)
+    #volumeMat = previsao_matematica(reservatId, ultimaData)
 
-    volumesDemOut.append(volumeMat)
+    #volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
 

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import predict_info
+import predict
 
 from datetime import timedelta, date, datetime
 
@@ -9,7 +10,10 @@ def mae(reservatId, data):
     response = []
 
     vol_reais = getVolumes("real", reservatId, data)
-    vol_pred = getVolumes("retirada", reservatId, data)
+    previsoes = predict.compara_passado(reservatId, data)
+    vol_retiradas = previsoes[0]["volumes"]
+    vol_outorgas = previsoes[1]["volumes"]
+    vol_modelo = previsoes[2]["volumes"]
     result_fit = fitVolumes(vol_reais, vol_pred)
     fit = result_fit[1]
     difs = difference(vol_reais, fit)
