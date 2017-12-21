@@ -1,0 +1,51 @@
+---
+title: "Análises das previsões de reservatórios da Paraíba"
+output: html_notebook
+---
+
+```{r}
+library(dplyr, warn.conflicts = FALSE)
+library(ggplot2)
+theme_set(theme_bw())
+library(plotly)
+library(jsonlite)
+library(lubridate)
+source("olhonagua-lib.R")
+```
+
+```{r}
+# ids = c('12172', '12005', '12011', '12035', '12038', '12046', '12053', '12060', '12086', '12091', '12095', '12100', '12110', '12120', '12124', '12128', '12133', '12143', '12145', '12161', '12166', '12173', '12179', '12193', '12196', '12199', '12206', '12229', '12234', '12246', '12250', '12251', '12255', '12285', '12300', '12307', '12335', '12347', '12349', '12351', '12361', '12376', '12395', '12396', '12399', '12400', '12408', '12409', '12417', '12422', '12438', '12447', '12456', '12481', '12487')
+ids = c('12447', '12143', '12285', '12005', '12172')
+historicos = get_repositorios(ids)
+historicos = historicos %>% 
+    limpa_e_add_sofrendo_delta()
+decidas = historicos %>% 
+    filtra_decidas()
+inicioDecidas = get_inicio_decidas(decidas)
+previsoes = get_previsoes(inicioDecidas)
+```
+
+```{r}
+#plot = historicos %>%
+#  ggplot(aes(x = Data, y = Volume)) + geom_line(color="#1ba2cc") + facet_wrap(~id)
+#ggplotly(plot)
+```
+  
+
+```{r img.width=300}
+plot2 = decidas %>% 
+  ggplot(aes(x = Data, y = Volume, group = sequencia)) + 
+  geom_line(color = "#1ba2cc") + 
+  geom_line(data = previsoes, color = "red", alpha = .7) + 
+  #facet_wrap(~id)
+  facet_grid(id ~ ., scales = "free_y")
+ggplotly(plot2)
+```
+
+```{r}
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
