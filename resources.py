@@ -21,6 +21,7 @@ sys.path.append('../sab-api/predict')
 
 import aux_collection_insert
 import predict
+import predict_info
 import precisao
 from hasher import digest, hash_all
 from authorize import Authorize
@@ -227,17 +228,17 @@ def pred(id=None, date=None):
         date = funcoes_aux.get_last_date(id)
     else:
         listaPrevisoes = predict.compara_passado(id, date)
-        date = datetime.datetime.strptime(date,'%Y-%m-%d')
+        date_c = predict_info.getClosestDate(id, date)
 
-    days_previsao = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[0]['volumes']))]
-    days_outorga = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[1]['volumes']))]
-    #days_math = [(date+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[2]['volumes']))]
+    days_previsao = [(date_c+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[0]['volumes']))]
+    days_outorga = [(date_c+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[1]['volumes']))]
+    days_math = [(date_c+datetime.timedelta(days=i)).strftime('%d/%m/%Y') for i in range(1,1+len(listaPrevisoes[2]['volumes']))]
 
     listaPrevisoes[0]['volumes'] = [{"DataInformacao" : days_previsao[i], "Volume" : listaPrevisoes[0]['volumes'][i], "Porcentagem" : predict.porcentagem(id, listaPrevisoes[0]['volumes'][i])} for i in range(len(listaPrevisoes[0]['volumes']))]
     listaPrevisoes[1]['volumes'] = [{"DataInformacao" : days_outorga[i], "Volume" : listaPrevisoes[1]['volumes'][i], "Porcentagem" : predict.porcentagem(id, listaPrevisoes[1]['volumes'][i])} for i in range(len(listaPrevisoes[1]['volumes']))]
-    #listaPrevisoes[2]['volumes'] = [{"DataInformacao" : days_math[i], "Volume" : listaPrevisoes[2]['volumes'][i], "Porcentagem" : predict.porcentagem(id, listaPrevisoes[2]['volumes'][i])} for i in range(len(listaPrevisoes[2]['volumes']))]
+    listaPrevisoes[2]['volumes'] = [{"DataInformacao" : days_math[i], "Volume" : listaPrevisoes[2]['volumes'][i], "Porcentagem" : predict.porcentagem(id, listaPrevisoes[2]['volumes'][i])} for i in range(len(listaPrevisoes[2]['volumes']))]
 
-    response = jsonify({'previsao' : listaPrevisoes[0], 'outorga' : listaPrevisoes[1], 'volume_morto' : listaPrevisoes[2]})
+    response = jsonify({'previsao' : listaPrevisoes[0], 'outorga' : listaPrevisoes[1], 'modelo mat.' : listaPrevisoes[2], 'volume_morto' : listaPrevisoes[3]})
     response = make_response(response)
     return response
 

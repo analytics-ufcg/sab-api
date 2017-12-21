@@ -159,6 +159,11 @@ def getDate(reservatId):
     date = aux_collection_insert.consulta_BD(query)[0][0]
     return date
 
+def getClosestDate(reservatId, date):
+    query = "select data_informacao from INSA.tb_monitoramento WHERE data_informacao >= '"+str(date)+"' AND id_reservatorio = "+str(reservatId)+" ORDER BY data_informacao LIMIT 1"
+    date = aux_collection_insert.consulta_BD(query)[0][0]
+    return date
+
 #Retorna série de volumes
 def getSeries(reservatId, data):
     query = 'SELECT volume FROM tb_monitoramento WHERE id_reservatorio = ' + str(reservatId) + ' AND data_informacao <= \'' + str(data) + '\''

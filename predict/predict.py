@@ -7,7 +7,9 @@ import precisao
 from datetime import timedelta, date, datetime
 from pandas import Series
 from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.stattools import acf, pacf
 import numpy
+import pandas
 
 #Retorno para o /info do reservatório.
 #Adiciona uma previsão do números de dias restantes de água.
@@ -50,6 +52,7 @@ def compara(reservatId):
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
     #volumeMat = previsao_matematica(reservatId, data)
+    previsao_matematica(reservatId, data)
 
     #volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
@@ -66,9 +69,10 @@ def compara_passado(reservatId, ultimaData):
     volume_morto = predict_info.volumeMorto(reservatId)
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
-    #volumeMat = previsao_matematica(reservatId, ultimaData)
+    volumeMat = previsao_matematica(reservatId, ultimaData)
+    #previsao_matematica(reservatId, data)
 
-    #volumesDemOut.append(volumeMat)
+    volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
 
@@ -79,12 +83,11 @@ def previsao_matematica(reservatId, data):
 
     mathDict = {'calculado': False, 'volumes': [], 'dias': 0}
 
-    # seasonal difference
     days_in_year = 1
     differenced = predict_info.difference(seriesValues, days_in_year)
     # fit model
     model = ARIMA(differenced, order=(1,0,1))
-    model_fit = model.fit(disp=0)
+    model_fit = model.fit(disp = -1)
     # multi-step out-of-sample forecast
     forecast = model_fit.forecast(steps=180)[0]
     # invert the differenced forecast to something usable
@@ -129,7 +132,9 @@ def calcula_previsoes(volume_atual, reservatId, data):
         va_outorga = volume_atual
         outorgasDict['calculado'] = True
         while (va_outorga > VOLUME_PARADA and outorgasDict['dias'] < 180):
-            previsao = predict_info.volumeParcial(reservatId, data, va_outorga) + predict_info.precip() + predict_info.vazao() - outorga
+            va_p1 = predict_info.volumeParcial(reservatId, data, va_outorga)
+            va_p2 = va_p1 + predict_info.precip() + predict_info.vazao() - outorga
+            previsao = predict_info.volumeParcial(reservatId, data, va_p2)
             va_outorga = previsao if previsao > 0.0 else 0.0
             outorgasDict['volumes'].append("%.4f" % round((va_outorga / 1000000.0), 4))
             outorgasDict['dias'] = outorgasDict['dias'] + 1
