@@ -8,6 +8,8 @@ from flask_jwt_extended import JWTManager, jwt_required, \
     create_refresh_token, jwt_refresh_token_required, \
     get_raw_jwt, get_stored_token
 
+import PythonGists
+
 import simplekv.memory
 import datetime
 import api_mandacaru
@@ -222,4 +224,10 @@ def pred(id=None):
     listaPrevisoes = predict.compara(id)
     response = jsonify({'previsao' : listaPrevisoes[0], 'outorga' : listaPrevisoes[1], 'volume_morto' : listaPrevisoes[2]})
     response = make_response(response)
+    return response
+
+@app.route('/api/raw/<id>')
+def raw(id=None):
+    gistObj = PythonGists.Gist('https://api.github.com/gists/'+str(id))
+    response = gistObj.getRawJSON()['files']['index.html']['content']
     return response
