@@ -51,9 +51,9 @@ def compara(reservatId):
     volume_morto = predict_info.volumeMorto(reservatId)
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
-    #volumeMat = previsao_matematica(reservatId, data)
+    volumeMat = previsao_matematica(reservatId, data)
 
-    #volumesDemOut.append(volumeMat)
+    volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
 
@@ -68,19 +68,31 @@ def compara_passado(reservatId, ultimaData):
     volume_morto = predict_info.volumeMorto(reservatId)
 
     volumesDemOut = calcula_previsoes(volume_atual, reservatId, data)
-    #volumeMat = previsao_matematica(reservatId, ultimaData)
+    volumeMat = previsao_matematica(reservatId, ultimaData)
 
-    #volumesDemOut.append(volumeMat)
+    volumesDemOut.append(volumeMat)
     volumesDemOut.append("%.4f" % round((volume_morto / 1000000.0), 4))
     return volumesDemOut
 
 # - Função auxiliar para os cálculos de previsão por modelo matemático
+def isNonStationary(seriesValues):
+    X = seriesValues
+    split = len(X) / 2
+    X1, X2 = X[0:split], X[split:]
+    mean1, mean2 = X1.mean(), X2.mean()
+    var1, var2 = X1.var(), X2.var()
+
+    if abs(mean1 - mean2) < 100 and abs(var1 - var2) < 100:
+        return True
+    return False
+
 def previsao_matematica(reservatId, data):
     seriesArray = Series.from_array(predict_info.getSeries(reservatId, data))
     seriesValues = seriesArray.values
 
     mathDict = {'calculado': False, 'volumes': [], 'dias': 0}
 
+    #if isNonStationary(seriesValues) == True:
     days_in_year = 1
     differenced = predict_info.difference(seriesValues, days_in_year)
     # fit model
@@ -92,7 +104,7 @@ def previsao_matematica(reservatId, data):
     mathDict['calculado'] = True
     history = [x for x in seriesValues]
     for yhat in forecast:
-    	inverted = predict_info.inverse_difference(history, yhat, days_in_year)
+        inverted = predict_info.inverse_difference(history, yhat, days_in_year)
         history.append(inverted)
         if inverted >= 0.0:
             mathDict['volumes'].append("%.4f" % round((inverted), 4))

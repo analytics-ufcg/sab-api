@@ -6,7 +6,10 @@ import predict
 
 from datetime import timedelta, date, datetime
 
+response = []
+
 def mae(reservatId, data):
+    global response
     response = []
 
     vol_reais = getVolumes("real", reservatId, data)
@@ -14,14 +17,27 @@ def mae(reservatId, data):
     vol_retiradas = previsoes[0]["volumes"]
     vol_outorgas = previsoes[1]["volumes"]
     vol_modelo = previsoes[2]["volumes"]
-    result_fit = fitVolumes(vol_reais, vol_pred)
+
+    #Retirada
+    result_fit_ret = fitVolumes(vol_reais, vol_retiradas)
+    calculateError(vol_reais, result_fit_ret)
+    #Outorga
+    result_fit_out = fitVolumes(vol_reais, vol_outorgas)
+    calculateError(vol_reais, result_fit_out)
+    #Modelo Matemático
+    result_fit_mod = fitVolumes(vol_reais, vol_modelo)
+    calculateError(vol_reais, result_fit_mod)
+
+    return response
+
+def calculateError(vol_reais, result_fit):
     fit = result_fit[1]
     difs = difference(vol_reais, fit)
-
     error = sum(difs)/len(difs) if len(difs) > 0 else None
+    global response
     response.append(error)
+    global response
     response.append(result_fit[0])
-    return response
 
 def difference(reais, fit):
     difs = []
@@ -57,27 +73,13 @@ def getVolumes(tipo, reservatId, data):
     rows = []
     data_inicial = datetime.strptime(data, "%Y-%m-%d").date()
     data_final = data_inicial + timedelta(days=180)
+
+    print "-----------------------------------------------"
+    print data_inicial
     print data_final
 
-    if tipo == "real":
-        rows = rowsToList(predict_info.volumesEntre(reservatId, data_inicial, data_final))
+    rows = rowsToList(predict_info.volumesEntre(reservatId, data_inicial, data_final))
 
-    elif tipo == "retirada":
-        volume_atual = predict_info.volumePassado(reservatId, data_inicial)
-        predict_info.popular_variaveis(reservatId, data_inicial)
-
-        VOLUME_PARADA = 0.0
-
-        demanda = predict_info.demanda(data_inicial, reservatId)
-
-        if demanda != None:
-            dias = 0
-            va_dem = volume_atual
-            while (va_dem > VOLUME_PARADA and dias < 180):
-                previsao = predict_info.volumeParcial(reservatId, data_inicial, va_dem) + predict_info.precip() + predict_info.vazao() - demanda
-                va_dem = previsao if previsao > 0.0 else 0.0
-                rows.append("%.4f" % round((va_dem / 1000000.0), 4))
-                dias = dias + 1
     return rows
 
 def rowsToList(rows):
