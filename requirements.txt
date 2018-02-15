@@ -10,3 +10,6 @@ scipy
 python-levenshtein
 bs4
 requests
+cython
+pandas
+statsmodels

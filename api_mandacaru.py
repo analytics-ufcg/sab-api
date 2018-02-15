@@ -53,17 +53,20 @@ def reservoirs():
 def reservoirs_information(res_id=None):
 	if (res_id is None):
 		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
-				",r.tipo,r.area,r.capacidade,mv_mo.fonte"
-				",mv_mo.volume, ROUND(mv_mo.volume_percentual,1), date_format(mv_mo.data_informacao,'%d/%m/%Y')"
-				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
-				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
-				",GROUP_CONCAT(DISTINCT e.sigla SEPARATOR ' / ') uf"
-				" FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
-				" JOIN tb_municipio m ON rm.id_municipio=m.id"
-				" JOIN tb_estado e ON m.id_estado=e.id"
-				" LEFT OUTER JOIN mv_monitoramento mv_mo"
-				" ON mv_mo.id_reservatorio=r.id"
-				" GROUP BY r.id,mv_mo.volume, mv_mo.volume_percentual,mv_mo.data_informacao")
+		    ",r.tipo,r.area,r.capacidade,mv_mo.fonte"
+		    ",mv_mo.volume, ROUND(mv_mo.volume_percentual,1), date_format(mv_mo.data_informacao,'%d/%m/%Y')"
+		    ",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
+		    ",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
+		    ",GROUP_CONCAT(DISTINCT e.sigla SEPARATOR ' / ') uf"
+		    ",curso_barrado, cota_soleira, evaporacao_representativa, localizacao, posto_pluviometrico, area_bacia_nao_controlada"
+		    " FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
+		    " JOIN tb_municipio m ON rm.id_municipio=m.id"
+		    " JOIN tb_estado e ON m.id_estado=e.id"
+		    " LEFT OUTER JOIN mv_monitoramento mv_mo"
+		    " ON mv_mo.id_reservatorio=r.id"
+		    " LEFT JOIN tb_reservatorio_info info"
+		    " ON info.id_reservatorio =r.id"
+		    " GROUP BY r.id,mv_mo.volume, mv_mo.volume_percentual,mv_mo.data_informacao")
 	else:
 		query = ("SELECT r.id,r.nome,r.perimetro,r.bacia,r.reservat,r.hectares"
 				",r.tipo,r.area,r.capacidade,mv_mo.fonte"
@@ -71,16 +74,18 @@ def reservoirs_information(res_id=None):
 				",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 				",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
 				",GROUP_CONCAT(DISTINCT e.sigla SEPARATOR ' / ') uf"
+				", curso_barrado, cota_soleira, evaporacao_representativa, localizacao, posto_pluviometrico, area_bacia_nao_controlada"
 				" FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio AND r.id="+str(res_id)+
 				" JOIN tb_municipio m ON rm.id_municipio=m.id"
 				" JOIN tb_estado e ON m.id_estado=e.id"
 				" LEFT OUTER JOIN mv_monitoramento mv_mo"
 				" ON mv_mo.id_reservatorio=r.id"
+				" LEFT JOIN tb_reservatorio_info info"
+				" ON info.id_reservatorio =r.id"
 				" GROUP BY r.id,mv_mo.volume, mv_mo.volume_percentual,mv_mo.data_informacao")
 
 	select_answer = IO.select_DB(query)
-	
-	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","fonte","volume","volume_percentual","data_informacao","municipio","estado", "uf"]
+	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","fonte","volume","volume_percentual","data_informacao","municipio","estado", "uf", "curso_barrado", "cota_soleira", "evaporacao_representativa", "localizacao", "posto_pluviometrico", "area_bacia_nao_controlada"]
 
 	return funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
 
@@ -208,6 +213,7 @@ def reservoirs_equivalent_states():
 	# Semiarido Brasileiro
 	volume_equivalente = 0
 	capacidade_equivalente = 0
+	porcentagem_equivalente = 0.0
 	quant_reservatorio_com_info = 0
 	quant_reservatorio_sem_info = 0
 	total_reservatorios = 0
@@ -247,9 +253,11 @@ def reservoirs_equivalent_states():
 		quant_reserv_intervalo_4 = quant_reserv_intervalo_4 + list_dictionarys[i]["quant_reserv_intervalo_4"]
 		quant_reserv_intervalo_5 = quant_reserv_intervalo_5 + list_dictionarys[i]["quant_reserv_intervalo_5"]
 
+	if capacidade_equivalente > 0:
+		porcentagem_equivalente = volume_equivalente/capacidade_equivalente*100
 
 	list_dictionarys.append({"estado":"Semiarido", "uf":"Semiarido","semiarido":"Semiárido Brasileiro", "volume_equivalente":round(volume_equivalente,2),
-		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(volume_equivalente/capacidade_equivalente*100,1),
+		"capacidade_equivalente":round(capacidade_equivalente,2), "porcentagem_equivalente":round(porcentagem_equivalente,1),
 		"quant_reservatorio_com_info":quant_reservatorio_com_info,"quant_reservatorio_sem_info":quant_reservatorio_sem_info,
 		"total_reservatorios":total_reservatorios, "quant_reserv_intervalo_1":quant_reserv_intervalo_1, "quant_reserv_intervalo_2":quant_reserv_intervalo_2,
 		 "quant_reserv_intervalo_3":quant_reserv_intervalo_3, "quant_reserv_intervalo_4":quant_reserv_intervalo_4,

@@ -4,23 +4,25 @@
 import sys
 sys.path.append('../sab-api/script')
 import aux_collection_insert
+import retirada
+import numpy
 
 from datetime import timedelta, date, datetime
 
-listaCotas = []
+listaAreas = []
 listaVolumes = []
 data = ''
 mes = ''
 evaporacao = 0.0
 
-def cotas(reservatId):
-    query = 'SELECT cota FROM tb_cav WHERE id_reservatorio = ' + str(reservatId)
-    cotas = aux_collection_insert.consulta_BD(query)
-    aux = list(cotas)
-    list_of_cotas = []
+def areas(reservatId):
+    query = 'SELECT area FROM tb_cav WHERE id_reservatorio = ' + str(reservatId)
+    areas = aux_collection_insert.consulta_BD(query)
+    aux = list(areas)
+    list_of_areas = []
     for value in aux:
-        list_of_cotas.append(value[0])
-    return list_of_cotas
+        list_of_areas.append(value[0])
+    return list_of_areas
 
 def volumes(reservatId):
     query = 'SELECT volume FROM tb_cav WHERE id_reservatorio = ' + str(reservatId)
@@ -32,8 +34,8 @@ def volumes(reservatId):
     return list_of_volumes
 
 def popular_variaveis(reservatId, data_inicial):
-    global listaCotas
-    listaCotas = cotas(reservatId)
+    global listaAreas
+    listaAreas = areas(reservatId)
     global listaVolumes
     listaVolumes = volumes(reservatId)
     global data
@@ -90,21 +92,18 @@ def evap(reservatId):
         return (evaporacao / 1000.0) / 31
     return (evaporacao / 1000.0) / 30
 
-def cota(vol):
+def area(vol):
     lv = listaVolumes
-    lc = listaCotas
+    la = listaAreas
     v_atual = float(vol)
     index = maisProximo(v_atual, lv)
-    ct = ((lc[index+1] - lc[index]) * ((v_atual - lv[index]) / (lv[index+1] - lv[index]))) + lc[index]
-    return ct
+    ar= ((la[index+1] - la[index]) * ((v_atual - lv[index]) / (lv[index+1] - lv[index]))) + la[index]
+    return ar
 
-def cotaEvap(reservatId, vol):
-    lc = listaCotas
-    c_atual = cota(vol)
-    c_final = lc[0]
-    if (c_atual - evaporacao) >= lc[0]:
-        c_final = c_atual - evaporacao
-    return c_final
+def evapReal(reservatId, vol):
+    a_atual = area(vol)
+    evap_real = a_atual * (evaporacao / 2.0)
+    return evap_real
 
 def volumeParcial(reservatId, data_atual, vol):
     global data
@@ -115,18 +114,15 @@ def volumeParcial(reservatId, data_atual, vol):
         global evaporacao
         evaporacao = evap(reservatId)
 
-    lc = listaCotas
-    lv = listaVolumes
-    c_final = cotaEvap(reservatId, vol)
-    index = maisProximo(c_final, lc)
-    vp = ((lv[index+1] - lv[index]) * ((c_final - lc[index]) / (lc[index+1] - lc[index]))) + lv[index]
+    evap_real = evapReal(reservatId, vol)
+    vp = vol - evap_real
     return vp
 
 #Retorno em m³
-def demanda(reservatId):
-    query = """SELECT demanda FROM tb_reservatorio WHERE id="""+str(reservatId)
-    dem = aux_collection_insert.consulta_BD(query)
-    return float(dem[0][0]) if len(dem) > 0 and dem[0][0] != None else None
+def demanda(data, reservatId):
+    retirada.popular_demanda(reservatId)
+    dem = retirada.demandas(data, reservatId)
+    return dem if type(dem) == float else None
 
 #Retorno em m³
 def volumeMorto(reservatId):
@@ -138,7 +134,18 @@ def volumeMorto(reservatId):
 def volumeAtual(reservatId):
     query = 'SELECT volume FROM mv_monitoramento WHERE id_reservatorio = ' + str(reservatId)
     row = aux_collection_insert.consulta_BD(query)[0][0]
-    return float(row) * 1000000.00
+    return float(row) * 1000000.0
+
+def volumePassado(reservatId, ultimaData):
+    query = 'SELECT volume FROM tb_monitoramento WHERE id_reservatorio = ' + str(reservatId) + ' ORDER BY ABS(DATEDIFF(data_informacao, \'' + str(ultimaData) + '\')) LIMIT 1'
+    row = aux_collection_insert.consulta_BD(query)[0][0]
+    return float(row) * 1000000.0
+
+def volumesEntre(reservatId, inicio, fim):
+    query = """SELECT data_informacao, volume FROM tb_monitoramento WHERE id_reservatorio="""+str(reservatId)+""" AND
+            data_informacao BETWEEN '"""+str(inicio)+"""' AND '"""+str(fim)+"""' ORDER BY data_informacao ASC"""
+    rows = aux_collection_insert.consulta_BD(query)
+    return rows
 
 #Retorno em m³
 def outorga(reservatId):
@@ -151,3 +158,34 @@ def getDate(reservatId):
     query = "SELECT data_informacao FROM INSA.mv_monitoramento WHERE id_reservatorio="+str(reservatId)
     date = aux_collection_insert.consulta_BD(query)[0][0]
     return date
+
+def getClosestDate(reservatId, date):
+    query = "select data_informacao from INSA.tb_monitoramento WHERE data_informacao >= '"+str(date)+"' AND id_reservatorio = "+str(reservatId)+" ORDER BY data_informacao LIMIT 1"
+    date = aux_collection_insert.consulta_BD(query)[0][0]
+    return date
+
+#Retorna série de volumes
+def getSeries(reservatId, data):
+    query = 'SELECT volume FROM tb_monitoramento WHERE id_reservatorio = ' + str(reservatId) + ' AND data_informacao <= \'' + str(data) + '\''
+    row = aux_collection_insert.consulta_BD(query)
+    series = []
+    for vol in row:
+        series.append(float(vol[0]))
+    return series
+
+# create a differenced series
+def difference(dataset, interval=1.0):
+	diff = list()
+	for i in range(interval, len(dataset)):
+		value = dataset[i] - dataset[i - interval]
+		diff.append(value)
+	return numpy.array(diff)
+
+# invert differenced value
+def inverse_difference(history, yhat, interval=1):
+	return yhat + history[-interval]
+
+def getCapacidade(reservatId):
+    query = "SELECT capacidade FROM tb_reservatorio WHERE id="""+str(reservatId)
+    cap = aux_collection_insert.consulta_BD(query)[0][0]
+    return cap

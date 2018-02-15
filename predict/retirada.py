@@ -1,19 +1,21 @@
+import sys
+sys.path.append('../sab-api/script')
 import aux_collection_insert
 
 from datetime import timedelta, date, datetime
 
-listaCotas = []
+listaAreas = []
 listaVolumes = []
 evapDiv = 1
 
-def cotas(reservatId):
-    query = 'SELECT cota FROM tb_cav WHERE id_reservatorio = ' + str(reservatId)
-    cotas = aux_collection_insert.consulta_BD(query)
-    aux = list(cotas)
-    list_of_cotas = []
+def areas(reservatId):
+    query = 'SELECT area FROM tb_cav WHERE id_reservatorio = ' + str(reservatId)
+    areas = aux_collection_insert.consulta_BD(query)
+    aux = list(areas)
+    list_of_areas = []
     for value in aux:
-        list_of_cotas.append(value[0])
-    return list_of_cotas
+        list_of_areas.append(value[0])
+    return list_of_areas
 
 def volumes(reservatId):
     query = 'SELECT volume FROM tb_cav WHERE id_reservatorio = ' + str(reservatId)
@@ -47,29 +49,23 @@ def evap(mes, reservatId):
     evaporacao = rows[0][0] if len(rows) > 0 else 0.0
     return (evaporacao / 1000.0) / evapDiv if evaporacao != None else 0.0
 
-def cota(vol, reservatId):
+def area(vol, reservatId):
     lv = listaVolumes
-    lc = listaCotas
+    la = listaAreas
     v_atual = float(vol)
     index = maisProximo(v_atual, lv)
-    ct = ((lc[index+1] - lc[index]) * ((v_atual - lv[index]) / (lv[index+1] - lv[index]))) + lc[index]
-    return ct
+    ar= ((la[index+1] - la[index]) * ((v_atual - lv[index]) / (lv[index+1] - lv[index]))) + la[index]
+    return ar
 
-def cotaEvap(mes, vol, reservatId):
-    lc = listaCotas
+def areaEvap(mes, vol, reservatId):
     evaporacao = evap(mes, reservatId)
-    c_atual = cota(vol, reservatId)
-    c_final = lc[0]
-    if (c_atual - evaporacao) >= lc[0]:
-        c_final = c_atual - evaporacao
-    return c_final
+    area_atual = area(vol, reservatId)
+    evap_real = area_atual * evaporacao
+    return evap_real
 
 def volumeParcial(mes, vol, reservatId):
-    lc = listaCotas
-    lv = listaVolumes
-    c_final = cotaEvap(mes, vol, reservatId)
-    index = maisProximo(c_final, lc)
-    vp = ((lv[index+1] - lv[index]) * ((c_final - lc[index]) / (lc[index+1] - lc[index]))) + lv[index]
+    evap_real = areaEvap(mes, vol, reservatId)
+    vp = vol - evap_real
     return vp
 
 def rowsToList(rows):
@@ -89,13 +85,13 @@ def rowsToList(rows):
 
 def demandas(data, reservatId):
     mes_atual = int(data.month)
-    mes_limite = int(data.month) - 6
+    mes_limite = mes_atual - 12
     ano_atual = int(data.year)
     if mes_limite > 0:
         ano_limite = ano_atual
     else:
         ano_limite = ano_atual - 1
-        mes_limite = 12 - mes_limite
+        mes_limite = 12 + mes_limite
 
     ld = []
 
@@ -103,9 +99,8 @@ def demandas(data, reservatId):
             data_informacao BETWEEN '"""+str(ano_limite)+"""-"""+str(mes_limite)+"""-01' AND '"""+str(ano_atual)+"""-"""+str(mes_atual)+"""-31' ORDER BY data_informacao ASC"""
     rows = rowsToList(aux_collection_insert.consulta_BD(query))
 
-    if (len(listaCotas) <= 0) or (len(listaVolumes) <= 0):
+    if (len(listaAreas) <= 0) or (len(listaVolumes) <= 0):
         demanda_res = "NULL"
-        print 'Demanda Total: '+str(demanda_res)
         query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
         aux_collection_insert.update_BD(query)
 
@@ -153,38 +148,10 @@ def demandas(data, reservatId):
             lista_dem.append(dem)
 
         demanda_res = sum(lista_dem) / len(lista_dem) if len(lista_dem) > 0 else "NULL"
-        print 'Demanda Total: '+str(demanda_res)
-        query = """UPDATE tb_reservatorio SET demanda="""+str(demanda_res)+""" WHERE id="""+str(reservatId)
-        aux_collection_insert.update_BD(query)
+        return demanda_res
 
-def ids_PB():
-    query = """SELECT DISTINCT res.id
-               FROM INSA.tb_reservatorio res,
-                INSA.tb_reservatorio_municipio rm,
-                INSA.tb_municipio mu,
-                INSA.tb_estado es
-               WHERE (
-                res.id = rm.id_reservatorio AND
-                rm.id_municipio = mu.id AND
-                mu.id_estado = es.id AND
-                es.sigla = 'PB'
-               )
-               ORDER BY res.id ASC"""
-    rows = rowsToList(aux_collection_insert.consulta_BD(query))
-    return rows
-
-def create_demanda():
-    query = """ALTER TABLE tb_reservatorio ADD COLUMN demanda MEDIUMTEXT NULL AFTER longitude"""
-    aux_collection_insert.update_BD(query)
-
-def popular_demanda():
-    today = date.today()
-    ids_list = ids_PB()
-    for reservatId in ids_list:
-        global listaCotas
-        listaCotas = cotas(reservatId)
-        global listaVolumes
-        listaVolumes = volumes(reservatId)
-        demandas(today, reservatId)
-
-popular_demanda()
+def popular_demanda(reservatId):
+    global listaAreas
+    listaAreas = areas(reservatId)
+    global listaVolumes
+    listaVolumes = volumes(reservatId)
