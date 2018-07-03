@@ -48,7 +48,7 @@ def popular_variaveis(reservatId, data_inicial):
 def maisProximo(value, listValues):
     mpValue = listValues[0]
     index = 0
-    for i in range(0, len(listValues)):
+    for i in range(0, len(listValues) -1):
         if value == listValues[i]:
             mpValue = listValues[i]
             index = i
