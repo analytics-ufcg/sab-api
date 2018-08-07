@@ -190,6 +190,12 @@ def reservoirs_equivalent_states():
 	response = make_response(response)
 	return response
 
+@app.route('/api/reservatorio/equivalente/estado/<uf>')
+def reservoirs_equivalent_states_monitoring(uf):
+    response = json.dumps(api_mandacaru.reservoirs_equivalent_states_monitoring(uf))
+    response = make_response(response)
+    return response
+
 @app.route('/api/municipios/sab')
 def city_info():
 	response = json.dumps(api_mandacaru.city_info(1))

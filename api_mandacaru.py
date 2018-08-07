@@ -3,7 +3,7 @@
 import IO
 import funcoes_aux
 from dateutil import relativedelta
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 from flask import abort
 import math
@@ -185,7 +185,7 @@ def reservoirs_equivalent_hydrographic_basin():
 	return funcoes_aux.list_of_dictionarys(select_answer, keys)
 
 
-def reservoirs_equivalent_states():
+def reservoirs_equivalent_states(upper=0, lower=90):
 	query = ("SELECT estado_reservatorio.estado_nome AS estado, estado_reservatorio.estado_sigla AS sigla, ROUND(SUM(mv_mo.volume),2) AS volume_equivalente,"
 		" ROUND(SUM(mv_mo.capacidade),2) AS capacidade_equivalente, ROUND((SUM(mv_mo.volume)/SUM(mv_mo.capacidade)*100),1) AS porcentagem_equivalente,"
 		" COUNT(DISTINCT mv_mo.id_reservatorio) AS quant_reservatorio_com_info,"
@@ -199,7 +199,7 @@ def reservoirs_equivalent_states():
 		" FROM mv_monitoramento mv_mo RIGHT JOIN (select distinct res.id as id_reservatorio, es.nome as estado_nome, es.sigla as estado_sigla"
 		" FROM tb_reservatorio res, tb_reservatorio_municipio rm, tb_municipio mu, tb_estado es"
 		" WHERE res.id=rm.id_reservatorio and mu.id=rm.id_municipio and mu.id_estado=es.id) estado_reservatorio"
-		" ON estado_reservatorio.id_reservatorio=mv_mo.id_reservatorio AND mv_mo.data_informacao >= (CURDATE() - INTERVAL 90 DAY)"
+		" ON estado_reservatorio.id_reservatorio=mv_mo.id_reservatorio AND (CURDATE() - INTERVAL "+str(upper)+ " DAY) >= mv_mo.data_informacao AND mv_mo.data_informacao >= (CURDATE() - INTERVAL "+str(lower)+ " DAY)"
 		" GROUP BY estado_reservatorio.estado_nome, estado_reservatorio.estado_sigla;")
 
 	select_answer = IO.select_DB(query)
@@ -264,6 +264,40 @@ def reservoirs_equivalent_states():
 		 "quant_reserv_intervalo_5":quant_reserv_intervalo_5})
 
 	return list_dictionarys
+
+
+def reservoirs_equivalent_states_monitoring(uf="Semiarido"):
+	days_inf = 90
+	days_sup = 0
+	list_dic = []
+	dates_list = [];
+	date_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
+	inicial_date = datetime.today()
+	volumes_list = []
+
+	keys = ["VolumePercentual","DataInformacao", "Volume"]
+	for i in range(90):
+		dic = reservoirs_equivalent_states(days_sup+i, days_inf+i)
+		day = str(datetime.today() - timedelta(i)).split(" ")[0].split("-")
+		day_str = day[2]+"/"+day[1]+"/"+day[0]
+		date = datetime.strptime(day_str, '%d/%m/%Y')
+		dates_list.append(float(date.strftime('%s')))
+		for elem in dic:
+			if elem["uf"] == uf:
+				if elem["porcentagem_equivalente"] is not None:
+					volumes_list.append(elem["porcentagem_equivalente"])
+				value = [elem["porcentagem_equivalente"], day_str, elem["volume_equivalente"]]
+				list_dic.append(value)		
+
+	regression_coefficient=0 #using gradient 0 for while
+	if(len(volumes_list) == len(dates_list)):
+		regression_gradient = funcoes_aux.regression_gradient(volumes_list,dates_list)
+		if(not math.isnan(regression_gradient)):
+			regression_coefficient=regression_gradient
+
+	return {'volumes': funcoes_aux.list_of_dictionarys(list_dic, keys),'volumes_recentes':{'volumes':funcoes_aux.list_of_dictionarys(list_dic, keys),
+		'coeficiente_regressao': 0, 'data_final':date_final.strftime('%d/%m/%Y'), 'data_inicial':inicial_date.strftime('%d/%m/%Y')}}
+
 
 def allowed_file(filename):
     return '.' in filename and \
