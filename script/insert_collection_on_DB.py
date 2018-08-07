@@ -50,7 +50,7 @@ for monitoramento in ultimos_monitoramentos:
 				volume = json_insert["Volume"].replace(",", ".")
 				volumePercentual = json_insert["VolumePercentual"].replace(",", ".")
 				dataInformacao = datetime.strptime(json_insert["DataInformacao"], formato_data_1).strftime(formato_data_3)
-				id_reservatorio = int(json_insert["Codigo"])
+				id_reservatorio = reserv
 				to_insert.append([id_reservatorio,cota,volume,volumePercentual,dataInformacao])
 
 			json_insert={}
