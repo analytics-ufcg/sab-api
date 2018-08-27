@@ -58,7 +58,7 @@ def reservoirs_information(res_id=None):
 		    ",GROUP_CONCAT(DISTINCT m.nome SEPARATOR ' / ') municipio"
 		    ",GROUP_CONCAT(DISTINCT e.nome SEPARATOR ' / ') estado"
 		    ",GROUP_CONCAT(DISTINCT e.sigla SEPARATOR ' / ') uf"
-		    ",curso_barrado, cota_soleira, evaporacao_representativa, localizacao, posto_pluviometrico, area_bacia_nao_controlada, unidade_planejamento"
+		    ",curso_barrado, cota_soleira, evaporacao_representativa, localizacao, posto_pluviometrico, area_bacia_nao_controlada, unidade_planejamento "
 		    " FROM tb_reservatorio r JOIN tb_reservatorio_municipio rm ON r.id=rm.id_reservatorio"
 		    " JOIN tb_municipio m ON rm.id_municipio=m.id"
 		    " JOIN tb_estado e ON m.id_estado=e.id"
@@ -85,7 +85,7 @@ def reservoirs_information(res_id=None):
 				" GROUP BY r.id,mv_mo.volume, mv_mo.volume_percentual,mv_mo.data_informacao")
 
 	select_answer = IO.select_DB(query)
-	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","fonte","volume","volume_percentual","data_informacao","municipio","estado", "uf", "curso_barrado", "cota_soleira", "evaporacao_representativa", "localizacao", "posto_pluviometrico", "area_bacia_nao_controlada","unidade_planejamento"]
+	keys = ["id","nome","perimetro","bacia","reservat","hectares","tipo","area","capacidade","fonte","volume","volume_percentual","data_informacao","municipio","estado", "uf", "curso_barrado", "cota_soleira", "evaporacao_representativa", "localizacao", "posto_pluviometrico", "area_bacia_nao_controlada", "unidade_planejamento"]
 
 	return funcoes_aux.list_of_dictionarys(select_answer, keys, "info")
 
@@ -269,33 +269,41 @@ def reservoirs_equivalent_states(upper=0, lower=90):
 def reservoirs_equivalent_states_monitoring(uf="Semiarido"):
 	days_inf = 90
 	days_sup = 0
+	num_volumes = 180
+	interval = 7
 	list_dic = []
+	list_dic_2 = []
 	dates_list = [];
 	date_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
 	inicial_date = datetime.today()
 	volumes_list = []
 
-	keys = ["VolumePercentual","DataInformacao", "Volume"]
-	for i in range(90):
-		dic = reservoirs_equivalent_states(days_sup+i, days_inf+i)
-		day = str(datetime.today() - timedelta(i)).split(" ")[0].split("-")
+
+	keys_recentes = ["VolumePercentual","DataInformacao", "Volume"]
+	keys = ['Volume','VolumePercentual','reservatorios','DataInformacao']
+
+	for i in range(num_volumes):
+		dic = reservoirs_equivalent_states(days_sup+(i*interval), days_inf+(i*interval))
+		day = str(datetime.today() - timedelta(i*interval)).split(" ")[0].split("-")
 		day_str = day[2]+"/"+day[1]+"/"+day[0]
 		date = datetime.strptime(day_str, '%d/%m/%Y')
-		dates_list.append(float(date.strftime('%s')))
+		dates_list.insert(0,float(date.strftime('%s')))
 		for elem in dic:
 			if elem["uf"] == uf:
 				if elem["porcentagem_equivalente"] is not None:
-					volumes_list.append(elem["porcentagem_equivalente"])
+					volumes_list.insert(0,elem["porcentagem_equivalente"])
 				value = [elem["porcentagem_equivalente"], day_str, elem["volume_equivalente"]]
-				list_dic.append(value)		
+				value_2 = [elem["volume_equivalente"],elem["porcentagem_equivalente"],elem["quant_reservatorio_com_info"],day_str]
+				list_dic.insert(0,value)
+				list_dic_2.insert(0,value_2)		
 
-	regression_coefficient=0 #using gradient 0 for while
+	regression_coefficient=0 #using gradient 0 for now
 	if(len(volumes_list) == len(dates_list)):
 		regression_gradient = funcoes_aux.regression_gradient(volumes_list,dates_list)
 		if(not math.isnan(regression_gradient)):
 			regression_coefficient=regression_gradient
 
-	return {'volumes': funcoes_aux.list_of_dictionarys(list_dic, keys),'volumes_recentes':{'volumes':funcoes_aux.list_of_dictionarys(list_dic, keys),
+	return {'volumes': funcoes_aux.list_of_dictionarys(list_dic_2, keys),'volumes_recentes':{'volumes':funcoes_aux.list_of_dictionarys(list_dic[len(list_dic)-26:-1], keys_recentes),
 		'coeficiente_regressao': 0, 'data_final':date_final.strftime('%d/%m/%Y'), 'data_inicial':inicial_date.strftime('%d/%m/%Y')}}
 
 
