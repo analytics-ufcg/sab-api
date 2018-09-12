@@ -89,7 +89,7 @@ def insert_many_BD(values):
 	conn = MySQLdb.connect(read_default_group='INSA',db="INSA")
 	cursor = conn.cursor()
 	try:
-		cursor.executemany("""INSERT INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte) VALUES (%s,%s,%s,%s,%s,%s,%s)""", values)
+		cursor.executemany("""INSERT IGNORE INTO tb_monitoramento (id_reservatorio,cota,volume,volume_percentual,data_informacao,visualizacao,fonte) VALUES (%s,%s,%s,%s,%s,%s,%s)""", values)
 		conn.commit()
 	except MySQLdb.Error as e:
 		print "Error", e
