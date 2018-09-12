@@ -39,7 +39,7 @@ for json_reservatorio in aesa:
         apelido = re.sub(remove_accents(reserv[1])+'|acude|barragem|lagoa|[()-]| do | da | de ','',remove_accents(reserv[2]), flags=re.IGNORECASE).strip()
         similaridade_apelido = fuzz.token_set_ratio(remove_accents(apelido),remove_accents(json_reservatorio["acude"]))
         capacidade = round(float(json_reservatorio["capacidade"])/1000000,2)
-        if ((similaridade_acude>=80 or similaridade_apelido>=80) and float(capacidade)==float(reserv[3])):
+        if ((similaridade_acude>=80 or similaridade_apelido>=80)):
             if (json_reservatorio["data"] is not None and ((reserv[4] is None) or (datetime.strptime(reserv[4], '%d-%m-%Y') < datetime.strptime(json_reservatorio["data"][2], '%Y-%m-%d')))):
                 ultimo_monitoramento = [reserv[0],reserv[5], reserv[6], reserv[7], reserv[4]]
                 to_add = [[reserv[0],'',round(float(json_reservatorio["data"][1])/1000000,2), (float(json_reservatorio["data"][1])/float(json_reservatorio["capacidade"]))*100,
