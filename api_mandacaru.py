@@ -266,36 +266,68 @@ def reservoirs_equivalent_states(upper=0, lower=90):
 	return list_dictionarys
 
 
+def reservoirs_equivalent_states_history(id_estado):
+	if id_estado == 0 :
+		query = ("SELECT date_format(data_informacao,'%d/%m/%Y'), round(sum(volume_equivalente),2), round(sum(capacidade_equivalente),2) as capacidade_equivalente, round((sum(volume_equivalente)/sum(capacidade_equivalente)*100),2), sum(quantidade_reservatorio_com_info), sum(quantidade_reservatorio_sem_info),"
+	 			"sum(total_reservatorios), sum(intervalo_1), sum(intervalo_2), sum(intervalo_3), sum(intervalo_4),"
+	  			"sum(intervalo_5) FROM mv_monitoramento_estado mv GROUP BY data_informacao DESC;")
+		
+		keys = ["data", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
+	 	"total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
+	  	"quant_reserv_intervalo_5"]
+	else:
+		query = ("SELECT date_format(data_informacao,'%d/%m/%Y'),estado, sigla, round(volume_equivalente,2), round(capacidade_equivalente,2), round(porcentagem_equivalente,2), CONVERT(quantidade_reservatorio_com_info, SIGNED), CONVERT(quantidade_reservatorio_sem_info, SIGNED),"
+	 			"CONVERT(total_reservatorios, SIGNED), CONVERT(intervalo_1, SIGNED), CONVERT(intervalo_2, SIGNED), CONVERT(intervalo_3, SIGNED), CONVERT(intervalo_4, SIGNED),"
+	  			"CONVERT(intervalo_5, SIGNED) FROM mv_monitoramento_estado mv WHERE mv.id_estado ="+str(id_estado)+" and volume_equivalente>0;")
+
+		keys = ["data","estado", "uf", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
+	 	"total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
+	  	"quant_reserv_intervalo_5"]
+	select_answer = IO.select_DB(query)
+	
+
+	list_dictionarys = funcoes_aux.list_of_dictionarys(select_answer, keys)
+
+
+	return list_dictionarys
+
+
 def reservoirs_equivalent_states_monitoring(uf="Semiarido"):
-	days_inf = 90
-	days_sup = 0
-	num_volumes = 180
-	interval = 7
+
 	list_dic = []
 	list_dic_2 = []
 	dates_list = [];
 	date_final = datetime.strptime('31/12/1969', '%d/%m/%Y')
 	inicial_date = datetime.today()
 	volumes_list = []
-
+	id_estado = 0
 
 	keys_recentes = ["VolumePercentual","DataInformacao", "Volume"]
-	keys = ['Volume','VolumePercentual','reservatorios','DataInformacao']
+	keys = ['Volume','VolumePercentual',"total_reservatorios","quant_reservatorio_com_info","quant_reservatorio_sem_info","quant_reserv_intervalo_1","quant_reserv_intervalo_2","quant_reserv_intervalo_3","quant_reserv_intervalo_4","quant_reserv_intervalo_5",'DataInformacao']
 
-	for i in range(num_volumes):
-		dic = reservoirs_equivalent_states(days_sup+(i*interval), days_inf+(i*interval))
-		day = str(datetime.today() - timedelta(i*interval)).split(" ")[0].split("-")
-		day_str = day[2]+"/"+day[1]+"/"+day[0]
-		date = datetime.strptime(day_str, '%d/%m/%Y')
+	if uf == "AL": id_estado = 27
+	elif uf == "BA": id_estado = 29
+	elif uf == "CE": id_estado = 23
+	elif uf == "MG": id_estado = 31
+	elif uf == "PB": id_estado = 25
+	elif uf == "PE": id_estado = 26
+	elif uf == "PI": id_estado = 22
+	elif uf == "RN": id_estado = 24
+	elif uf == "SE": id_estado = 28
+	elif uf == "BA": id_estado = 29
+
+
+	dic = reservoirs_equivalent_states_history(id_estado)
+
+	for elem in dic:
+		date = datetime.strptime(elem["data"], '%d/%m/%Y')
 		dates_list.insert(0,float(date.strftime('%s')))
-		for elem in dic:
-			if elem["uf"] == uf:
-				if elem["porcentagem_equivalente"] is not None:
-					volumes_list.insert(0,elem["porcentagem_equivalente"])
-				value = [elem["porcentagem_equivalente"], day_str, elem["volume_equivalente"]]
-				value_2 = [elem["volume_equivalente"],elem["porcentagem_equivalente"],elem["quant_reservatorio_com_info"],day_str]
-				list_dic.insert(0,value)
-				list_dic_2.insert(0,value_2)		
+		if elem["porcentagem_equivalente"] is not None:
+			volumes_list.insert(0,elem["porcentagem_equivalente"])
+		value = [elem["porcentagem_equivalente"], elem["data"], elem["volume_equivalente"]]
+		value_2 = [elem["volume_equivalente"],elem["porcentagem_equivalente"],elem["total_reservatorios"], elem["quant_reservatorio_com_info"],elem["quant_reservatorio_sem_info"],elem["quant_reserv_intervalo_1"],elem["quant_reserv_intervalo_2"],elem["quant_reserv_intervalo_3"],elem["quant_reserv_intervalo_4"],elem["quant_reserv_intervalo_5"],elem["data"]]
+		list_dic.insert(0,value)
+		list_dic_2.insert(0,value_2)		
 
 	regression_coefficient=0 #using gradient 0 for now
 	if(len(volumes_list) == len(dates_list)):
@@ -303,7 +335,7 @@ def reservoirs_equivalent_states_monitoring(uf="Semiarido"):
 		if(not math.isnan(regression_gradient)):
 			regression_coefficient=regression_gradient
 
-	return {'volumes': funcoes_aux.list_of_dictionarys(list_dic_2, keys),'volumes_recentes':{'volumes':funcoes_aux.list_of_dictionarys(list_dic[len(list_dic)-26:-1], keys_recentes),
+	return {'volumes': funcoes_aux.list_of_dictionarys(list_dic_2, keys),'volumes_recentes':{'volumes':funcoes_aux.list_of_dictionarys(list_dic[len(list_dic)-7:-1], keys_recentes),
 		'coeficiente_regressao': 0, 'data_final':date_final.strftime('%d/%m/%Y'), 'data_inicial':inicial_date.strftime('%d/%m/%Y')}}
 
 
