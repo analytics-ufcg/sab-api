@@ -268,19 +268,20 @@ def reservoirs_equivalent_states(upper=0, lower=90):
 
 def reservoirs_equivalent_states_history(id_estado):
 	if id_estado == 0 :
-		query = ("SELECT date_format(data_informacao,'%d/%m/%Y'), round(sum(volume_equivalente),2), round(sum(capacidade_equivalente),2) as capacidade_equivalente, round((sum(volume_equivalente)/sum(capacidade_equivalente)*100),2), sum(quantidade_reservatorio_com_info), sum(quantidade_reservatorio_sem_info),"
+		query = ("SELECT date_format(data_informacao,'%d/%m/%Y') as data, round(sum(volume_equivalente),2),round(sum(capacidade_equivalente)-sum(volume_equivalente),2), round(sum(capacidade_equivalente),2) as capacidade_equivalente, round(sum(capacidade_total)-sum(capacidade_equivalente),2),round(sum(capacidade_total),2) as capacidade_total, round((sum(volume_equivalente)/sum(capacidade_equivalente)*100),2)," 
+				"round((sum(volume_equivalente)/sum(capacidade_total)*100),2) as porcentagem_total, round(((sum(capacidade_equivalente)-sum(volume_equivalente))/sum(capacidade_total)*100),2) as porcentagem_sem_agua, sum(quantidade_reservatorio_com_info), sum(quantidade_reservatorio_sem_info),"
 	 			"sum(total_reservatorios), sum(intervalo_1), sum(intervalo_2), sum(intervalo_3), sum(intervalo_4),"
 	  			"sum(intervalo_5) FROM mv_monitoramento_estado mv GROUP BY data_informacao DESC;")
 		
-		keys = ["data", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
+		keys = ["data", "volume_equivalente","volume_sem_agua","capacidade_equivalente", "capacidade_sem_info","capacidade_total","porcentagem_equivalente", "porcentagem_total", "porcentagem_sem_agua", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
 	 	"total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  	"quant_reserv_intervalo_5"]
 	else:
-		query = ("SELECT date_format(data_informacao,'%d/%m/%Y'),estado, sigla, round(volume_equivalente,2), round(capacidade_equivalente,2), round(porcentagem_equivalente,2), CONVERT(quantidade_reservatorio_com_info, SIGNED), CONVERT(quantidade_reservatorio_sem_info, SIGNED),"
+		query = ("SELECT date_format(data_informacao,'%d/%m/%Y'),estado, sigla, round(volume_equivalente,2), round(capacidade_equivalente-volume_equivalente,2),round(capacidade_equivalente,2),round(capacidade_total-capacidade_equivalente,2), round(capacidade_total,2), round(porcentagem_equivalente,2), round(porcentagem_total,2), round(porcentagem_sem_agua,2), CONVERT(quantidade_reservatorio_com_info, SIGNED), CONVERT(quantidade_reservatorio_sem_info, SIGNED),"
 	 			"CONVERT(total_reservatorios, SIGNED), CONVERT(intervalo_1, SIGNED), CONVERT(intervalo_2, SIGNED), CONVERT(intervalo_3, SIGNED), CONVERT(intervalo_4, SIGNED),"
 	  			"CONVERT(intervalo_5, SIGNED) FROM mv_monitoramento_estado mv WHERE mv.id_estado ="+str(id_estado)+" and volume_equivalente>0;")
 
-		keys = ["data","estado", "uf", "volume_equivalente","capacidade_equivalente", "porcentagem_equivalente", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
+		keys = ["data","estado", "uf", "volume_equivalente","volume_sem_agua","capacidade_equivalente", "capacidade_sem_info","capacidade_total" ,"porcentagem_equivalente","porcentagem_total", "porcentagem_sem_agua", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
 	 	"total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  	"quant_reserv_intervalo_5"]
 	select_answer = IO.select_DB(query)
@@ -303,7 +304,7 @@ def reservoirs_equivalent_states_monitoring(uf="Semiarido"):
 	id_estado = 0
 
 	keys_recentes = ["VolumePercentual","DataInformacao", "Volume"]
-	keys = ['Volume','VolumePercentual',"total_reservatorios","quant_reservatorio_com_info","quant_reservatorio_sem_info","quant_reserv_intervalo_1","quant_reserv_intervalo_2","quant_reserv_intervalo_3","quant_reserv_intervalo_4","quant_reserv_intervalo_5",'DataInformacao']
+	keys = ['Volume','VolumePercentual','VolumeSemAgua','CapacidadeTotal','CapacidadeSemInfo','VolumePercentualTotal','VolumePercentualSemAgua',"total_reservatorios","quant_reservatorio_com_info","quant_reservatorio_sem_info","quant_reserv_intervalo_1","quant_reserv_intervalo_2","quant_reserv_intervalo_3","quant_reserv_intervalo_4","quant_reserv_intervalo_5",'DataInformacao']
 
 	if uf == "AL": id_estado = 27
 	elif uf == "BA": id_estado = 29
@@ -325,7 +326,7 @@ def reservoirs_equivalent_states_monitoring(uf="Semiarido"):
 		if elem["porcentagem_equivalente"] is not None:
 			volumes_list.insert(0,elem["porcentagem_equivalente"])
 		value = [elem["porcentagem_equivalente"], elem["data"], elem["volume_equivalente"]]
-		value_2 = [elem["volume_equivalente"],elem["porcentagem_equivalente"],elem["total_reservatorios"], elem["quant_reservatorio_com_info"],elem["quant_reservatorio_sem_info"],elem["quant_reserv_intervalo_1"],elem["quant_reserv_intervalo_2"],elem["quant_reserv_intervalo_3"],elem["quant_reserv_intervalo_4"],elem["quant_reserv_intervalo_5"],elem["data"]]
+		value_2 = [elem["volume_equivalente"],elem["porcentagem_equivalente"],elem["volume_sem_agua"],elem["capacidade_total"],elem["capacidade_sem_info"],elem["porcentagem_total"],elem["porcentagem_sem_agua"],elem["total_reservatorios"],elem["quant_reservatorio_com_info"],elem["quant_reservatorio_sem_info"],elem["quant_reserv_intervalo_1"],elem["quant_reserv_intervalo_2"],elem["quant_reserv_intervalo_3"],elem["quant_reserv_intervalo_4"],elem["quant_reserv_intervalo_5"],elem["data"]]
 		list_dic.insert(0,value)
 		list_dic_2.insert(0,value_2)		
 
