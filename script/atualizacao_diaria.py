@@ -11,4 +11,5 @@ insert_demanda_on_BD.popular_demanda()
 print str(datetime.now()) + " - script da demanda finalizado"
 import aux_collection_insert
 aux_collection_insert.update_BD('call refresh_mv_monitoramento;')
+aux_collection_insert.update_BD('call refresh_mv_monitoramento_estado;')
 print str(datetime.now()) + " - fim do script diario"
