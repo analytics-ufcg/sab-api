@@ -27,6 +27,8 @@ for monitoramento in ultimos_monitoramentos:
 	to_insert = []
 
 	reserv = str(monitoramento[0])
+	if reserv in (19123,19116,19122,19124,19125,19121,19126):
+		continue
 	if (monitoramento[4] is None):
 		data_inicial = "31-12-1969"
 	else:
