@@ -136,6 +136,28 @@ def reservoirs_monitoring_csv(res_id):
 			saida.append(volume.values())
 	return saida
 
+def reservoirs_states_monitoring_csv(uf):
+	if uf == "AL": id_estado = 27
+	elif uf == "BA": id_estado = 29
+	elif uf == "CE": id_estado = 23
+	elif uf == "MG": id_estado = 31
+	elif uf == "PB": id_estado = 25
+	elif uf == "PE": id_estado = 26
+	elif uf == "PI": id_estado = 22
+	elif uf == "RN": id_estado = 24
+	elif uf == "SE": id_estado = 28
+	elif uf == "BA": id_estado = 29
+	elif uf == "BR": id_estado = ''
+	query = ('''SELECT id_reservatorio, nome, id_municipio, capacidade, volume, volume_percentual, data_informacao FROM
+			(SELECT mon.id_reservatorio, id_municipio, volume, volume_percentual, date_format(data_informacao,'%d/%m/%Y') as data_informacao, fonte FROM tb_monitoramento mon
+			RIGHT JOIN tb_reservatorio_municipio res_mun
+			on mon.id_reservatorio = res_mun.id_reservatorio
+			WHERE visualizacao = 1 and id_municipio LIKE "'''+str(id_estado)+'''%") aux
+			RIGHT JOIN tb_reservatorio
+			on aux.id_reservatorio = tb_reservatorio.id where id_reservatorio IS NOT NULL;''')
+	keys = [["id_reservatorio","nome_reservatorio","id_municipio","capacidade(hm3)","volume(hm3)","volume_percentual","data_informacao"]]
+	select_answer = IO.select_DB(query)
+	return keys + [list(row) for row in select_answer]
 
 def monitoring_months(res_id,months):
 	query_min_graph = ("select ROUND(volume_percentual,1), date_format(data_informacao,'%d/%m/%Y'), volume from tb_monitoramento where id_reservatorio ="+str(res_id)+
@@ -268,11 +290,11 @@ def reservoirs_equivalent_states(upper=0, lower=90):
 
 def reservoirs_equivalent_states_history(id_estado):
 	if id_estado == 0 :
-		query = ("SELECT date_format(data_informacao,'%d/%m/%Y') as data, round(sum(volume_equivalente),2),round(sum(capacidade_equivalente)-sum(volume_equivalente),2), round(sum(capacidade_equivalente),2) as capacidade_equivalente, round(sum(capacidade_total)-sum(capacidade_equivalente),2),round(sum(capacidade_total),2) as capacidade_total, round((sum(volume_equivalente)/sum(capacidade_equivalente)*100),2)," 
+		query = ("SELECT date_format(data_informacao,'%d/%m/%Y') as data, round(sum(volume_equivalente),2),round(sum(capacidade_equivalente)-sum(volume_equivalente),2), round(sum(capacidade_equivalente),2) as capacidade_equivalente, round(sum(capacidade_total)-sum(capacidade_equivalente),2),round(sum(capacidade_total),2) as capacidade_total, round((sum(volume_equivalente)/sum(capacidade_equivalente)*100),2),"
 				"round((sum(volume_equivalente)/sum(capacidade_total)*100),2) as porcentagem_total, round(((sum(capacidade_equivalente)-sum(volume_equivalente))/sum(capacidade_total)*100),2) as porcentagem_sem_agua, sum(quantidade_reservatorio_com_info), sum(quantidade_reservatorio_sem_info),"
 	 			"sum(total_reservatorios), sum(intervalo_1), sum(intervalo_2), sum(intervalo_3), sum(intervalo_4),"
 	  			"sum(intervalo_5) FROM mv_monitoramento_estado mv GROUP BY data_informacao DESC;")
-		
+
 		keys = ["data", "volume_equivalente","volume_sem_agua","capacidade_equivalente", "capacidade_sem_info","capacidade_total","porcentagem_equivalente", "porcentagem_total", "porcentagem_sem_agua", "quant_reservatorio_com_info","quant_reservatorio_sem_info",
 	 	"total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  	"quant_reserv_intervalo_5"]
@@ -285,7 +307,7 @@ def reservoirs_equivalent_states_history(id_estado):
 	 	"total_reservatorios", "quant_reserv_intervalo_1", "quant_reserv_intervalo_2", "quant_reserv_intervalo_3", "quant_reserv_intervalo_4",
 	  	"quant_reserv_intervalo_5"]
 	select_answer = IO.select_DB(query)
-	
+
 
 	list_dictionarys = funcoes_aux.list_of_dictionarys(select_answer, keys)
 
@@ -328,7 +350,7 @@ def reservoirs_equivalent_states_monitoring(uf="Semiarido"):
 		value = [elem["porcentagem_equivalente"], elem["data"], elem["volume_equivalente"]]
 		value_2 = [elem["volume_equivalente"],elem["porcentagem_equivalente"],elem["volume_sem_agua"],elem["capacidade_total"],elem["capacidade_sem_info"],elem["porcentagem_total"],elem["porcentagem_sem_agua"],elem["total_reservatorios"],elem["quant_reservatorio_com_info"],elem["quant_reservatorio_sem_info"],elem["quant_reserv_intervalo_1"],elem["quant_reserv_intervalo_2"],elem["quant_reserv_intervalo_3"],elem["quant_reserv_intervalo_4"],elem["quant_reserv_intervalo_5"],elem["data"]]
 		list_dic.insert(0,value)
-		list_dic_2.insert(0,value_2)		
+		list_dic_2.insert(0,value_2)
 
 	regression_coefficient=0 #using gradient 0 for now
 	if(len(volumes_list) == len(dates_list)):

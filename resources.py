@@ -164,6 +164,18 @@ def reservoirs_monitoring_csv(id):
 	response.headers["Content-type"] = "text/csv"
 	return response
 
+@app.route('/api/reservatorios/estado/<uf>/csv')
+def reservoirs_states_monitoring_csv(uf):
+    csvList = api_mandacaru.reservoirs_states_monitoring_csv(uf)
+    si = StringIO.StringIO()
+    cw = csv.writer(si)
+    cw.writerows(csvList)
+    response = make_response(si.getvalue())
+    response.headers["Content-Disposition"] = "attachment; filename=monitoramento_" + uf + ".csv"
+    response.headers["Content-type"] = "text/csv"
+    return response
+
+
 @app.route('/api/reservatorios/<id>/monitoramento/completo')
 def reservoirs_monitoring_complete(id):
 	response = json.dumps(api_mandacaru.reservoirs_monitoring(int(id),True))
