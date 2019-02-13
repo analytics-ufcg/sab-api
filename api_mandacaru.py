@@ -148,14 +148,14 @@ def reservoirs_states_monitoring_csv(uf):
 	elif uf == "SE": id_estado = 28
 	elif uf == "BA": id_estado = 29
 	elif uf == "BR": id_estado = ''
-	query = ('''SELECT id_reservatorio, nome, id_municipio, capacidade, volume, volume_percentual, data_informacao FROM
+	query = ('''SELECT id_reservatorio, nome, id_municipio, capacidade, volume, volume_percentual, data_informacao, fonte FROM
 			(SELECT mon.id_reservatorio, id_municipio, volume, volume_percentual, date_format(data_informacao,'%d/%m/%Y') as data_informacao, fonte FROM tb_monitoramento mon
 			RIGHT JOIN tb_reservatorio_municipio res_mun
 			on mon.id_reservatorio = res_mun.id_reservatorio
 			WHERE visualizacao = 1 and id_municipio LIKE "'''+str(id_estado)+'''%") aux
 			RIGHT JOIN tb_reservatorio
 			on aux.id_reservatorio = tb_reservatorio.id where id_reservatorio IS NOT NULL;''')
-	keys = [["id_reservatorio","nome_reservatorio","id_municipio","capacidade(hm3)","volume(hm3)","volume_percentual","data_informacao"]]
+	keys = [["id_reservatorio","nome_reservatorio","id_municipio","capacidade(hm3)","volume(hm3)","volume_percentual","data_informacao","fonte"]]
 	select_answer = IO.select_DB(query)
 	return keys + [list(row) for row in select_answer]
 
