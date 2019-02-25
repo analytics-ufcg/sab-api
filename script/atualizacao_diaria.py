@@ -9,6 +9,9 @@ print str(datetime.now()) + " - script do governo rn finalizado"
 print str(datetime.now()) + " - script da demanda iniciado"
 insert_demanda_on_BD.popular_demanda()
 print str(datetime.now()) + " - script da demanda finalizado"
+print str(datetime.now()) + " - script das uhes iniciado"
+import uhe
+print str(datetime.now()) + " - script das uhes finalizado"
 import aux_collection_insert
 aux_collection_insert.update_BD('call refresh_mv_monitoramento;')
 aux_collection_insert.update_BD('call refresh_mv_monitoramento_estado;')
