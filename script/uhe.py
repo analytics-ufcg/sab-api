@@ -52,10 +52,10 @@ for uhe in uhes:
 						line_monitoring[1] = element.text
 					elif element.tag.replace('{http://sarws.ana.gov.br}','') == 'volumeUtil':
 						if element.text is not None:
-							vol_ac = str(float(str(element.text))*uhe_info[uhe][2]/100)
-							line += [vol_ac]
-							line_monitoring[2] = vol_ac
-							line_monitoring[3] = vol_ac/uhe_info[uhe][0]
+							vol_ac = float(str(element.text))*uhe_info[uhe][2]/100
+							line += [format(vol_ac,'.2f')]
+							line_monitoring[2] = format(vol_ac+uhe_info[uhe][1],'.2f')
+							line_monitoring[3] = format((vol_ac+uhe_info[uhe][1])*100/uhe_info[uhe][0],'.2f')
 						else:
 							line += [element.text]
 					else:
