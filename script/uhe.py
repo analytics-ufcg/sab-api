@@ -58,6 +58,7 @@ for uhe in uhes:
 							line_monitoring[3] = format((vol_ac+uhe_info[uhe][1])*100/uhe_info[uhe][0],'.2f')
 						else:
 							line += [element.text]
+							continue;
 					else:
 						line += [element.text]
 		aux_collection_insert.update_BD("UPDATE tb_user_reservatorio SET atualizacao_reservatorio = 1 WHERE id_reservatorio="+uhe+";")
