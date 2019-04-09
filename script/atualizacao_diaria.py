@@ -7,7 +7,6 @@ print str(datetime.now()) + " - script do governo rn iniciado"
 import governo_rn
 print str(datetime.now()) + " - script do governo rn finalizado"
 print str(datetime.now()) + " - script da demanda iniciado"
-insert_demanda_on_BD.popular_demanda()
 print str(datetime.now()) + " - script da demanda finalizado"
 print str(datetime.now()) + " - script das uhes iniciado"
 import uhe
