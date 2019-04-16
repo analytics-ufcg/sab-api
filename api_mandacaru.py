@@ -203,7 +203,7 @@ def reservoirs_equivalent_states(upper=0, lower=90):
 		" COUNT(CASE WHEN mv_mo.volume_percentual > 75 THEN 1 END) AS intervalo_5"
 		" FROM mv_monitoramento mv_mo RIGHT JOIN (select distinct res.id as id_reservatorio, es.nome as estado_nome, es.sigla as estado_sigla"
 		" FROM tb_reservatorio res, tb_reservatorio_municipio rm, tb_municipio mu, tb_estado es"
-		" WHERE res.id=rm.id_reservatorio and mu.id=rm.id_municipio and mu.id_estado=es.id) estado_reservatorio"
+		" WHERE res.id=rm.id_reservatorio and res.uhe != 1 and mu.id=rm.id_municipio and mu.id_estado=es.id) estado_reservatorio"
 		" ON estado_reservatorio.id_reservatorio=mv_mo.id_reservatorio AND (CURDATE() - INTERVAL "+str(upper)+ " DAY) >= mv_mo.data_informacao AND mv_mo.data_informacao >= (CURDATE() - INTERVAL "+str(lower)+ " DAY)"
 		" GROUP BY estado_reservatorio.estado_nome, estado_reservatorio.estado_sigla;")
 
