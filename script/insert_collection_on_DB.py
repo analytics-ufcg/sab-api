@@ -47,7 +47,6 @@ for monitoramento in ultimos_monitoramentos:
 	contador_coluna = 0
 
 	soup = BeautifulSoup(r.text.encode('utf8'), 'html.parser')
-	print(soup)
 	for link in soup.find_all('td'):
 		if(contador_coluna < len(cabecalho)):
 			json_insert[cabecalho[contador_coluna]] = link.get_text().strip()
