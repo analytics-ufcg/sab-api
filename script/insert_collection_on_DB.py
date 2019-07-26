@@ -6,12 +6,10 @@ import requests
 from datetime import datetime
 import time
 import aux_collection_insert
-import urllib3
 
 
 reload(sys)
 sys.setdefaultencoding('utf8')
-urllib3.disable_warnings()
 
 
 ultimos_monitoramentos = aux_collection_insert.consulta_BD("SELECT mon.id, mo.cota, mo.volume, mo.volume_percentual, date_format(mo.data_informacao,'%d-%m-%Y') FROM tb_monitoramento mo RIGHT JOIN (SELECT r.id, max(m.data_informacao) AS maior_data FROM tb_reservatorio r LEFT OUTER JOIN tb_monitoramento m ON r.id=m.id_reservatorio GROUP BY r.id) mon ON mo.id_reservatorio=mon.id AND mon.maior_data=mo.data_informacao;")
